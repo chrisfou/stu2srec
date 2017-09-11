@@ -1,0 +1,9 @@
+01_00
+-----
+	- First release
+	
+01_01
+-----
+	- The "include_msvcr = True" Cx_Freeze's build option is added to skip the "msvcr100.dll missing" error at execution.
+
+	

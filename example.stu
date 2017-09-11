@@ -1,0 +1,86 @@
+// -*- c -*-
+
+// *****************************************************************************
+// The "//" pattern indicates a comment, the string located between 
+// this and the end of line is ignored.
+
+// *****************************************************************************
+// The stu2srec tool is used to generate a S19 file by using grammar based 
+// on declaration of typed array.
+//     Arrays can be declared as :
+//         Unsigned/signed bytes array, 
+//         Unsigned/signed words array,
+//         Unsigned /signed longs array,    
+//         Floats array.
+
+// Examples of array declaration:
+
+my_unsigned_bytes_array = UB[1, 2, 3];
+my_signed_bytes_array   = SB[-1, -2, -3, -4];
+my_unsigned_words_array = UW[100, 1000, 10000];
+my_signed_words_array   = SW[-100, -1000, -10000];
+my_unsigned_longs_array = UL[2, 3, 6, 5, 9, 8];
+my_signed_longs_array   = SL[2, 3, 6, 5, 9, 8];
+my_floats_array         = F32[2.36, 5.698, -9.365]; 
+
+my_constant = 2;
+
+// *****************************************************************************
+// Another ways declaring array are :
+
+// string declaration
+my_string_array = "my string array";
+
+// conversion for hexadecimal string description
+
+my_hexa_array = 2 * HEX[string => "0123456789abcdef"] + my_string_array;
+
+// *****************************************************************************
+// Arrays can be linked each others by means the "+" operator.
+
+my_arrays = my_unsigned_bytes_array  
+  + my_signed_bytes_array 
+  + my_unsigned_words_array 
+  + my_signed_words_array   
+  + my_unsigned_longs_array 
+  + my_signed_longs_array   
+  + my_floats_array 
+  + my_string_array
+  + my_hexa_array
+  + UL[SIZE(UB[my_constant])];        
+
+// *****************************************************************************
+// Some functions can be used to compute : 
+//     SIZE(array)       : return the byte size of the "array" argument.
+//     HEX("hex string") : convert some hexadecimal string into array of bytes.
+//     CRC32(array)      : CRC32 computation for "array".
+//     SACEM(svl_1, svl_2, array) : SACEM computation for "array"
+
+
+// *****************************************************************************
+// The stu file must contain a "main" declared to compute the S19 file.
+
+my_svl = UL[1,2];
+
+main = UL[SIZE(my_arrays)]
+  + my_arrays 
+  + SACEM[data => UL[1,2,3,4], 
+	  svl  => my_svl]
+  + CRC32[data => my_arrays]
+  + UL[BYTSUM(my_arrays)];
+
+// the "main" structure defined above is :
+
+// ----------------------------------------------
+// Definition                   | size in bytes 
+// ----------------------------------------------
+// size of the whole arrays     | 4
+// joined arrays                | 0x66
+// crc32 on joined arrays       | 4
+// ----------------------------------------------
+
+
+// *****************************************************************************
+// The S19 file is computed by means the command : "stu2srec -i example.stu -o example.abs -x 0x0
+
+
