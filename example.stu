@@ -29,11 +29,11 @@ my_constant = 2;
 // Another ways declaring array are :
 
 // string declaration
-my_string_array = "my string array";
+my_string_array = TEXT["my string array"];
 
 // conversion for hexadecimal string description
 
-my_hexa_array = 2 * HEX[string => "0123456789abcdef"] + my_string_array;
+my_hexa_array = 2 * HEX["0123456789abcdef"] + my_string_array;
 
 // *****************************************************************************
 // Arrays can be linked each others by means the "+" operator.
@@ -64,10 +64,13 @@ my_svl = UL[1,2];
 
 main = UL[SIZE(my_arrays)]
   + my_arrays 
-  + SACEM[data => UL[1,2,3,4], 
-	  svl  => my_svl]
-  + CRC32[data => my_arrays]
-  + UL[BYTSUM(my_arrays)];
+  + SACEM[msg => UL[1,2,3,4],
+          svl => my_svl]
+  + CRC32[msg => my_arrays]
+  + UL[BYTSUM(my_arrays)]
+  + CBC_MAC[msg      => HEX["000102030405060708090A0B0C0D0E0F1011121314"],
+            keys_123 => HEX["01020407080B0D0E"] +  HEX["10131516191A1C1F"] + HEX["20232526292A2C2F"]];
+
 
 // the "main" structure defined above is :
 

@@ -1,0 +1,233 @@
+// -*- c -*- 
+                             //Interface ID  ;Designation field (english)          ;Type              ;Bits size    ;Unit     
+
+//////////////////////////////////////////////////////////////////////////// 
+// PRODUCT PARAMETER
+//////////////////////////////////////////////////////////////////////////// 
+
+Product = UL[ 0      ,       //0             ;Product_Is_New_Msg                   ;enum              ;32 bits      ;---     
+          8          ,       //1             ;Relthrsdeltav_Percent                ;unsigned long     ;---          ;%     
+          30000      ]       //2             ;Maxtmdeltav_Ms                       ;unsigned long     ;---          ;ms     
+  + F32 [ 0.55556    ]       //3             ;Minthrsdeltav_Mpers                  ;float             ;---          ;m/s     
+  + UL  [ 12000      ]       //4             ;Timeouterrws_Ms                      ;unsigned          ;---          ;ms     
+  + F32 [ 0.2        ]       //5             ;Taufiltrovs                          ;float             ;32 bits      ;---     
+  + UL  [ 781        ,       //6             ;S1_Vref_Odb_Mv                       ;unsigned          ;16 bits      ;mv     
+          1250       ,       //7             ;S2_Vref_Odb_Mv                       ;unsigned          ;16 bits      ;mv     
+          10         ,       //8             ;S1_Vref_Odb_Mv_Toll_Percent          ;unsigned          ;16 bits      ;%     
+          10         ,       //9             ;S2_Vref_Odb_Mv_Toll_Percent          ;unsigned          ;16 bits      ;%     
+          10         ,       //10            ;Vsupply_Odb_Mv_Toll_Percent          ;unsigned          ;16 bits      ;%     
+          10         ,       //11            ;Vcurrent_Odb_Mv_Curr_Itf_Toll_Perc   ;unsigned          ;8 bits       ;%     
+          10         ,       //12            ;Vcurrent_Odb_Mv_Volt_Itf_Toll_Perc   ;unsigned          ;8 bits       ;%     
+          10         ,       //13            ;Vsignal_Odb_Mv_Curr_Itf_Toll_Perc    ;unsigned          ;8 bits       ;%     
+          10         ,       //14            ;Vsignal_Odb_Mv_Volt_Itf_Toll_Perc    ;unsigned          ;8 bits       ;%     
+          10         ,       //15            ;Vsignal_Odb_Mv_Wieg_Itf_Toll_Perc    ;unsigned          ;8 bits       ;%     
+          147        ,       //16            ;Resistor_Odb_Curr_Itf                ;unsigned          ;8 bits       ;ohm     
+          18         ,       //17            ;Resistor_Odb_Volt_Itf                ;unsigned          ;8 bits       ;ohm     
+          0          ,       //18            ;Enapolselwspair                      ;unsigned          ;---          ;---     
+          1          ,       //19            ;Act_Pair_0                           ;unsigned          ;---          ;---     
+          0          ,       //20            ;Act_Pair_1                           ;unsigned          ;---          ;---     
+          0          ,       //21            ;Act_Pair_2                           ;unsigned          ;---          ;---     
+          0          ,       //22            ;Act_Pair_3                           ;unsigned          ;---          ;---     
+          0          ,       //23            ;Act_Pair_4                           ;unsigned          ;---          ;---     
+          0          ,       //24            ;Act_Pair_5                           ;unsigned          ;---          ;---     
+          0          ,       //25            ;Act_Pair_6                           ;unsigned          ;---          ;---     
+          0          ,       //26            ;Act_Pair_7                           ;unsigned          ;---          ;---     
+          0          ,       //27            ;Act_Pair_8                           ;unsigned          ;---          ;---     
+          0          ,       //28            ;Act_Pair_9                           ;unsigned          ;---          ;---     
+          0          ,       //29            ;Act_Pair_10                          ;unsigned          ;---          ;---     
+          0          ,       //30            ;Act_Pair_11                          ;unsigned          ;---          ;---     
+          2          ,       //31            ;Standstillspeedparameter_Kmperh      ;unsigned          ;8 bits       ;Km/h     
+          20         ]       //32            ;Standstilldistanceparameter_M        ;unsigned          ;8 bits       ;m     
+  + F32 [ 0.00685    ,       //33            ;Pcfc_A                               ;float             ;32 bits       ;---     
+          0.094      ,       //34            ;Pcfc_B                               ;float             ;32 bits       ;---     
+          0.9        ,       //35            ;Pcfc_Ki1                             ;float             ;32 bits       ;---     
+          1.0        ,       //36            ;Pcfc_Ki2                             ;float             ;32 bits       ;---     
+          1.1        ,       //37            ;Pcfc_Ki3                             ;float             ;32 bits       ;---     
+          0.0        ,       //38            ;Pcfc_I1                              ;float             ;32 bits       ;---     
+          -0.021     ]       //39            ;Pcfc_I2                              ;float             ;32 bits       ;---     
+  + UL  [ 150        ]       //40            ;Odo_Cycle_Time_Ms                    ;unsigned          ;32 bits       ;ms     
+  + F32 [ 0.555556   ,       //41            ;Thrsvarspeed_Mpers                   ;float             ;32 bits       ;m/s     
+          0.8        ,       //42            ;Incrvaldecallowed_Mperss             ;float             ;32 bits       ;m/s2     
+          2.6        ,       //43            ;Slipaccthrs_Mperss                   ;float             ;32 bits       ;m/s2     
+          -0.1       ,       //44            ;Thrsforslid_Mperss                   ;float             ;32 bits       ;m/s2     
+          0.15       ,       //45            ;Incrdecel_Mperss                     ;float             ;32 bits       ;m/s2     
+          0.15       ,       //46            ;Drm_Mperss                           ;float             ;32 bits       ;m/s2     
+          1.2        ,       //47            ;Kprime                               ;float             ;32 bits       ;---     
+          0.5        ,       //48            ;Jerkthrs_Mperss                      ;float             ;32 bits       ;m/s2     
+          5.00       ,       //49            ;Spaceadjst_Mperss                    ;float             ;32 bits       ;m/s2     
+          1.5        ,       //50            ;Deltaspdadjst_Mpers                  ;float             ;32 bits       ;m/s     
+          1.5        ,       //51            ;Incrinispeed_Mpers                   ;float             ;32 bits       ;m/s     
+          1.00       ,       //52            ;Zerospeedthrs_Mpers                  ;float             ;32 bits       ;m/s     
+          0.277778   ,       //53            ;Tolerance_Mpers                      ;float             ;32 bits       ;m/s     
+          20.00      ,       //54            ;Flotationspd_Mpers                   ;float             ;32 bits       ;m/s     
+          0.5        ,       //55            ;Maxaccref_Mperss                     ;float             ;32 bits       ;m/s2     
+          55.555556  ,       //56            ;Maxspdinislid_Mpers                  ;float             ;32 bits       ;m/s     
+          44.444444  ]       //57            ;Spdrefinislid_Mpers                  ;float             ;32 bits       ;m/s     
+  + UL [  4          ,       //58            ;Switchtime_S                         ;unsigned char     ;8 bits        ;s     
+          3          ,       //59            ;Slidinireftime_S                     ;unsigned char     ;8 bits        ;s     
+          2          ,       //60            ;Nonslidingtime_S                     ;unsigned char     ;8 bits        ;s     
+          2          ,       //61            ;Nonslippingtime_S                    ;unsigned char     ;8 bits        ;s     
+          4          ]       //62            ;Maxtimelockaxle_S                    ;unsigned char     ;8 bits        ;s     
+  + F32 [ 40.277778  ,       //63            ;Lockaxlespeed_Mpers                  ;float             ;32 bits       ;m/s     
+          0.5        ,       //64            ;Adjaccref_Mperss                     ;float             ;32 bits       ;m/s2     
+          0.5        ,       //65            ;Taufilteracc_S                       ;float             ;32 bits       ; s     
+          4.00       ,       //66            ;Taufilteraverageacc_S                ;float             ;32 bits       ;--     
+          1.5        ,       //67            ;Kslip                                ;float             ;32 bits       ;--     
+          1.5        ,       //68            ;Kslide                               ;float             ;32 bits       ;--     
+          0.9        ,       //69            ;Kdltvd                               ;float             ;32 bits       ;--     
+          1.3        ,       //70            ;Kdltvs                               ;float             ;32 bits       ;--     
+          1.3        ]       //71            ;Kdltacc                              ;float             ;32 bits       ;--     
+  + UL  [ 2          ]       //72            ;minSensorOkAxle                      ;unsigned          ;8 bits        ;--    
+  + F32 [ 0.001      ,       //73            ;Errmaxt_S                            ;float             ;32 bits       ;s     
+          0.001      ,       //74            ;Errmint_S                            ;float             ;32 bits       ;s     
+          0.00001    ,       //75            ;Errmaxtodosched_S                    ;float             332 bits       ;s      
+          0.00001    ,       //76            ;Errmintodosched_S                    ;float             ;32 bits       ;s     
+          0.000013076,       //77            ;Sigmaris1_Mperss                     ;float             ;32 bits       ;m/s2     
+          0.000013076,       //78            ;Sigmaris2_Mperss                     ;float             ;32 bits       ;m/s2     
+          0.000013076,       //79            ;Sigmaris3_Mperss                     ;float             ;32 bits       ;m/s2     
+          0.000130760,       //80            ;Sigmabias1_Mperss                    ;float             ;32 bits       ;m/s2     
+          0.000130760,       //81            ;Sigmabias2_Mperss                    ;float             ;32 bits       ;m/s2     
+          0.000130760,       //82            ;Sigmabias3_Mperss                    ;float             ;32 bits       ;m/s2     
+          9.832      ,       //83            ;Maxgvalue_Mperss                     ;float             ;32 bits       ;m/s2     
+          0.00       ,       //84            ;TAxleStabile                         ;float             ;32 bits       ;     
+          3.00       ,       //85            ;Conflevelmarzullo                    ;float             ;32 bits       ;--     
+          7.50       ,       //86            ;Conflevelodo                         ;float             ;32 bits       ;--     
+          2.00       ,       //87            ;Tnoslipslidealgorfi_S                ;float             ;32 bits       ;s     
+          0.20       ,       //88            ;Tnoslipslide_S                       ;float             ;32 bits       ;s      
+          0.001      ,       //89            ;Vstandstill_Mpers                    ;float             ;32 bits       ;m/s      
+          0.00       ,       //90            ;Tstandstill_S                        ;float             ;32 bits       ;s     
+          0.00       ,       //91            ;Wcetodoo_S                           ;float             ;32 bits       ;s     
+          13.88      ,       //92            ;Sogliaabsperccom_Mpers               ;float             ;32 bits       ;m/s     
+          0.35       ,       //93            ;Maxerrpercslipslide                  ;float             ;32 bits       ;--     
+          0.35       ,       //94            ;Minerrpercslipslide                  ;float             ;32 bits       ;--     
+          4.86       ,       //95            ;Maxabspercslipslide_Mpers            ;float             ;32 bits       ;m/s     
+          4.86       ]       //96            ;Minabspercslipslide_Mpers            ;float             ;32 bits       ;m/s     
+  + UL [  5          ,       //97            ;Tolltestad                           ;unsigned          ;8 bits        ;---     
+          5          ,       //98            ;Tolltestcnt                          ;unsigned          ;8 bits        ;---     
+          2          ,       //99            ;MinnumAccOk                          ;unsigned          ;8 bits        ;---     
+          60000      ,       //100           ;Timeout_Start_Ms                     ;unsigned          ;32 bits       ;ms     
+          10000      ,       //101           ;Thrsh_Tstamp_Wheel_Sens_10us         ;unsigned          ;32 bits       ;10us     
+          50         ,       //102           ;Thrsh_Space_Low_speed_M              ;unsigned          ;32 bits       ;m     
+          2          ,       //103           ;Thrsh_Low_speed_Kmperh               ;unsigned          ;32 bits       ;Km/h     
+          200        ,       //104           ;Thrsh_Maxdiff_Localtime_10us         ;unsigned          ;32 bits       ;10us     
+          300        ,       //105           ;Thrsh_Maxdiff_Synctime_10us          ;unsigned          ;32 bits       ;10us     
+          30000      ,       //106           ;Acc_Atreq_Period_Ms                  ;unsigned          ;32 bits       ;ms     
+          600        ,       //107           ;Gitint_Thrs_Ms                       ;unsigned          ;32 bits       ;ms     
+          8          ,       //108           ;Tolltestad_Reset                     ;unsigned          ;32 bits       ;---     
+          1350       ,       //109           ;Thrsh_Channel_Err_Ms                 ;unsigned          ;32 bits       ;ms       
+          1350       ,       //110           ;Thrsh_Voting_Err_Ms                  ;unsigned          ;32 bits       ;ms     
+          1000       ,       //111           ;Timeout_Odb_Not_Sync_Ms              ;unsigned          ;32 bits       ;ms        
+          20000      ,       //112           ;Wait_Acc_Init_Ms                     ;unsigned          ;32 bits       ;ms        
+          1000       ];      //113           ;Wait_Acc_At_Ms                       ;unsigned          ;32 bits       ;ms    
+
+//////////////////////////////////////////////////////////////////////////// 
+// SYSTEM PARAMETER
+//////////////////////////////////////////////////////////////////////////// 
+  
+System = UL[0        ,       //  0           ;System_is_new_msg                    ;enum              ;32 bits       ;---      
+          2*1725     ,       //  1           ;vsupply_min_odb_mv                   ;unsigned          ;16 bits       ;mv      
+          2*2000     ,       //  2           ;vsupply_max_odb_mv                   ;unsigned          ;16 bits       ;mv      
+          930        ,       //  3           ;vcurrent_min_odb_mv_curr_itf         ;unsigned          ;16 bits       ;mv     
+          2260       ,       //  4           ;vcurrent_max_odb_mv_curr_itf         ;unsigned          ;16 bits       ;mv     
+          0          ,       //  5           ;vcurrent_min_odb_mv_volt_itf         ;unsigned          ;16 bits       ;mv     
+          650        ,       //  6           ;vcurrent_max_odb_mv_volt_itf         ;unsigned          ;16 bits       ;mv     
+          930        ,       //  7           ;vsignal_min_odb_mv_curr_itf          ;unsigned          ;16 bits       ;mv      
+          2260       ,       //  8           ;vsignal_max_odb_mv_curr_itf          ;unsigned          ;16 bits       ;mv      
+          0          ,       //  9           ;vsignal_min_odb_mv_volt_itf          ;unsigned          ;16 bits       ;mv      
+          2450       ,       // 10           ;vsignal_max_odb_mv_volt_itf          ;unsigned          ;16 bits       ;mv      
+          800        ,       // 11           ;vsignal_min_odb_mv_wieg_itf          ;unsigned          ;16 bits       ;mv      
+          2300       ,       // 12           ;vsignal_max_odb_mv_wieg_itf          ;unsigned          ;16 bits       ;mv      
+          3          ,       // 13           ;sensortype_1                         ;unsigned          ;8 bits        ;---      
+          3          ,       // 14           ;sensortype_2                         ;unsigned          ;8 bits        ;---      
+          0          ,       // 15           ;sensortype_3                         ;unsigned          ;8 bits        ;---      
+          80         ,       // 16           ;SensorPulsePerRev_1                  ;unsigned          ;8 bits        ;[50 .. 200]     
+          80         ,       // 17           ;SensorPulsePerRev_2                  ;unsigned          ;8 bits        ;[50 .. 200]     
+          0          ,       // 18           ;SensorPulsePerRev_3                  ;unsigned          ;8 bits        ;[50 .. 200]     
+          0          ,       // 19           ;SensorMountSide_1                    ;unsigned          ;8 bits        ;---      
+          0          ,       // 20           ;SensorMountSide_2                    ;unsigned          ;8 bits        ;---      
+          0          ,       // 21           ;SensorMountSide_3                    ;unsigned          ;8 bits        ;---      
+          1          ,       // 22           ;Odb1_Axle_1                          ;unsigned          ;8 bits        ;[1 .. 3]      
+          2          ,       // 23           ;Odb1_Axle_2                          ;unsigned          ;8 bits        ;[1 .. 3]      
+          1          ,       // 24           ;Odb2_Axle_1                          ;unsigned          ;8 bits        ;[1 .. 3]      
+          2          ,       // 25           ;Odb2_Axle_2                          ;unsigned          ;8 bits        ;[1 .. 3]      
+          1          ,       // 26           ;Odb3_Axle_1                          ;unsigned          ;8 bits        ;[1 .. 3]      
+          2          ,       // 27           ;Odb3_Axle_2                          ;unsigned          ;8 bits        ;[1 .. 3]      
+          0          ,       // 28           ;useAppData                           ;bool              ;32 bits       ;--      
+          0          ,       // 29           ;presAcc                              ;bool              ;32bits        ;--      
+          2          ]       // 30           ;numAxle                              ;unsigned          ;8 bits        ;--      
+  + F32 [ 40.00      ,       // 31           ;maxSlope                             ;float             ;32 bits       ;--      
+          -40.00     ,       // 32           ;minSlope                             ;float             ;32 bits       ;--       
+          17.00      ,       // 33           ;Loco_Length_m                        ;float             ;32 bits       ;m       
+          1.0        ,       // 34           ;errCalAbs_mm                         ;float             ;32 bits       ;mm       
+          0.001      ,       // 35           ;errCal_Percent                       ;float             ;32 bits       ;--       
+          1.0        ,       // 36           ;errWearOutAbs_mm                     ;float             ;32 bits       ;mm       
+          0.001      ,       // 37           ;errWearOut_Percent                   ;float             ;32 bits       ;--       
+          2.7        ,       // 38           ;errDisplacement_mm                   ;float             ;32 bits       ;mm       
+          0.0        ,       // 39           ;errAlignment_mpers                   ;float             ;32 bits       ;m/s       
+          0.0064     ,       // 40           ;sigmaThermal1_mperss                 ;float             ;32 bits       ;m/s2       
+          0.0064     ,       // 41           ;sigmaThermal2_mperss                 ;float             ;32 bits       ;m/s2     
+          0.0064     ,       // 42           ;sigmaThermal3_mperss                 ;float             ;32 bits       ;m/s2       
+          0.001      ,       // 43           ;maxYawError1_degree                  ;float             ;32 bits       ;degree       
+          0.001      ,       // 44           ;maxYawError2_degree                  ;float             ;32 bits       ;degree       
+          0.001      ,       // 45           ;maxYawError3_degree                  ;float             ;32 bits       ;degree      
+          0.00       ,       // 46           ;maxPitchError1_degree                ;float             ;32 bits       ;degree     
+          0.00       ,       // 47           ;maxPitchError2_degree                ;float             ;32 bits       ;degree     
+          0.00       ,       // 48           ;maxPitchError3_dregree               ;float             ;32 bits       ;degree      
+          0.8        ,       // 49           ;maxAccNonComp_mperss                 ;float             ;32 bits       ;m/s2      
+          1000.00    ,       // 50           ;minimumRadiusCurve_m                 ;float             ;32 bits       ;m      
+          2.00       ,       // 51           ;maxJerkValue_mper3s                  ;float             ;32 bits       ;m/s3      
+          -2.00      ,       // 52           ;minJerkValue_mper3s                  ;float             ;32 bits       ;m/s2     
+          10.00      ,       // 53           ;Soglia_Jerk_Plus                     ;float             ;32 bits       ;---      
+          -10.00     ,       // 54           ;Soglia_Jerk_Minus                    ;float             ;32 bits       ;---     
+          10.00      ,       // 55           ;Soglia_Jerk_Asset                    ;float             ;32 bits       ;---     
+          0.00       ,       // 56           ;calibValue1                          ;float             ;32 bits       ;m/s2     
+          0.00       ,       // 57           ;calibValue2                          ;float             ;32 bits       ;m/s2     
+          0.00       ]       // 58           ;calibValue3                          ;float             ;32 bits       ;m/s2   
+   + UL[  1          ,       // 59           ;enaAlgoRicercaSottostime
+	  800        ]       // 60           ;finSaltiVelMs
+   + F32[6.9444]             // 61           ;sogliaAccSottostime
+   + UL[   13,               // 62           ;sogliaAlfaCntSottostime         
+            8,               // 63           ;alfaCntSottostimeIncStep        
+        12000];              // 64           ;durataIntervGestSottostime      
+
+//////////////////////////////////////////////////////////////////////////// 
+// TRAIN PARAMETER
+//////////////////////////////////////////////////////////////////////////// 
+
+Train  = UL [  0     ]       //  0           ;Train_Is_new_msg                     ;enum              ;32 bits       ;---
+  + F32[  3.0        ,       //  1           ;maxTrainAcc_mperss                   ;unsigned          ;32 bits       ;cm/s^2
+          -3.0       ]       //  2           ;minTrainAcc_mperss                   ;unsigned          ;32 bits       ;cm/s^2
+  + UL [  160        ,       //  3           ;brake_percent                        ;unsigned          ;32 bits       ;%
+          500        ,       //  4           ;v_max_kmperh                         ;unsigned          ;32 bits       ;km/h
+          4095       ]       //  5           ;l_train_m                            ;unsigned          ;32 bits       ;m
+  + UL [  1000       ]       //  6           ;d_axle1_dia_mm                       ;unsigned          ;32 bits       ;mm
+  + F32[  2.0        ]       //  7           ;d_axle1_dia_un_mm                    ;float             ;32 bits       ;mm
+  + UL [  1000       ]       //  8           ;d_axle2_dia_mm                       ;unsigned          ;32 bits       ;mm
+  + F32[  2.0        ]       //  9           ;d_axle2_dia_un_mm                    ;float             ;32 bits       ;mm
+  + UL [  1000       ]       // 10           ;d_axle3_dia_mm                       ;unsigned          ;32 bits       ;mm
+  + F32[  2.0        ]       // 11           ;d_axle3_dia_un_mm                    ;float             ;32 bits       ;mm
+  + F32[  0.0        ,       // 12           ;a_acc1_bias_mmperss                  ;float             ;32 bits       ;mm/s^2
+          500.0      ,       // 13           ;a_acc1_bias_un_mmperss               ;float             ;32 bits       ;mm/s^2
+          0.0        ,       // 14           ;a_acc2_bias_mmperss                  ;float             ;32 bits       ;mm/s^2
+          500.0      ,       // 15           ;a_acc2_bias_un_mmperss               ;float             ;32 bits       ;mm/s^2
+          0.0        ,       // 16           ;a_acc3_bias_mmperss                  ;float             ;32 bits       ;mm/s^2
+          500.0      ];      // 17           ;a_acc3_bias_un_mmperss               ;float             ;32 bits       ;mm/s^2
+
+//////////////////////////////////////////////////////////////////////////// 
+// DYNAMIC PARAMETER
+//////////////////////////////////////////////////////////////////////////// 
+
+ Dynamic = UL [   0  ]       //  1           ;Dynamic_is_new_msg                   ;enum              ;32 bits       ;---
+         + SL [   0  ,       //  2           ;g_slope_percent                      ;Signed            ;32 bits       ;percent
+                 40  ,       //  3           ;g_slope_max_percent                  ;Signed            ;32 bits       ;percent
+                -40  ]       //  4           ;g_slope_min_percent                  ;Signed            ;32 bits       ;percent
+         + UL [  0   ];      //  5           ;q_brake                              ;enum              ;32 bits       ;---
+
+//////////////////////////////////////////////////////////////////////////// 
+// CBAT 
+//////////////////////////////////////////////////////////////////////////// 
+
+cbat_memory = Product + System + Train + Dynamic ;
+
+
+main = cbat_memory + CRC32[msg => cbat_memory];

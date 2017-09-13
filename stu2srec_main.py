@@ -24,6 +24,29 @@ def print_version():
     print("Version : " + version)
 
 
+def compute_stu_file(InputFileName="", OutputFileName=sys.stdout, BaseAddr=0):
+
+    logging.basicConfig(level=logging.DEBUG,
+                        filename="stu2srec.log",
+                        filemode="w",
+                        format="%(filename)10s:%(lineno)4d:%(message)s")
+
+    log = logging.getLogger()
+
+    lex.lex()  # debug=True,debuglog=log)
+    yacc.yacc()  # debug=True,debuglog=log)
+
+    s = open(InputFileName).read()
+
+    yacc.parse(s, debug=log)
+
+    if 'main' in names.keys():
+        srecord_gen(data=names['main'],
+                    baseaddr=BaseAddr,
+                    file=OutputFileName)
+    else:
+        raise StopException(message="No \'main\' defined into file \'{}\'".format(inputf))
+
 def main():
     baseaddr = 0
     inputf = None
@@ -68,10 +91,10 @@ def main():
             try:
                 baseaddr = int(eval(a))
             except:
-                raise StopException(message="baseaddr arg : \'{}\' , is not an integer".format(a))
+                raise StopException(message="baseaddr arg : \'{}\', is not an integer".format(a))
 
             if baseaddr < 0:
-                raise StopException(message="baseaddr arg : \'{}\' , is not a positive integer".format(baseaddr))
+                raise StopException(message="baseaddr arg : \'{}\', is not a positive integer".format(baseaddr))
 
     if inputf == None:
         raise StopException(message="input file arg not defined")
@@ -79,32 +102,19 @@ def main():
     if outputf == None:
         outputf = sys.stdout
 
-    logging.basicConfig(level=logging.DEBUG,
-                        filename="stu2srec.log",
-                        filemode="w",
-                        format="%(filename)10s:%(lineno)4d:%(message)s")
-
-    log = logging.getLogger()
-
-    lex.lex()  # debug=True,debuglog=log)
-    yacc.yacc()  # debug=True,debuglog=log)
-
-    s = open(inputf).read()
-
-    yacc.parse(s, debug=log)
-
-    if 'main' in names.keys():
-        srecord_gen(data=names['main'],
-                    baseaddr=baseaddr,
-                    file=outputf)
-    else:
-        raise StopException(message="No \'main\' defined into file \'{}\'".format(inputf))
-
+    compute_stu_file(InputFileName=input, OutputFileName=outputf, BaseAddr=baseaddr)
 
 if __name__ == '__main__':
 
     try:
-        main()
+        #print("Test example.stu")
+        #compute_stu_file(InputFileName="example.stu", OutputFileName=sys.stdout)
+        #print("Test gc_odo.stu")
+        #compute_stu_file(InputFileName="gc_odo.stu", OutputFileName=sys.stdout)
+        print("Test mtor_ferriby.stu")
+        compute_stu_file(InputFileName="mtor_ferriby.stu", OutputFileName=sys.stdout)
+
+
     except StopException as err:
         print(err)
         sys.exit(2)

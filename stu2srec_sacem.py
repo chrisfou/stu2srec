@@ -91,30 +91,26 @@ tab_rk_teta = (
 )
 
 
-def sacem(data=b'', svl=b''):
+def sacem(msg=b'', svl=b''):
     llong_result = 2 * [0]
 
-    if len(data) % 4 != 0:
-        raise SacemException \
-            (message="size of data : {}, not modulo 32bits".format(len(data)))
+    if len(msg) % 4 != 0:
+        raise SacemException(message="size of data : {}, not modulo 32bits".format(len(data)))
 
-    if len(data) > 4 * 256:
-        raise SacemException \
-            (message="size of data : {} > 1024 bytes".format(len(data)))
+    if len(msg) > 4 * 256:
+        raise SacemException(message="size of data : {} > 1024 bytes".format(len(data)))
 
-    if len(data) == 0:
-        raise SacemException \
-            (message="data is length null")
+    if len(msg) == 0:
+        raise SacemException(message="data is length null")
 
     if len(svl) != 8:
-        raise SacemException \
-            (message="svl cannot be converted into a 2x32bits array")
+        raise SacemException(message="svl cannot be converted into a 2x32bits array")
 
     lsvl = struct.unpack(">II", svl)
 
     for i in range(0, 2):
-        for j in range(0, len(data) >> 2):
-            ldata = struct.unpack(">I", data[4 * j: 4 * j + 4])[0]
+        for j in range(0, len(msg) >> 2):
+            ldata = struct.unpack(">I", msg[4 * j: 4 * j + 4])[0]
             llong_result[i] += tab_rk_teta[i][j] * ldata
         llong_result[i] = (llong_result[i] + lsvl[i]) % tab_cle[i]
 

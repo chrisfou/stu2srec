@@ -356,7 +356,7 @@ class CypherOp(DES):
 def cbc_mac_compute(msg='b', key_1=b'', key_2=b'', key_3=b''):
     # Sanity parameter check
     if type(msg) != bytes:
-        raise DESException(message="cbc_mac_comuputer msg parameter type error !")
+        raise DESException(message="cbc_mac_computer msg parameter type error !")
     if type(key_1) != bytes:
         raise DESException(message="cbc_mac_compute key_1 parameter type error !")
     if type(key_2) != bytes:

@@ -1,0 +1,442 @@
+IDENTIFIANT_MTOR=UB[1]; 
+TYPE_GESTION_IP=UB[0]; 
+SPVL_SKC_MTRx_ENC_EMTR_1N5_C1=UL[109189]; 
+SPVL_SKC_MTRx_ENC_EMTR_1N5_C2=UL[11604255]; 
+SPVL_CSD_SVA_SKC_MTRx_2N3_C1=UL[3408809]; 
+SPVL_CSD_SVA_SKC_MTRx_2N3_C2=UL[11009624]; 
+SPVL_CSD_SVB_SKC_MTRx_3N3_C1=UL[219223]; 
+SPVL_CSD_SVB_SKC_MTRx_3N3_C2=UL[2448202]; 
+SPVL_CSD_SVA_SKC_INIx_4N4_C1=UL[10493719]; 
+SPVL_CSD_SVA_SKC_INIx_4N4_C2=UL[9586289]; 
+SPVL_CSD_SVB_SKC_INIx_5N4_C1=UL[8630857]; 
+SPVL_CSD_SVB_SKC_INIx_5N4_C2=UL[1372910]; 
+TYPE_LMTOR=UL[189576453]; 
+NUMERO_SITE_CALCC=UL[2068480]; 
+ULR_ENC_EMTR=UW[256]; 
+ULE_CSD_SVA=UW[5]; 
+ULE_CSD_SVB=UW[6]; 
+TYPE_MAITRE_ESCLAVE=UL[138352384]; 
+ADR_IP_MTOR_MAITRE_A_C1=UB[172]; 
+ADR_IP_MTOR_MAITRE_A_C2=UB[21]; 
+ADR_IP_MTOR_MAITRE_A_C3=UB[1]; 
+ADR_IP_MTOR_MAITRE_A_C4=UB[1]; 
+NR_PORT_MTOR_MAITRE_A=UW[21001]; 
+ADR_IP_MTOR_ESCLAVE_A_C1=UB[172]; 
+ADR_IP_MTOR_ESCLAVE_A_C2=UB[21]; 
+ADR_IP_MTOR_ESCLAVE_A_C3=UB[1]; 
+ADR_IP_MTOR_ESCLAVE_A_C4=UB[2]; 
+NR_PORT_MTOR_ESCLAVE_A=UW[21002]; 
+ADR_SOUSRESEAU_MTOR_A_C1=UB[255]; 
+ADR_SOUSRESEAU_MTOR_A_C2=UB[255]; 
+ADR_SOUSRESEAU_MTOR_A_C3=UB[255]; 
+ADR_SOUSRESEAU_MTOR_A_C4=UB[0]; 
+ADR_PASSER_MTOR_A_C1=UB[0]; 
+ADR_PASSER_MTOR_A_C2=UB[0]; 
+ADR_PASSER_MTOR_A_C3=UB[0]; 
+ADR_PASSER_MTOR_A_C4=UB[0]; 
+ADR_IP_CALCC_A_C1=UB[172]; 
+ADR_IP_CALCC_A_C2=UB[21]; 
+ADR_IP_CALCC_A_C3=UB[1]; 
+ADR_IP_CALCC_A_C4=UB[254]; 
+NR_PORT_CALCC_A=UW[21001]; 
+ADR_MAC_ETH_A_C1=UB[0]; 
+ADR_MAC_ETH_A_C2=UB[7]; 
+ADR_MAC_ETH_A_C3=UB[3]; 
+ADR_MAC_ETH_A_C4=UB[21]; 
+ADR_MAC_ETH_A_C5=UB[1]; 
+ADR_MAC_ETH_A_C6=UB[1]; 
+ADR_IP_MTOR_MAITRE_B_C1=UB[172]; 
+ADR_IP_MTOR_MAITRE_B_C2=UB[22]; 
+ADR_IP_MTOR_MAITRE_B_C3=UB[1]; 
+ADR_IP_MTOR_MAITRE_B_C4=UB[1]; 
+NR_PORT_MTOR_MAITRE_B=UW[22001]; 
+ADR_IP_MTOR_ESCLAVE_B_C1=UB[172]; 
+ADR_IP_MTOR_ESCLAVE_B_C2=UB[22]; 
+ADR_IP_MTOR_ESCLAVE_B_C3=UB[1]; 
+ADR_IP_MTOR_ESCLAVE_B_C4=UB[2]; 
+NR_PORT_MTOR_ESCLAVE_B=UW[22002]; 
+ADR_SOUSRESEAU_MTOR_B_C1=UB[255]; 
+ADR_SOUSRESEAU_MTOR_B_C2=UB[255]; 
+ADR_SOUSRESEAU_MTOR_B_C3=UB[255]; 
+ADR_SOUSRESEAU_MTOR_B_C4=UB[0]; 
+ADR_PASSER_MTOR_B_C1=UB[0]; 
+ADR_PASSER_MTOR_B_C2=UB[0]; 
+ADR_PASSER_MTOR_B_C3=UB[0]; 
+ADR_PASSER_MTOR_B_C4=UB[0]; 
+ADR_IP_CALCC_B_C1=UB[172]; 
+ADR_IP_CALCC_B_C2=UB[22]; 
+ADR_IP_CALCC_B_C3=UB[1]; 
+ADR_IP_CALCC_B_C4=UB[254]; 
+NR_PORT_CALCC_B=UW[22001]; 
+ADR_MAC_ETH_B_C1=UB[0]; 
+ADR_MAC_ETH_B_C2=UB[7]; 
+ADR_MAC_ETH_B_C3=UB[3]; 
+ADR_MAC_ETH_B_C4=UB[22]; 
+ADR_MAC_ETH_B_C5=UB[1]; 
+ADR_MAC_ETH_B_C6=UB[1]; 
+ULE_MTOR=UL[1]; 
+ULR_MTOR=UL[2]; 
+NBRE_ENTREE_NS=UB[4]; 
+NBRE_SORTIE_NS=UB[24]; 
+NBRE_ENTREE_S=UL[24]; 
+NBRE_SORTIE_S=UL[1]; 
+NBRE_RELAIS_RELU=UL[10]; 
+NBRE_LIAISON_COM=UB[0]; 
+CONFIG_LIAISONS_MTOR_A=UW[3410]; 
+CONFIG_LIAISONS_MTOR_B=UW[3410]; 
+T_AV_AT=UL[3428]; 
+T_MAX_AV_AT=UL[6857]; 
+T_Av_AT_VCO=UL[0]; 
+T_Max_Av_AT_VCO=UL[0]; 
+CONF_IOM=UL[0]; 
+NB_LAMPES_SX=UL[0]; 
+I_OFF_MAX_1=UL[0]; 
+I_ON_MIN_1=UL[0]; 
+I_ON_MAX_1=UL[0]; 
+U_OFF_MAX_1=UL[0]; 
+U_ON_MIN_1=UL[0]; 
+U_ON_MAX_1=UL[0]; 
+P_OFF_MAX_1=UL[0]; 
+P_ON_MIN_1=UL[0]; 
+P_ON_MAX_1=UL[0]; 
+I_OFF_MAX_2=UL[0]; 
+I_ON_MIN_2=UL[0]; 
+I_ON_MAX_2=UL[0]; 
+U_OFF_MAX_2=UL[0]; 
+U_ON_MIN_2=UL[0]; 
+U_ON_MAX_2=UL[0]; 
+P_OFF_MAX_2=UL[0]; 
+P_ON_MIN_2=UL[0]; 
+P_ON_MAX_2=UL[0]; 
+I_OFF_MAX_3=UL[0]; 
+I_ON_MIN_3=UL[0]; 
+I_ON_MAX_3=UL[0]; 
+U_OFF_MAX_3=UL[0]; 
+U_ON_MIN_3=UL[0]; 
+U_ON_MAX_3=UL[0]; 
+P_OFF_MAX_3=UL[0]; 
+P_ON_MIN_3=UL[0]; 
+P_ON_MAX_3=UL[0]; 
+I_OFF_MAX_4=UL[0]; 
+I_ON_MIN_4=UL[0]; 
+I_ON_MAX_4=UL[0]; 
+U_OFF_MAX_4=UL[0]; 
+U_ON_MIN_4=UL[0]; 
+U_ON_MAX_4=UL[0]; 
+P_OFF_MAX_4=UL[0]; 
+P_ON_MIN_4=UL[0]; 
+P_ON_MAX_4=UL[0]; 
+I_OFF_MAX_5=UL[0]; 
+I_ON_MIN_5=UL[0]; 
+I_ON_MAX_5=UL[0]; 
+U_OFF_MAX_5=UL[0]; 
+U_ON_MIN_5=UL[0]; 
+U_ON_MAX_5=UL[0]; 
+P_OFF_MAX_5=UL[0]; 
+P_ON_MIN_5=UL[0]; 
+P_ON_MAX_5=UL[0]; 
+I_OFF_MAX_6=UL[0]; 
+I_ON_MIN_6=UL[0]; 
+I_ON_MAX_6=UL[0]; 
+U_OFF_MAX_6=UL[0]; 
+U_ON_MIN_6=UL[0]; 
+U_ON_MAX_6=UL[0]; 
+P_OFF_MAX_6=UL[0]; 
+P_ON_MIN_6=UL[0]; 
+P_ON_MAX_6=UL[0]; 
+I_OFF_MAX_7=UL[0]; 
+I_ON_MIN_7=UL[0]; 
+I_ON_MAX_7=UL[0]; 
+U_OFF_MAX_7=UL[0]; 
+U_ON_MIN_7=UL[0]; 
+U_ON_MAX_7=UL[0]; 
+P_OFF_MAX_7=UL[0]; 
+P_ON_MIN_7=UL[0]; 
+P_ON_MAX_7=UL[0]; 
+I_OFF_MAX_8=UL[0]; 
+I_ON_MIN_8=UL[0]; 
+I_ON_MAX_8=UL[0]; 
+U_OFF_MAX_8=UL[0]; 
+U_ON_MIN_8=UL[0]; 
+U_ON_MAX_8=UL[0]; 
+P_OFF_MAX_8=UL[0]; 
+P_ON_MIN_8=UL[0]; 
+P_ON_MAX_8=UL[0]; 
+T_STAB_DET=UL[0]; 
+T_Av_DYN_IOM_AG=UL[0]; 
+IOM_AG_Auxiliaire=UL[0]; 
+// -*- c -*-
+
+// Liste des BX
+BX_000 = UL[7165359 , 10553342 ];
+BX_001 = UL[10534483, 6402307  ];
+BX_002 = UL[1439389 , 10125966 ];
+BX_003 = UL[4808513 , 5974931  ];
+BX_004 = UL[8177637 , 1823896  ];
+BX_005 = UL[933250  , 2251272  ];
+BX_006 = UL[4302374 , 10339654 ];
+BX_007 = UL[7671498 , 6188619  ];
+BX_008 = UL[11546761, 9912278  ];
+BX_009 = UL[1945528 , 5761243  ];
+BX_010 = UL[5314652 , 1610208  ];
+BX_011 = UL[8683776 , 9698590  ];
+BX_012 = UL[12052900, 5547555  ];
+BX_013 = UL[2451667 , 1396520  ];
+BX_014 = UL[5820791 , 9484902  ];
+BX_015 = UL[9189915 , 5333867  ];
+BX_016 = UL[12559039, 1182832  ];
+BX_017 = UL[2957806 , 9271214  ];
+BX_018 = UL[6326930 , 5120179  ];
+BX_019 = UL[9696054 , 969144   ];
+BX_020 = UL[94821   , 9057526  ];
+BX_021 = UL[3463945 , 4906491  ];
+BX_022 = UL[6833069 , 755456   ];
+BX_023 = UL[10202193, 8843838  ];
+BX_024 = UL[600960  , 4692803  ];
+BX_025 = UL[3970084 , 541768   ];
+BX_026 = UL[7339208 , 8630150  ];
+BX_027 = UL[10708332, 4479115  ];
+BX_028 = UL[1107099 , 328080   ];
+BX_029 = UL[4476223 , 8416462  ];
+BX_030 = UL[7845347 , 4265427  ];
+BX_031 = UL[11214471, 114392   ];
+BX_032 = UL[1613238 , 8202774  ];
+BX_033 = UL[4982362 , 4051739  ];
+BX_034 = UL[8351486 , 12140121 ];
+BX_035 = UL[11720610, 7989086  ];
+BX_036 = UL[2119377 , 3838051  ];
+BX_037 = UL[5488501 , 11926433 ];
+BX_038 = UL[8857625 , 7775398  ];
+BX_039 = UL[12226749, 3624363  ];
+BX_040 = UL[2625516 , 11712745 ];
+BX_041 = UL[5994640 , 7561710  ];
+BX_042 = UL[9363764 , 3410675  ];
+BX_043 = UL[12732888, 11499057 ];
+BX_044 = UL[3131655 , 7348022  ];
+BX_045 = UL[6500779 , 3196987  ];
+BX_046 = UL[9869903 , 11285369 ];
+BX_047 = UL[268670  , 7134334  ];
+BX_048 = UL[3637794 , 2983299  ];
+BX_049 = UL[7006918 , 11071681 ];
+BX_050 = UL[10376042, 6920646  ];
+BX_051 = UL[774809  , 2769611  ];
+BX_052 = UL[4143933 , 10857993 ];
+BX_053 = UL[7513057 , 6706958  ];
+BX_054 = UL[10882181, 2555923  ];
+BX_055 = UL[1280948 , 10644305 ];
+BX_056 = UL[4650072 , 6493270  ];
+BX_057 = UL[8019196 , 2342235  ];
+BX_058 = UL[11388320, 10430617 ];
+BX_059 = UL[1787087 , 6279582  ];
+BX_060 = UL[5156211 , 2128547  ];
+BX_061 = UL[8525335 , 10216929 ];
+BX_062 = UL[11894459, 6065894  ];
+BX_063 = UL[2293226 , 1914859  ];
+BX_064 = UL[5662350 , 10003241 ];
+BX_065 = UL[9031474 , 5852206  ];
+BX_066 = UL[12400598, 1701171  ];
+BX_067 = UL[2799365 , 9789553  ];
+BX_068 = UL[6168489 , 5638518  ];
+BX_069 = UL[9537613 , 1487483  ];
+BX_070 = UL[12906737, 9575865  ];
+BX_071 = UL[3305504 , 5424830  ];
+BX_072 = UL[6674628 , 1273795  ];
+BX_073 = UL[10043752, 9362177  ];
+BX_074 = UL[442519  , 5211142  ];
+BX_075 = UL[3811643 , 1060107  ];
+BX_076 = UL[7180767 , 9148489  ];
+BX_077 = UL[10549891, 4997454  ];
+BX_078 = UL[948658  , 846419   ];
+BX_079 = UL[4317782 , 8934801  ];
+BX_080 = UL[7686906 , 4783766  ];
+BX_081 = UL[11056030, 632731   ];
+BX_082 = UL[1454797 , 8721113  ];
+BX_083 = UL[4823921 , 4570078  ];
+BX_084 = UL[8193045 , 419043   ];
+BX_085 = UL[11562169, 8507425  ];
+BX_086 = UL[1960936 , 4356390  ];
+BX_087 = UL[5330060 , 205355   ];
+BX_088 = UL[8699184 , 8293737  ];
+
+DATA_MTOR = 
+  IDENTIFIANT_MTOR
+  + TYPE_GESTION_IP
+  + SPVL_SKC_MTRx_ENC_EMTR_1N5_C1
+  + SPVL_SKC_MTRx_ENC_EMTR_1N5_C2
+  + SPVL_CSD_SVA_SKC_MTRx_2N3_C1
+  + SPVL_CSD_SVA_SKC_MTRx_2N3_C2
+  + SPVL_CSD_SVB_SKC_MTRx_3N3_C1
+  + SPVL_CSD_SVB_SKC_MTRx_3N3_C2
+  + SPVL_CSD_SVA_SKC_INIx_4N4_C1
+  + SPVL_CSD_SVA_SKC_INIx_4N4_C2
+  + SPVL_CSD_SVB_SKC_INIx_5N4_C1
+  + SPVL_CSD_SVB_SKC_INIx_5N4_C2
+  + TYPE_LMTOR                 + SACEM[msg => TYPE_LMTOR          , svl => BX_000]
+  + NUMERO_SITE_CALCC          + SACEM[msg => NUMERO_SITE_CALCC   , svl => BX_001]
+  + ULR_ENC_EMTR
+  + ULE_CSD_SVA
+  + ULE_CSD_SVB
+  + TYPE_MAITRE_ESCLAVE        + SACEM[msg => TYPE_MAITRE_ESCLAVE , svl => BX_002]
+  + ADR_IP_MTOR_MAITRE_A_C1
+  + ADR_IP_MTOR_MAITRE_A_C2
+  + ADR_IP_MTOR_MAITRE_A_C3
+  + ADR_IP_MTOR_MAITRE_A_C4
+  + NR_PORT_MTOR_MAITRE_A
+  + ADR_IP_MTOR_ESCLAVE_A_C1
+  + ADR_IP_MTOR_ESCLAVE_A_C2
+  + ADR_IP_MTOR_ESCLAVE_A_C3
+  + ADR_IP_MTOR_ESCLAVE_A_C4
+  + NR_PORT_MTOR_ESCLAVE_A
+  + ADR_SOUSRESEAU_MTOR_A_C1
+  + ADR_SOUSRESEAU_MTOR_A_C2
+  + ADR_SOUSRESEAU_MTOR_A_C3
+  + ADR_SOUSRESEAU_MTOR_A_C4
+  + ADR_PASSER_MTOR_A_C1
+  + ADR_PASSER_MTOR_A_C2
+  + ADR_PASSER_MTOR_A_C3
+  + ADR_PASSER_MTOR_A_C4
+  + ADR_IP_CALCC_A_C1
+  + ADR_IP_CALCC_A_C2
+  + ADR_IP_CALCC_A_C3
+  + ADR_IP_CALCC_A_C4
+  + NR_PORT_CALCC_A
+  + ADR_MAC_ETH_A_C1
+  + ADR_MAC_ETH_A_C2
+  + ADR_MAC_ETH_A_C3
+  + ADR_MAC_ETH_A_C4
+  + ADR_MAC_ETH_A_C5
+  + ADR_MAC_ETH_A_C6
+  + ADR_IP_MTOR_MAITRE_B_C1
+  + ADR_IP_MTOR_MAITRE_B_C2
+  + ADR_IP_MTOR_MAITRE_B_C3
+  + ADR_IP_MTOR_MAITRE_B_C4
+  + NR_PORT_MTOR_MAITRE_B
+  + ADR_IP_MTOR_ESCLAVE_B_C1
+  + ADR_IP_MTOR_ESCLAVE_B_C2
+  + ADR_IP_MTOR_ESCLAVE_B_C3
+  + ADR_IP_MTOR_ESCLAVE_B_C4
+  + NR_PORT_MTOR_ESCLAVE_B
+  + ADR_SOUSRESEAU_MTOR_B_C1
+  + ADR_SOUSRESEAU_MTOR_B_C2
+  + ADR_SOUSRESEAU_MTOR_B_C3
+  + ADR_SOUSRESEAU_MTOR_B_C4
+  + ADR_PASSER_MTOR_B_C1
+  + ADR_PASSER_MTOR_B_C2
+  + ADR_PASSER_MTOR_B_C3
+  + ADR_PASSER_MTOR_B_C4
+  + ADR_IP_CALCC_B_C1
+  + ADR_IP_CALCC_B_C2
+  + ADR_IP_CALCC_B_C3
+  + ADR_IP_CALCC_B_C4
+  + NR_PORT_CALCC_B
+  + ADR_MAC_ETH_B_C1
+  + ADR_MAC_ETH_B_C2
+  + ADR_MAC_ETH_B_C3
+  + ADR_MAC_ETH_B_C4
+  + ADR_MAC_ETH_B_C5
+  + ADR_MAC_ETH_B_C6
+  + ULE_MTOR                   + SACEM[ msg => ULE_MTOR           , svl => BX_003]
+  + ULR_MTOR                   + SACEM[ msg => ULR_MTOR           , svl => BX_004]
+  + NBRE_ENTREE_NS
+  + NBRE_SORTIE_NS
+  + NBRE_ENTREE_S              + SACEM[ msg => NBRE_ENTREE_S      , svl => BX_005]
+  + NBRE_SORTIE_S              + SACEM[ msg => NBRE_SORTIE_S      , svl => BX_006]
+  + NBRE_RELAIS_RELU           + SACEM[ msg => NBRE_RELAIS_RELU   , svl => BX_007]
+  + NBRE_LIAISON_COM
+  + CONFIG_LIAISONS_MTOR_A
+  + CONFIG_LIAISONS_MTOR_B
+  + T_AV_AT                    + SACEM[ msg => T_AV_AT		  , svl => BX_008] 
+  + T_MAX_AV_AT                + SACEM[ msg => T_MAX_AV_AT	  , svl => BX_009] 
+  + T_Av_AT_VCO                + SACEM[ msg => T_Av_AT_VCO	  , svl => BX_010] 
+  + T_Max_Av_AT_VCO            + SACEM[ msg => T_Max_Av_AT_VCO	  , svl => BX_011] 
+  + CONF_IOM                   + SACEM[ msg => CONF_IOM	          , svl => BX_012] 
+  + NB_LAMPES_SX               + SACEM[ msg => NB_LAMPES_SX	  , svl => BX_013] 
+  + I_OFF_MAX_1                + SACEM[ msg => I_OFF_MAX_1	  , svl => BX_014] 
+  + I_ON_MIN_1                 + SACEM[ msg => I_ON_MIN_1	  , svl => BX_015] 
+  + I_ON_MAX_1                 + SACEM[ msg => I_ON_MAX_1	  , svl => BX_016] 
+  + U_OFF_MAX_1                + SACEM[ msg => U_OFF_MAX_1	  , svl => BX_017] 
+  + U_ON_MIN_1                 + SACEM[ msg => U_ON_MIN_1	  , svl => BX_018] 
+  + U_ON_MAX_1                 + SACEM[ msg => U_ON_MAX_1	  , svl => BX_019] 
+  + P_OFF_MAX_1                + SACEM[ msg => P_OFF_MAX_1	  , svl => BX_020] 
+  + P_ON_MIN_1                 + SACEM[ msg => P_ON_MIN_1	  , svl => BX_021] 
+  + P_ON_MAX_1                 + SACEM[ msg => P_ON_MAX_1	  , svl => BX_022] 
+  + I_OFF_MAX_2                + SACEM[ msg => I_OFF_MAX_2	  , svl => BX_023] 
+  + I_ON_MIN_2                 + SACEM[ msg => I_ON_MIN_2	  , svl => BX_024] 
+  + I_ON_MAX_2                 + SACEM[ msg => I_ON_MAX_2	  , svl => BX_025] 
+  + U_OFF_MAX_2                + SACEM[ msg => U_OFF_MAX_2	  , svl => BX_026] 
+  + U_ON_MIN_2                 + SACEM[ msg => U_ON_MIN_2	  , svl => BX_027] 
+  + U_ON_MAX_2                 + SACEM[ msg => U_ON_MAX_2	  , svl => BX_028] 
+  + P_OFF_MAX_2                + SACEM[ msg => P_OFF_MAX_2	  , svl => BX_029] 
+  + P_ON_MIN_2                 + SACEM[ msg => P_ON_MIN_2	  , svl => BX_030] 
+  + P_ON_MAX_2                 + SACEM[ msg => P_ON_MAX_2	  , svl => BX_031] 
+  + I_OFF_MAX_3                + SACEM[ msg => I_OFF_MAX_3	  , svl => BX_032] 
+  + I_ON_MIN_3                 + SACEM[ msg => I_ON_MIN_3	  , svl => BX_033] 
+  + I_ON_MAX_3                 + SACEM[ msg => I_ON_MAX_3	  , svl => BX_034] 
+  + U_OFF_MAX_3                + SACEM[ msg => U_OFF_MAX_3	  , svl => BX_035] 
+  + U_ON_MIN_3                 + SACEM[ msg => U_ON_MIN_3	  , svl => BX_036] 
+  + U_ON_MAX_3                 + SACEM[ msg => U_ON_MAX_3	  , svl => BX_037] 
+  + P_OFF_MAX_3                + SACEM[ msg => P_OFF_MAX_3	  , svl => BX_038] 
+  + P_ON_MIN_3                 + SACEM[ msg => P_ON_MIN_3	  , svl => BX_039] 
+  + P_ON_MAX_3                 + SACEM[ msg => P_ON_MAX_3	  , svl => BX_040] 
+  + I_OFF_MAX_4                + SACEM[ msg => I_OFF_MAX_4	  , svl => BX_041] 
+  + I_ON_MIN_4                 + SACEM[ msg => I_ON_MIN_4	  , svl => BX_042] 
+  + I_ON_MAX_4                 + SACEM[ msg => I_ON_MAX_4	  , svl => BX_043] 
+  + U_OFF_MAX_4                + SACEM[ msg => U_OFF_MAX_4	  , svl => BX_044] 
+  + U_ON_MIN_4                 + SACEM[ msg => U_ON_MIN_4	  , svl => BX_045] 
+  + U_ON_MAX_4                 + SACEM[ msg => U_ON_MAX_4	  , svl => BX_046] 
+  + P_OFF_MAX_4                + SACEM[ msg => P_OFF_MAX_4	  , svl => BX_047] 
+  + P_ON_MIN_4                 + SACEM[ msg => P_ON_MIN_4	  , svl => BX_048] 
+  + P_ON_MAX_4                 + SACEM[ msg => P_ON_MAX_4	  , svl => BX_049] 
+  + I_OFF_MAX_5                + SACEM[ msg => I_OFF_MAX_5	  , svl => BX_050] 
+  + I_ON_MIN_5                 + SACEM[ msg => I_ON_MIN_5	  , svl => BX_051] 
+  + I_ON_MAX_5                 + SACEM[ msg => I_ON_MAX_5	  , svl => BX_052] 
+  + U_OFF_MAX_5                + SACEM[ msg => U_OFF_MAX_5	  , svl => BX_053] 
+  + U_ON_MIN_5                 + SACEM[ msg => U_ON_MIN_5	  , svl => BX_054] 
+  + U_ON_MAX_5                 + SACEM[ msg => U_ON_MAX_5	  , svl => BX_055] 
+  + P_OFF_MAX_5                + SACEM[ msg => P_OFF_MAX_5	  , svl => BX_056] 
+  + P_ON_MIN_5                 + SACEM[ msg => P_ON_MIN_5	  , svl => BX_057] 
+  + P_ON_MAX_5                 + SACEM[ msg => P_ON_MAX_5	  , svl => BX_058] 
+  + I_OFF_MAX_6                + SACEM[ msg => I_OFF_MAX_6	  , svl => BX_059] 
+  + I_ON_MIN_6                 + SACEM[ msg => I_ON_MIN_6	  , svl => BX_060] 
+  + I_ON_MAX_6                 + SACEM[ msg => I_ON_MAX_6	  , svl => BX_061] 
+  + U_OFF_MAX_6                + SACEM[ msg => U_OFF_MAX_6	  , svl => BX_062] 
+  + U_ON_MIN_6                 + SACEM[ msg => U_ON_MIN_6	  , svl => BX_063] 
+  + U_ON_MAX_6                 + SACEM[ msg => U_ON_MAX_6	  , svl => BX_064] 
+  + P_OFF_MAX_6                + SACEM[ msg => P_OFF_MAX_6	  , svl => BX_065] 
+  + P_ON_MIN_6                 + SACEM[ msg => P_ON_MIN_6	  , svl => BX_066] 
+  + P_ON_MAX_6                 + SACEM[ msg => P_ON_MAX_6	  , svl => BX_067] 
+  + I_OFF_MAX_7                + SACEM[ msg => I_OFF_MAX_7	  , svl => BX_068] 
+  + I_ON_MIN_7                 + SACEM[ msg => I_ON_MIN_7	  , svl => BX_069] 
+  + I_ON_MAX_7                 + SACEM[ msg => I_ON_MAX_7	  , svl => BX_070] 
+  + U_OFF_MAX_7                + SACEM[ msg => U_OFF_MAX_7	  , svl => BX_071] 
+  + U_ON_MIN_7                 + SACEM[ msg => U_ON_MIN_7	  , svl => BX_072] 
+  + U_ON_MAX_7                 + SACEM[ msg => U_ON_MAX_7	  , svl => BX_073] 
+  + P_OFF_MAX_7                + SACEM[ msg => P_OFF_MAX_7	  , svl => BX_074] 
+  + P_ON_MIN_7                 + SACEM[ msg => P_ON_MIN_7	  , svl => BX_075] 
+  + P_ON_MAX_7                 + SACEM[ msg => P_ON_MAX_7	  , svl => BX_076] 
+  + I_OFF_MAX_8                + SACEM[ msg => I_OFF_MAX_8	  , svl => BX_077] 
+  + I_ON_MIN_8                 + SACEM[ msg => I_ON_MIN_8	  , svl => BX_078] 
+  + I_ON_MAX_8                 + SACEM[ msg => I_ON_MAX_8	  , svl => BX_079] 
+  + U_OFF_MAX_8                + SACEM[ msg => U_OFF_MAX_8	  , svl => BX_080] 
+  + U_ON_MIN_8                 + SACEM[ msg => U_ON_MIN_8	  , svl => BX_081] 
+  + U_ON_MAX_8                 + SACEM[ msg => U_ON_MAX_8	  , svl => BX_082] 
+  + P_OFF_MAX_8                + SACEM[ msg => P_OFF_MAX_8	  , svl => BX_083] 
+  + P_ON_MIN_8                 + SACEM[ msg => P_ON_MIN_8	  , svl => BX_084] 
+  + P_ON_MAX_8                 + SACEM[ msg => P_ON_MAX_8	  , svl => BX_085] 
+  + T_STAB_DET                 + SACEM[ msg => T_STAB_DET	  , svl => BX_086] 
+  + T_Av_DYN_IOM_AG            + SACEM[ msg => T_Av_DYN_IOM_AG	  , svl => BX_087] 
+  + IOM_AG_Auxiliaire          + SACEM[ msg => IOM_AG_Auxiliaire  , svl => BX_088] ;
+
+DATA_BOUCHON = 
+  //IDENTIFIANT_BOUCHON
+  UW[257]
+  //NOMBRE_DONNEE_MTOR
+  + UW[SIZE(DATA_MTOR)]
+  //DATA_MTOR
+  + DATA_MTOR;
+
+main =
+  //DATA_BOUCHON
+  DATA_BOUCHON
+  //CS
+  + UL[BYTSUM(DATA_BOUCHON)];

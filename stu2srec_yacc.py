@@ -1,9 +1,11 @@
 from stu2srec_lex import *
 
-from stu2srec_sacem import sacem
 from stu2srec_srecord import srecord_gen
+from stu2srec_des import cbc_mac_compute
+from stu2srec_sacem import sacem
 
-import struct 
+
+import struct
 import zlib #crc32
 import ply.yacc as yacc
 
@@ -104,8 +106,7 @@ def p_array_plus(p):
     try:
         p[0]=p[1]+p[3]
     except TypeError as err:
-        raise StopException\
-            (message = "line {} : {}".format(p.lineno(2), str(err)))
+        raise StopException(message = "line {} : {}".format(p.lineno(2), str(err)))
     pass
 
 def p_array_multiply(p):
@@ -114,8 +115,7 @@ def p_array_multiply(p):
     try:
         p[0]=p[1]*p[3]
     except TypeError as err:
-        raise StopException\
-            (message = "line {} : {}".format(p.lineno(2), str(err)))
+        raise StopException(message = "line {} : {}".format(p.lineno(2), str(err)))
 
     pass
 
@@ -125,64 +125,62 @@ def p_array_idlist(p):
     p[0] = names[p[1]]
     pass
 
-def p_array_text(p):
-    ''' array : TEXT '''
-    #print("p_array_text")
-    p[0]=b''
-    p.set_lineno(0,p.lineno(1))
-    p[0]=bytes(p[1], 'utf-8')
+def p_array_string(p):
+    ''' array : TEXT '['  STRING ']' '''
+    #print("p_array_string")
+    #p[0]=b''
+    #p.set_lineno(0,p.lineno(1))
+    p[0]=bytes(p[3], 'utf-8')
 
 def p_array_sacem(p):
     ''' array : SACEM '[' ID PARAM array ',' ID PARAM array ']' '''
     #print("p_array_sacem")
-    if p[3]!="data":
-        raise StopException \
-            (message = 
-             "line {} : \'{}\': parameter not valid! ".format \
-                 (p.lineno(3), p[3]))
-
+    if p[3]!="msg":
+        raise StopException(message = "line {} : \'{}\': parameter not valid ! ".format(p.lineno(3), p[3]))
     if p[7]!="svl":
-        raise StopException \
-            (message = 
-             "line {} : \'{}\': parameter not valid! ".format \
-                 (p.lineno(7), p[7]))
-    
-    p[0]=sacem(data=p[5], svl=p[9])
+        raise StopException(message = "line {} : \'{}\': parameter not valid ! ".format(p.lineno(7), p[7]))
+    if len(p[9])!= 8:
+        raise StopException(message = "line {} : \'{}\': parameter size error ! ( {} bytes instead of 8 )".format(p.lineno(7), p[7], len(p[9])))
+
+    p[0]=sacem(msg=p[5], svl=p[9])
     pass
+
+def p_array_cbc_mac(p):
+    ''' array : CBC_MAC '[' ID PARAM array ',' ID PARAM array ']' '''
+    if p[3] != "msg":
+        raise StopException(message = "line {} : \'{}\': parameter not valid ! ".format(p.lineno(3), p[3]))
+    if p[7] != "keys_123":
+        raise StopException(message = "line {} : \'{}\': parameter not valid ! ".format(p.lineno(7), p[7]))
+    if len(p[9]) != 3 *8 :
+        raise StopException(message = "line {} : \'{}\': parameter size error ! ( {} bytes instead of 24 ) ".format(p.lineno(7), p[7], len(p[9])))
+
+    p[0]=cbc_mac_compute(msg=p[5], key_1 = p[9][0*8:1*8], key_2= p[9][1*8:2*8], key_3 = p[9][2*8:3*8])
+
+    pass
+
 
 def p_array_crc32(p):
     ''' array : CRC32 '[' ID PARAM array ']' '''
     #print("p_array_crc32")
 
-    if p[3]!="data":
-        raise StopException \
-            (message = 
-             "line {} : \'{}\': parameter not valid! ".format \
-                 (p.lineno(3), p[3]))
+    if p[3]!="msg":
+        raise StopException(message = "line {} : \'{}\': parameter not valid ! ".format(p.lineno(3), p[3]))
 
     p[0]=struct.pack(">I", zlib.crc32(bytes(p[5])) & 0xFFFFFFFF)
     pass
 
 def p_array_hex(p):
-    ''' array : HEX '[' ID PARAM TEXT ']' '''
+    ''' array : HEX '[' STRING ']' '''
     #print("p_array_hex")
 
-    if p[3]!="string":
-        raise StopException \
-            (message = 
-             "line {} : \'{}\': parameter not valid! ".format \
-                 (p.lineno(3), p[3]))
-    text=p[5]
-    if len(p[5]) % 2 != 0:
+    text=p[3]
+    if len(p[3]) % 2 != 0:
         text="0"+text
 
     try:
         p[0] = bytes.fromhex(text)
     except:
-        raise StopException\
-            (message = 
-             "line {} : string \'{}\', not hexadecimal".format\
-                 (p.lineno(5), text))
+        raise StopException(message = "line {} : string \'{}\', not hexadecimal".format(p.lineno(3), text))
 
     pass
 
@@ -213,14 +211,10 @@ def p_list_expression(p):
             p[0] = struct.pack(">f", p[1])
 
         else:
-            raise StopException\
-                (message="line {} : Array format not defined".format\
-                     (p.lineno(1)))
+            raise StopException(message="line {} : Array format not defined".format(p.lineno(1)))
 
     except struct.error as err:
-        raise StopException\
-            (message = "line {} : value \'{}\', ".format\
-                 (p.lineno(1), p[1]) + str(err))
+        raise StopException(message = "line {} : value \'{}\', ".format(p.lineno(1), p[1]) + str(err))
 
     pass
 	
@@ -255,8 +249,7 @@ def p_expression_lsh(p):
     try:
         p[0]=p[1] << p[3]
     except TypeError as err:
-        raise StopException\
-            (message = "line {} : {}".format(p.lineno(2), str(err)))
+        raise StopException(message = "line {} : {}".format(p.lineno(2), str(err)))
     pass
 
 def p_expression_rsh(p):
@@ -265,8 +258,7 @@ def p_expression_rsh(p):
     try:
         p[0]=p[1] >> p[3]
     except TypeError as err:
-        raise StopException\
-            (message = "line {} : {}".format(p.lineno(2), str(err)))
+        raise StopException(message = "line {} : {}".format(p.lineno(2), str(err)))
     pass
 
 def p_expression_and(p):
@@ -275,8 +267,7 @@ def p_expression_and(p):
     try:
         p[0]=p[1] & p[3]
     except TypeError as err:
-        raise StopException\
-            (message = "line {} : {}".format(p.lineno(2), str(err)))
+        raise StopException(message = "line {} : {}".format(p.lineno(2), str(err)))
     pass
 
 def p_expression_or(p):
@@ -285,8 +276,7 @@ def p_expression_or(p):
     try:
         p[0]=p[1] | p[3]
     except TypeError as err:
-        raise StopException\
-            (message = "line {} : {}".format(p.lineno(2), str(err)))
+        raise StopException(message = "line {} : {}".format(p.lineno(2), str(err)))
     pass
 
 def p_expression_xor(p):
@@ -295,8 +285,7 @@ def p_expression_xor(p):
     try:
         p[0]=p[1] ^ p[3]
     except TypeError as err:
-        raise StopException\
-            (message = "line {} : {}".format(p.lineno(2), str(err)))
+        raise StopException(message = "line {} : {}".format(p.lineno(2), str(err)))
     pass
 
 def p_expression_paren(p):
@@ -352,9 +341,7 @@ def p_expression_bytsum(p):
 
 def p_error(p):
     if p:
-        raise StopException\
-            (message = "line {} : Syntax error at \'{}\'".format\
-                 (p.lineno, p.value))
+        raise StopException(message = "line {} : Syntax error at \'{}\'".format(p.lineno, p.value))
         # print("Syntax error at '%s'" % p.value)
     else:
         raise StopException(message = "Syntax error at EOF")
