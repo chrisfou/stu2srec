@@ -492,7 +492,7 @@ if __name__ == "__main__":
     # f_calculate test
 
     bytes_k_input_ref = int('000110110000001011101111111111000111000001110010', 2).to_bytes(6, "big")
-    bytes_r_input_ref = int('11110000101010101111000010101010', 2).to_bytes(4, "big");
+    bytes_r_input_ref = int('11110000101010101111000010101010', 2).to_bytes(4, "big")
     bytes_f_output_ref = int('00100011010010101010100110111011', 2).to_bytes(4, "big")
 
     bytes_f_output = f_calculate(k=bytes_k_input_ref,
