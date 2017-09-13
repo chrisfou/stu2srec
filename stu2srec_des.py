@@ -285,9 +285,9 @@ class CypherOp(DES):
     def __init__(self, key=b'', encrypt=DES_ENCRYPT):
         # Sanity paramter check
         if type(key) != bytes:
-            raise DESException(message="CypherOp.__init__ key paramter type error !")
+            raise DESException(message="CypherOp.__init__ key parameter type error !")
         if len(key) != 8:
-            raise DESException(message="CypherOP.__init__ key paramter size error !")
+            raise DESException(message="CypherOP.__init__ key parameter size error !")
 
         # DES Configuration
         DES.__init__(self, key=key, encrypt=encrypt)
@@ -333,7 +333,7 @@ class CypherOp(DES):
             # the be DES  encrypted.
             # At start, the first block is xored with the iv vector.
             l_des_out = iv
-            for id_block in range(0, l_divmod[0]):
+            for id_block in range(0, l_divmod[0] + 1):
                 l_des_in = int(l_msg[id_block * 8: (id_block + 1) * 8].hex(), 16) ^ int(l_des_out.hex(), 16)
                 l_des_out = DES.compute(self, data=l_des_in.to_bytes(8, "big"))
                 l_result += l_des_out
@@ -343,7 +343,7 @@ class CypherOp(DES):
             # for every DES decryption, the result must be xored witht the previous encrypted 8 bytes blocks.
             # At start, the first DES decrypted output must be xored with iv vector.
             l_des_pre = iv
-            for id_block in range(0, l_divmod[0]):
+            for id_block in range(0, l_divmod[0] + 1):
                 l_des_in = l_msg[id_block * 8: (id_block + 1) * 8]
                 l_des_out = DES.compute(self, data=l_des_in)
                 l_des_out_xor_pre = int(l_des_out.hex(), 16) ^ int(l_des_pre.hex(), 16)
@@ -351,6 +351,43 @@ class CypherOp(DES):
                 l_des_pre = l_des_in
 
         return l_result
+
+
+def cbc_mac_compute(msg='b', key_1=b'', key_2=b'', key_3=b''):
+    # Sanity parameter check
+    if type(msg) != bytes:
+        raise DESException(message="cbc_mac_comuputer msg parameter type error !")
+    if type(key_1) != bytes:
+        raise DESException(message="cbc_mac_compute key_1 parameter type error !")
+    if type(key_2) != bytes:
+        raise DESException(message="cbc_mac_compute key_2 parameter type error !")
+    if type(key_3) != bytes:
+        raise DESException(message="cbc_mac_compute key_3 parameter type error !")
+    if len(key_1) != 8:
+        raise DESException(message="cbc_mac_compute key_1 size error !")
+    if len(key_2) != 8:
+        raise DESException(message="cbc_mac_compute key_2 size error !")
+    if len(key_3) != 8:
+        raise DESException(message="cbc_mac_compute key_3 size error !")
+
+    l_cypher_op_k1 = CypherOp(key=key_1, encrypt=DES_ENCRYPT)
+    l_des_k2 = DES(key=key_2, encrypt=DES_DECRYPT)
+    l_des_k3 = DES(key=key_3, encrypt=DES_ENCRYPT)
+
+    # CBC Initial Vector is null for the CBC-MAC computation.
+    l_iv = 8 * bytes.fromhex("00")
+
+    # Cbc computation on msg with key 1.
+    # Only the last 8 bytes of the encrypted message are usefull.
+    l_cbc_k1_encryption_result = l_cypher_op_k1.cbc_compute(msg=msg, iv=l_iv)[-8::]
+
+    # The previous result is DES decrypted with the key 2.
+    l_des_k2_decryption_result = l_des_k2.compute(data=l_cbc_k1_encryption_result)
+
+    # The previous result is DES encrypted with the key 3.
+    l_des_k3_encryption_result = l_des_k3.compute(data=l_des_k2_decryption_result)
+
+    return l_des_k3_encryption_result
 
 
 if __name__ == "__main__":
@@ -525,25 +562,19 @@ if __name__ == "__main__":
     # print("decrypted msg : " , decrypted_msg.decode('utf-8'))
 
     # -----------------------------------------------------------------
-    # TEST 9
+    # TEST 10
 
-    # CBC computation test on string
+    # CBC-MAC test. (based on the subset-37 Annexe E CBC-MAC Calculation example )
 
-    msg = bytes.fromhex("124536987AAAFFF0000000000000000000000AAABF000000")
+    msg = bytes.fromhex("000102030405060708090A0B0C0D0E0F1011121314")
+    DESK1 = bytes.fromhex("01020407080B0D0E")
+    DESK2 = bytes.fromhex("10131516191A1C1F")
+    DESK3 = bytes.fromhex("20232526292A2C2F")
+    CbcMacRef = bytes.fromhex("361D431ED396C175")
 
-    CypherOpEncrypt = CypherOp(key=int("0x0123456789ABCDEF", 16).to_bytes(8, "big"),
-                               encrypt=DES_ENCRYPT)
+    CbcMacResult = cbc_mac_compute(msg=msg, key_1=DESK1, key_2=DESK2, key_3=DESK3)
 
-    CypherOpDecrypt = CypherOp(key=int("0x0123456789ABCDEF", 16).to_bytes(8, "big"),
-                               encrypt=DES_DECRYPT)
-
-    iv = int("0x0123456789ABCDEF", 16).to_bytes(8, "big")
-
-    encrypted_msg = CypherOpEncrypt.cbc_compute(msg=msg, iv=iv)
-
-    print("uncrypted msg : ", msg.hex())
-    print("encrypted msg : ", encrypted_msg.hex())
-
-    decrypted_msg = CypherOpDecrypt.cbc_compute(msg=encrypted_msg, iv=iv)
-
-    print("decrypted msg : ", decrypted_msg.hex())
+    if CbcMacRef != CbcMacResult:
+        print("TEST 10 KO !!")
+    else:
+        print("TEST 10 OK ..")
