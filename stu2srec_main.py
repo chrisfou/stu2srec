@@ -107,12 +107,12 @@ def main():
 if __name__ == '__main__':
 
     try:
-        #print("Test example.stu")
-        #compute_stu_file(InputFileName="example.stu", OutputFileName=sys.stdout)
+        print("Test example.stu")
+        compute_stu_file(InputFileName="example.stu", OutputFileName=sys.stdout)
         #print("Test gc_odo.stu")
         #compute_stu_file(InputFileName="gc_odo.stu", OutputFileName=sys.stdout)
-        print("Test mtor_ferriby.stu")
-        compute_stu_file(InputFileName="mtor_ferriby.stu", OutputFileName=sys.stdout)
+        #print("Test mtor_ferriby.stu")
+        #compute_stu_file(InputFileName="mtor_ferriby.stu", OutputFileName=sys.stdout)
 
 
     except StopException as err:
