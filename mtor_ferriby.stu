@@ -425,13 +425,13 @@ DATA_MTOR =
   + P_ON_MAX_8                 + SACEM[ msg => P_ON_MAX_8         , svl => BX_085] 
   + T_STAB_DET                 + SACEM[ msg => T_STAB_DET         , svl => BX_086] 
   + T_Av_DYN_IOM_AG            + SACEM[ msg => T_Av_DYN_IOM_AG    , svl => BX_087] 
-  + IOM_AG_Auxiliaire          + SACEM[ msg => IOM_AG_Auxiliaire  , svl => BX_088] 
+  + IOM_AG_Auxiliaire          + SACEM[ msg => IOM_AG_Auxiliaire  , svl => BX_088];
 
 DATA_BOUCHON = 
   //IDENTIFIANT_BOUCHON
   UW[257]
   //NOMBRE_DONNEE_MTOR
-  + UW[SIZE(DATA_MTOR]
+  + UW[SIZE(DATA_MTOR)]
   //DATA_MTOR
   + DATA_MTOR;
 
