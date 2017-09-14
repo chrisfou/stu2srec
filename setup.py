@@ -6,7 +6,7 @@ from stu2srec_version  import version
 buildOptions = dict(packages = [], 
                     excludes = [],
 					include_msvcr = True, #skip error msvcr100.dll missing
-                    include_files = ['example.stu', 'RELEASE.txt'])
+                    include_files = ['tutorial.stu','mtor_ferriby.stu','gc_odo.stu', 'makeall.bat','RELEASE.txt'])
 
 base = 'Console'
 

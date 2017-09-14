@@ -17,7 +17,7 @@ def print_usage():
     print("-i,--outputf  : output file name (S19 format)")
     print("-x,--baseaddr : data location memory address")
     print("")
-    print(" NOTA : The example.stu file located into the installation path gives more details about STU format")
+    print(" NOTA : The tutorial.stu file located into the installation path gives more details about STU format")
 
 
 def print_version():
@@ -25,7 +25,6 @@ def print_version():
 
 
 def compute_stu_file(InputFileName="", OutputFileName=sys.stdout, BaseAddr=0):
-
     logging.basicConfig(level=logging.DEBUG,
                         filename="stu2srec.log",
                         filemode="w",
@@ -34,7 +33,7 @@ def compute_stu_file(InputFileName="", OutputFileName=sys.stdout, BaseAddr=0):
     log = logging.getLogger()
 
     lex.lex()  # debug=True,debuglog=log)
-    yacc.yacc()  # debug=True,debuglog=log)
+    yacc.yacc(outputdir=".")  # debug=True,debuglog=log)
 
     s = open(InputFileName).read()
 
@@ -45,7 +44,8 @@ def compute_stu_file(InputFileName="", OutputFileName=sys.stdout, BaseAddr=0):
                     baseaddr=BaseAddr,
                     file=OutputFileName)
     else:
-        raise StopException(message="No \'main\' defined into file \'{}\'".format(inputf))
+        raise StopException(message="No \'main\' defined into file \'{}\'".format(InputFileName))
+
 
 def main():
     baseaddr = 0
@@ -102,19 +102,18 @@ def main():
     if outputf == None:
         outputf = sys.stdout
 
-    compute_stu_file(InputFileName=input, OutputFileName=outputf, BaseAddr=baseaddr)
+    compute_stu_file(InputFileName=inputf, OutputFileName=outputf, BaseAddr=baseaddr)
+
 
 if __name__ == '__main__':
 
     try:
-        print("Test example.stu")
-        compute_stu_file(InputFileName="example.stu", OutputFileName=sys.stdout)
-        #print("Test gc_odo.stu")
-        #compute_stu_file(InputFileName="gc_odo.stu", OutputFileName=sys.stdout)
-        #print("Test mtor_ferriby.stu")
-        #compute_stu_file(InputFileName="mtor_ferriby.stu", OutputFileName=sys.stdout)
-
-
+        main()
+        # compute_stu_file(InputFileName="tutorial.stu", OutputFileName=sys.stdout)
+        # print("Test gc_odo.stu")
+        # compute_stu_file(InputFileName="gc_odo.stu", OutputFileName=sys.stdout)
+        # print("Test mtor_ferriby.stu")
+        # compute_stu_file(InputFileName="mtor_ferriby.stu", OutputFileName=sys.stdout)
     except StopException as err:
         print(err)
         sys.exit(2)
