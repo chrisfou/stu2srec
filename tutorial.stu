@@ -51,14 +51,14 @@ my_all_arrays = my_ub_array
     + my_multiplied_array;
 
 // *****************************************************************************
-// The SIZE() service return the lenght of an array in bytes.
+// The SIZE() service returns the lenght of an array in bytes.
 // The result is not array but a single integer. Then an array encapsulation is needed according the user needs.
 // The ">>" operator can be used to convert the size in words or longs.
 my_all_array_bsize = UB[SIZE(my_all_arrays)];
 my_all_array_wsize = UB[SIZE(my_all_arrays)>>1];
 my_all_array_lsize = UB[SIZE(my_all_arrays)>>2];
 
-// The BYTSUM() service return the sum of the bytes of an array.
+// The BYTSUM() service returns the sum of the bytes of an array.
 // The result is a single integet to encapsulate according to the needs.
 my_bytesum_array = UL[BYTSUM(my_all_arrays)];
 
