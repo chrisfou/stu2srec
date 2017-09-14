@@ -6,4 +6,9 @@
 -----
 	- The "include_msvcr = True" Cx_Freeze's build option is added to skip the "msvcr100.dll missing" error at execution.
 
+02_00
+-----
+    - Add the CBC_MAC functionality.
+    - The SACEM, HEX, TEXT, CRC32 functionalities must be declared with explicits arguments.
+
 	

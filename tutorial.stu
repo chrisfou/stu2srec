@@ -1,89 +1,99 @@
 // -*- c -*-
 
 // *****************************************************************************
-// The "//" pattern indicates a comment, the string located between 
-// this and the end of line is ignored.
+// The "//" pattern indicates a comment for a single line.
+// The following string is ignored ant must considered as a comment only.
 
 // *****************************************************************************
-// The stu2srec tool is used to generate a S19 file by using grammar based 
-// on declaration of typed array.
-//     Arrays can be declared as :
-//         Unsigned/signed bytes array, 
-//         Unsigned/signed words array,
-//         Unsigned /signed longs array,    
-//         Floats array.
+// The stu2srec tool is used to generate a S19 file by using a grammar based
+// on the declaration of arrays.
 
-// Examples of array declaration:
+// Unsigned Byte array 'UB[x,y,z,..]' is used to declare an array of unsigned bytes.
+my_ub_array = UB[0x01, 0x02, 0x03, 0x04, 0xFF];
 
-my_unsigned_bytes_array = UB[1, 2, 3];
-my_signed_bytes_array   = SB[-1, -2, -3, -4];
-my_unsigned_words_array = UW[100, 1000, 10000];
-my_signed_words_array   = SW[-100, -1000, -10000];
-my_unsigned_longs_array = UL[2, 3, 6, 5, 9, 8];
-my_signed_longs_array   = SL[2, 3, 6, 5, 9, 8];
-my_floats_array         = F32[2.36, 5.698, -9.365]; 
+// Signed Byte array 'SB[x,y,z,..]' is used to declare an array of signed bytes.
+my_sb_array = SB[-0x01,-0x02,-0x03,-0x04,-0x7F];
 
-my_constant = 2;
+// Unsigned Word array 'UW[x,y,z..]' used to declare an array of unsigned words.
+my_uw_array = UW[-0x0000, 0x0001, 0x0002, 0x0003, 0xFFFF];
 
-// *****************************************************************************
-// Another ways declaring array are :
+// Signed Word array 'UW[x,y,z..]' used to declare an array of signed words.
+my_sw_array = SW[-0x0001, -0x0002, -0x0003, -0x0004, -0x7FFF];
 
-// string declaration
-my_string_array = TEXT["my string array"];
+// Unsigned Long array 'UW[x,y,z..]' used to declare an array of unsigned longs.
+my_ul_array = UL[0x00000001, 0x00000002, 0x00000003, 0x00000005,0xFFFFFFFF];
 
-// conversion for hexadecimal string description
+// Signed Word array 'UW[x,y,z..]' used to declare an array of signed Words.
+my_sl_array = SL[-0x00000001, -0x00000002, -0x00000003, -0x00000005,-0x7FFFFFFF];
 
-my_hexa_array = 2 * HEX["0123456789abcdef"] + my_string_array;
+// Its also possible to convert floating data (32 bits, single precision) at binary format.
+my_float_array = F32[0.12, 0.134, -1234.45787, 3.1418];
 
-// *****************************************************************************
-// Arrays can be linked each others by means the "+" operator.
+// It also possible to declare an array from any hexadecimal value.
+my_hex_array=HEX["0123456789ABCDEF"];
 
-my_arrays = my_unsigned_bytes_array  
-  + my_signed_bytes_array 
-  + my_unsigned_words_array 
-  + my_signed_words_array   
-  + my_unsigned_longs_array 
-  + my_signed_longs_array   
-  + my_floats_array 
-  + my_string_array
-  + my_hexa_array
-  + UL[SIZE(UB[my_constant])];        
+// A string can be converted
+my_string_array=TEXT["C'est pas facile d'écrire un tuto dans un anglais compréhensif !!"];
 
-// *****************************************************************************
-// Some functions can be used to compute : 
-//     SIZE(array)       : return the byte size of the "array" argument.
-//     HEX("hex string") : convert some hexadecimal string into array of bytes.
-//     CRC32(array)      : CRC32 computation for "array".
-//     SACEM(svl_1, svl_2, array) : SACEM computation for "array"
+// The "*" can multiply the arrays.
+my_multiplied_array = 2 * TEXT["J'en profite pour écrire en Français !!"];
 
+// The "+" operator can be used for array concatenation.
+my_all_arrays = my_ub_array
+    + my_sb_array
+    + my_uw_array
+    + my_sw_array
+    + my_ul_array
+    + my_sl_array
+    + my_float_array
+    + my_hex_array
+    + my_string_array
+    + my_multiplied_array;
 
 // *****************************************************************************
-// The stu file must contain a "main" declared to compute the S19 file.
+// The SIZE() service return the lenght of an array in bytes.
+// The result is not array but a single integer. Then an array encapsulation is needed according the user needs.
+// The ">>" operator can be used to convert the size in words or longs.
+my_all_array_bsize = UB[SIZE(my_all_arrays)];
+my_all_array_wsize = UB[SIZE(my_all_arrays)>>1];
+my_all_array_lsize = UB[SIZE(my_all_arrays)>>2];
 
-my_svl = UL[1,2];
-
-main = UL[SIZE(my_arrays)]
-  + my_arrays 
-  + SACEM[msg => UL[1,2,3,4],
-          svl => my_svl]
-  + CRC32[msg => my_arrays]
-  + UL[BYTSUM(my_arrays)]
-  + CBC_MAC[msg      => HEX["000102030405060708090A0B0C0D0E0F1011121314"],
-            keys_123 => HEX["01020407080B0D0E"] +  HEX["10131516191A1C1F"] + HEX["20232526292A2C2F"]];
-
-
-// the "main" structure defined above is :
-
-// ----------------------------------------------
-// Definition                   | size in bytes 
-// ----------------------------------------------
-// size of the whole arrays     | 4
-// joined arrays                | 0x66
-// crc32 on joined arrays       | 4
-// ----------------------------------------------
-
+// The BYTSUM() service return the sum of the bytes of an array.
+// The result is a single integet to encapsulate according to the needs.
+my_bytesum_array = UL[BYTSUM(my_all_arrays)];
 
 // *****************************************************************************
-// The S19 file is computed by means the command : "stu2srec -i example.stu -o example.abs -x 0x0
+// Specific services can be used for :
+
+// SACEM computation  : "SACEM[ msg => <N*4 bytes array>, svl => <2*4 bytes array> ]"
+my_sacem_array = SACEM[msg => 10 * UL[0x12345678], svl => UL[0x1, 0x02]];
+
+// CRC32 computation : "CRC32[msg => <N bytes>]"
+my_crc32_array = CRC32[ msg => TEXT["C'est bientot la fin de ce tuto !!"]];
+
+// CBC_MAC computation : "CBCMAC[msg => <N bytes>, keys_123 => <3 * 8 bytes>]
+my_cbcmac_array = CBCMAC[msg      => TEXT["DES c'est la galère en python"],
+                         keys_123 => HEX["0000000000000001"]   // key 1
+                                   + HEX["0000000000000002"]   // key 2
+                                   + HEX["0000000000000003"]]; // key 3
+
+// *****************************************************************************
+// The stu script must be ended with a "main" array.
+// by considering the following structure.
+
+// header    : size of the usefull following data mapped on 32 bits.
+// data      : N bytes
+// checksum  : byte summation of the header and the data together mapped on 32 bits.
+
+data_array = my_all_arrays + my_sacem_array + my_crc32_array + my_cbcmac_array;
+header_array = UL[SIZE(data_array)];
+checksum_array = UL[BYTSUM(header_array + data_array)];
+
+main = header_array + data_array + checksum_array;
+
+// *****************************************************************************
+// The S19 file is computed by means of the command : "stu2srec -i tutorial.stu -o tutorial.abs
+// the stu2srec "-x" option can be used to declare an memory offset.
+
 
 

@@ -146,7 +146,7 @@ def p_array_sacem(p):
     pass
 
 def p_array_cbc_mac(p):
-    ''' array : CBC_MAC '[' ID PARAM array ',' ID PARAM array ']' '''
+    ''' array : CBCMAC '[' ID PARAM array ',' ID PARAM array ']' '''
     if p[3] != "msg":
         raise StopException(message = "line {} : \'{}\': parameter not valid ! ".format(p.lineno(3), p[3]))
     if p[7] != "keys_123":
