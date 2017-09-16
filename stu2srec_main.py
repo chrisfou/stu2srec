@@ -1,6 +1,6 @@
 from stu2srec_lex import *
 from stu2srec_yacc import *
-from stu2srec_version import version
+from stu2srec_version import c_version
 
 import getopt
 import logging
@@ -21,7 +21,7 @@ def print_usage():
 
 
 def print_version():
-    print("Version : " + version)
+    print("Version : " + c_version)
 
 
 def compute_stu_file(InputFileName="", OutputFileName=sys.stdout, BaseAddr=0):
@@ -40,11 +40,11 @@ def compute_stu_file(InputFileName="", OutputFileName=sys.stdout, BaseAddr=0):
     yacc.parse(s, debug=log)
 
     if 'main' in names.keys():
-        srecord_gen(data=names['main'],
-                    baseaddr=BaseAddr,
-                    file=OutputFileName)
+        srecord_gen(p_data=names['main'],
+                    p_base_addr=BaseAddr,
+                    p_file=OutputFileName)
     else:
-        raise StopException(message="No \'main\' defined into file \'{}\'".format(InputFileName))
+        raise StopException(p_msg="No \'main\' defined into file \'{}\'".format(InputFileName))
 
 
 def main():
@@ -75,29 +75,29 @@ def main():
         elif o in ("-i", "--inputf"):
             inputf = a
             if not os.path.isfile(a):
-                raise StopException(message="input file arg : \'{}\' , is not a file".format(a))
+                raise StopException(p_msg="input file arg : \'{}\' , is not a file".format(a))
 
         elif o in ("-o", "--ouputf"):
 
             if os.path.isfile(a):
-                raise StopException(message="output file arg : \'{}\', already exists".format(a))
+                raise StopException(p_msg="output file arg : \'{}\', already exists".format(a))
 
             try:
                 outputf = open(a, mode='w', newline='')
             except:
-                raise StopException(message="output file arg : \'{}\', is not a file".format(a))
+                raise StopException(p_msg="output file arg : \'{}\', is not a file".format(a))
 
         elif o in ("-x", "--baseaddr"):
             try:
                 baseaddr = int(eval(a))
             except:
-                raise StopException(message="baseaddr arg : \'{}\', is not an integer".format(a))
+                raise StopException(p_msg="baseaddr arg : \'{}\', is not an integer".format(a))
 
             if baseaddr < 0:
-                raise StopException(message="baseaddr arg : \'{}\', is not a positive integer".format(baseaddr))
+                raise StopException(p_msg="baseaddr arg : \'{}\', is not a positive integer".format(baseaddr))
 
     if inputf == None:
-        raise StopException(message="input file arg not defined")
+        raise StopException(p_msg="input file arg not defined")
 
     if outputf == None:
         outputf = sys.stdout
@@ -108,8 +108,8 @@ def main():
 if __name__ == '__main__':
 
     try:
-        main()
-        # compute_stu_file(InputFileName="tutorial.stu", OutputFileName=sys.stdout)
+        #main()
+        compute_stu_file(InputFileName="tutorial.stu", OutputFileName=sys.stdout)
         # print("Test gc_odo.stu")
         # compute_stu_file(InputFileName="gc_odo.stu", OutputFileName=sys.stdout)
         # print("Test mtor_ferriby.stu")

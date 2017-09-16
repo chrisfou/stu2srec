@@ -1,5 +1,5 @@
 from cx_Freeze import setup, Executable
-from stu2srec_version  import version
+from stu2srec_version  import c_version
 
 # Dependencies are automatically detected, but it might need
 # fine tuning.
@@ -15,7 +15,7 @@ executables = [
 ]
 
 setup(name='stu2srec',
-      version = version,
+      version = c_version,
       description = '',
       options = dict(build_exe = buildOptions),
       executables = executables)

@@ -109,7 +109,7 @@ def t_STRING(t):
 
 
 def t_error(t):
-    raise StopException(message="Illegal character {}".format(t.value[0]))
+    raise StopException(p_msg="Illegal character {}".format(t.value[0]))
     # print("Illegal character '%s'" % t.value[0])
     # t.lexer.skip(1)
 
