@@ -158,7 +158,7 @@ def subkeys_create(p_bytes_key=b''):
 
     l_str_cd_0 = bin(int.from_bytes(l_bytes_key_p, "big"))[2:]
 
-    l_str_cd_0 = l_str_cd_0.ljust(56, "0")
+    l_str_cd_0 = l_str_cd_0.rjust(56, "0")
 
     l_str_cd = [[l_str_cd_0[0:28], l_str_cd_0[28:56]]]
 
@@ -256,11 +256,11 @@ class DES:
         # Sanity parameter check
         if type(p_bytes_data) != bytes:
             raise T_DESException \
-                (p_str_msg="DES compute msg parameter type error !")
+                (p_str_msg="DES compute p_bytes_data parameter type error !")
 
         if len(p_bytes_data) != 8:
             raise T_DESException \
-                (p_str_msg="DES compute msg parameter size error !")
+                (p_str_msg="DES compute p_bytes_data parameter size error !")
 
         l_bytes_result = b''
 
@@ -312,11 +312,15 @@ class CypherOp(DES):
 
         # The message is 0 filled to be lenght modulo 8 bytes
         l_tuple_divmod = divmod(len(p_bytes_msg), 8)
-        l_bytes_msg = p_bytes_msg + (8 - l_tuple_divmod[1]) * struct.pack(">b", 0)
+        l_bytes_msg = p_bytes_msg
+        l_int_nb_block = l_tuple_divmod[0]
+        if l_tuple_divmod[1]!=0 :
+            l_bytes_msg = l_bytes_msg + (8 - l_tuple_divmod[1]) * struct.pack(">b", 0)
+            l_int_nb_block=l_int_nb_block+1
 
         # for ecb every 8 bytes blocks are DES encrypted/decripted in row.
         l_bytes_result = b''
-        for id_block in range(0, l_tuple_divmod[0]):
+        for id_block in range(0, l_int_nb_block):
             l_bytes_result += DES.compute(self, p_bytes_data=l_bytes_msg[id_block * 8: (id_block + 1) * 8])
 
         return l_bytes_result
@@ -334,7 +338,11 @@ class CypherOp(DES):
 
         # The message is 0 filled to be to modulo 8 bytes lenght.
         l_tuple_divmod = divmod(len(p_bytes_msg), 8)
-        l_bytes_msg = p_bytes_msg + (8 - l_tuple_divmod[1]) * struct.pack(">b", 0)
+        l_bytes_msg = p_bytes_msg
+        l_int_nb_block = l_tuple_divmod[0]
+        if l_tuple_divmod[1]!=0 :
+            l_bytes_msg = l_bytes_msg + (8 - l_tuple_divmod[1]) * struct.pack(">b", 0)
+            l_int_nb_block=l_int_nb_block+1
 
         # CBC computation.
         l_bytes_result = b''
@@ -345,20 +353,17 @@ class CypherOp(DES):
             # the be DES  encrypted.
             # At start, the first block is xored with the p_bytes_iv vector.
             l_bytes_des_out = p_bytes_iv
-            for id_block in range(0, l_tuple_divmod[0] + 1):
-                l_int_des_in = int(l_bytes_msg[id_block * 8: (id_block + 1) * 8].hex(), 16) ^ int(
-                    l_bytes_des_out.hex(), 16)
-                print(id_block, hex(l_int_des_in))
+            for id_block in range(0, l_int_nb_block):
+                l_int_des_in = int(l_bytes_msg[id_block * 8: (id_block + 1) * 8].hex(), 16) ^ int(l_bytes_des_out.hex(), 16)
                 l_bytes_des_out = DES.compute(self, p_bytes_data=l_int_des_in.to_bytes(8, "big"))
-                print(id_block, l_bytes_des_out.hex())
                 l_bytes_result += l_bytes_des_out
         else:
             # For CBC decryption every 8 bytes blocks are DES decrypted first. The result is xored then with the
             # previous encrypted 8 bytes blocks.
-            # for every DES decryption, the result must be xored witht the previous encrypted 8 bytes blocks.
+            # for every DES decryption, the result must be xored with the previous encrypted 8 bytes blocks.
             # At start, the first DES decrypted output must be xored with p_bytes_iv vector.
             l_bytes_des_pre = p_bytes_iv
-            for id_block in range(0, l_tuple_divmod[0] + 1):
+            for id_block in range(0, l_int_nb_block):
                 l_int_des_in = l_bytes_msg[id_block * 8: (id_block + 1) * 8]
                 l_bytes_des_out = DES.compute(self, p_bytes_data=l_int_des_in)
                 l_int_des_out_xor_pre = int(l_bytes_des_out.hex(), 16) ^ int(l_bytes_des_pre.hex(), 16)
@@ -388,15 +393,12 @@ def cbc_mac_compute(p_bytes_msg='b',
     if len(p_bytes_key_3) != 8:
         raise T_DESException(p_str_msg="cbc_mac_compute p_bytes_key_3 size error !")
 
-    print("key_1", p_bytes_key_1.hex())
     l_cypherop_k1 = CypherOp(p_bytes_key=p_bytes_key_1,
                              p_int_encrypt=C_INT_DES_ENCRYPT)
 
-    print("key_2", p_bytes_key_2.hex())
     l_des_k2 = DES(p_bytes_key=p_bytes_key_2,
                    p_int_encrypt=C_INT_DES_DECRYPT)
 
-    print("key_3", p_bytes_key_3.hex())
     l_des_k3 = DES(p_bytes_key=p_bytes_key_3,
                    p_int_encrypt=C_INT_DES_ENCRYPT)
 
@@ -405,18 +407,14 @@ def cbc_mac_compute(p_bytes_msg='b',
 
     # Cbc computation on p_bytes_msg with key 1.
     # Only the last 8 bytes of the encrypted message are usefull.
-    print(p_bytes_msg.hex())
     l_bytes_cbc_k1_encryption_result = l_cypherop_k1.cbc_compute(p_bytes_msg=p_bytes_msg,
                                                                  p_bytes_iv=l_bytes_iv)[-8::]
-    print(l_bytes_cbc_k1_encryption_result.hex())
 
     # The previous result is DES decrypted with the key 2.
     l_bytes_des_k2_decryption_result = l_des_k2.compute(p_bytes_data=l_bytes_cbc_k1_encryption_result)
-    print(l_bytes_des_k2_decryption_result.hex())
 
     # The previous result is DES encrypted with the key 3.
     l_bytes_des_k3_encryption_result = l_des_k3.compute(p_bytes_data=l_bytes_des_k2_decryption_result)
-    print(l_bytes_des_k3_encryption_result.hex())
 
     return l_bytes_des_k3_encryption_result
 
@@ -568,7 +566,7 @@ if __name__ == "__main__":
 
     # ECB computation test on string
 
-    l_msg_test = "je suis ne a Digne les Bains le 26121971".ljust(80, '.')
+    l_msg_test = "je suis ne a Digne les Bains le 26121971"#.ljust(80, '.')
 
     l_cypher_op_encrypt = CypherOp(p_bytes_key=int("0x0E329232EA6D0D73", 16).to_bytes(8, "big"),
                                    p_int_encrypt=C_INT_DES_ENCRYPT)
@@ -592,6 +590,39 @@ if __name__ == "__main__":
 
     # print("decrypted l_msg_test : " , l_decrypted_msg.decode('utf-8'))
 
+    # ----------------------------------------------------------------------
+    # TEST 9
+
+    # CBC computation test on string
+
+    l_msg_test = "je suis ne a Digne les Bains le 26121971A".ljust(80, '.')
+
+    l_cypher_op_encrypt = CypherOp(p_bytes_key=int("0x0E329232EA6D0D73", 16).to_bytes(8, "big"),
+                                   p_int_encrypt=C_INT_DES_ENCRYPT)
+
+    l_cypher_op_decrypt = CypherOp(p_bytes_key=int("0x0E329232EA6D0D73", 16).to_bytes(8, "big"),
+                                   p_int_encrypt=C_INT_DES_DECRYPT)
+
+    l_encrypted_msg_ref = "C0999FDDE378D7ED727DA00BCA5A84EE47F269A4D6438190D9D52F78F5358499828AC9B453E0E653"
+
+    l_bytes_iv =int(0).to_bytes(8, 'big')
+    #print(l_msg_test.encode('utf-8').hex())
+    l_encrypted_msg = l_cypher_op_encrypt.cbc_compute(p_bytes_msg=l_msg_test.encode('utf-8'),
+                                                      p_bytes_iv=l_bytes_iv)
+
+    # print("uncrypted l_msg_test : ", l_msg_test)
+    # print("encrypted l_msg_test : ", l_encrypted_msg.hex())
+
+    l_decrypted_msg = l_cypher_op_decrypt.cbc_compute(p_bytes_msg=l_encrypted_msg,
+                                                      p_bytes_iv=l_bytes_iv)
+    #print(l_decrypted_msg.hex())
+
+    if (l_decrypted_msg.decode('utf-8') != l_msg_test) and (l_encrypted_msg.hex().upper() != l_encrypted_msg_ref):
+        print("TEST 9 KO !!")
+    else:
+        print("TEST 9 OK ..")
+
+    # print("decrypted l_msg_test : " , l_decrypted_msg.decode('utf-8'))
 
     # -----------------------------------------------------------------
     # TEST 10
@@ -609,42 +640,7 @@ if __name__ == "__main__":
                                    p_bytes_key_2=l_desk2,
                                    p_bytes_key_3=l_desk3)
 
-    print(CbcMacResult.hex())
     if l_cbcmac_ref != CbcMacResult:
         print("TEST 10 KO !!")
     else:
         print("TEST 10 OK ..")
-
-
-    # ----------------------------------------------------------------------
-    # TEST 9
-
-    # CBC computation test on string
-
-    l_msg_test = "je suis ne a Digne les Bains le 26121971".ljust(80, '.')
-
-    l_cypher_op_encrypt = CypherOp(p_bytes_key=int("0x0E329232EA6D0D73", 16).to_bytes(8, "big"),
-                                   p_int_encrypt=C_INT_DES_ENCRYPT)
-
-    l_cypher_op_decrypt = CypherOp(p_bytes_key=int("0x0E329232EA6D0D73", 16).to_bytes(8, "big"),
-                                   p_int_encrypt=C_INT_DES_DECRYPT)
-
-    l_encrypted_msg_ref = "C0999FDDE378D7ED727DA00BCA5A84EE47F269A4D6438190D9D52F78F5358499828AC9B453E0E653"
-
-    l_bytes_iv =int(0).to_bytes(8, 'big')
-
-    l_encrypted_msg = l_cypher_op_encrypt.cbc_compute(p_bytes_msg=l_msg_test.encode('utf-8'),
-                                                      p_bytes_iv=l_bytes_iv)
-
-    # print("uncrypted l_msg_test : ", l_msg_test)
-    # print("encrypted l_msg_test : ", l_encrypted_msg.hex())
-
-    l_decrypted_msg = l_cypher_op_decrypt.cbc_compute(p_bytes_msg=l_encrypted_msg,
-                                                      p_bytes_iv=l_bytes_iv)
-
-    if (l_decrypted_msg.decode('utf-8') != l_msg_test) and (l_encrypted_msg.hex().upper() != l_encrypted_msg_ref):
-        print("TEST 9 KO !!")
-    else:
-        print("TEST 9 OK ..")
-
-    # print("decrypted l_msg_test : " , l_decrypted_msg.decode('utf-8'))
