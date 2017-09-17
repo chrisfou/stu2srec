@@ -1,4 +1,4 @@
-from stu2srec_error import StopException
+from stu2srec_error import T_StopException
 
 import ply.lex as lex
 import re
@@ -11,7 +11,7 @@ reserved = {'SIZE': 'SIZE',
             'SACEM': 'SACEM',
             'CRC32': 'CRC32',
             'HEX': 'HEX',
-            'TEXT':'TEXT',
+            'TEXT': 'TEXT',
             'CBCMAC': 'CBCMAC',
             'F32': 'FLOAT32',
             'UB': 'UBYTE',
@@ -109,7 +109,7 @@ def t_STRING(t):
 
 
 def t_error(t):
-    raise StopException(p_msg="Illegal character {}".format(t.value[0]))
+    raise T_StopException(p_str_msg="Illegal character {}".format(t.value[0]))
     # print("Illegal character '%s'" % t.value[0])
     # t.lexer.skip(1)
 

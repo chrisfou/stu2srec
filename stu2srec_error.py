@@ -1,7 +1,7 @@
-class StopException(Exception):
+class T_StopException(Exception):
 
-    def __init__(self, p_msg):
-        self.m_msg = p_msg
+    def __init__(self, p_str_msg):
+        self.m_str_msg = p_str_msg
 
     def __str__(self):
-        return repr(self.m_msg)
+        return repr(self.m_str_msg)

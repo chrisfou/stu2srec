@@ -1,6 +1,6 @@
 from stu2srec_lex import *
 from stu2srec_yacc import *
-from stu2srec_version import c_version
+from stu2srec_version import c_str_version
 
 import getopt
 import logging
@@ -22,17 +22,16 @@ def print_usage():
 
 
 def print_version():
-    print("Version : " + c_version)
+    print("Version : " + c_str_version)
 
 
 def compute_stu_file(p_str_input_file_name="",
                      p_str_output_file_name="",
                      p_str_map_file_name="",
                      p_int_base_addr=0):
-
     # An error is raised if the input file is not an existing file.
     if not os.path.isfile(p_str_input_file_name):
-        raise StopException(p_msg="input file arg : \'{}\' , is not a file".format(p_str_input_file_name))
+        raise T_StopException(p_str_msg="input file arg : \'{}\' , is not a file".format(p_str_input_file_name))
 
     # The contains of the input file is read.
     l_str_input = open(p_str_input_file_name).read()
@@ -40,9 +39,9 @@ def compute_stu_file(p_str_input_file_name="",
     # If the output file name is void then the srecord data
     # is sent to the stdout.
     if p_str_output_file_name == "":
-        l_file_output=sys.stdout
+        l_file_output = sys.stdout
     else:
-        l_file_ouput=open(p_str_output_file_name, mode='w', newline='')
+        l_file_output = open(p_str_output_file_name, mode='w', newline='')
 
     # If the map file name is void then the map is not recorded
     if p_str_map_file_name == "":
@@ -57,8 +56,8 @@ def compute_stu_file(p_str_input_file_name="",
 
     log = logging.getLogger()
 
-    lex.lex() # ,debug=True,debuglog=log)
-    yacc.yacc(outputdir=".") # ,debug=True,debuglog=log)
+    lex.lex()  # ,debug=True,debuglog=log)
+    yacc.yacc(outputdir=".")  # ,debug=True,debuglog=log)
 
     yacc.parse(l_str_input, debug=log)
 
@@ -66,7 +65,7 @@ def compute_stu_file(p_str_input_file_name="",
 
         # The list referenced as "main" is parsed to get the whole bytes arrays
         # and join them into a single "bytes" variable.
-        l_bytes_msg =b''
+        l_bytes_msg = b''
         for x in names['main']:
             l_bytes_msg += x.m_data
 
@@ -74,11 +73,11 @@ def compute_stu_file(p_str_input_file_name="",
         # the base addresse.
         srecord_gen(p_bytes_msg=l_bytes_msg,
                     p_int_base_addr=p_int_base_addr,
-                    p_file_output=l_file_ouput)
+                    p_file_output=l_file_output)
 
         # If the map file is asked to be generated then then the datas and the informations
         # inside the liste referenced as "main" are written into the map file.
-        if l_file_map is not None :
+        if l_file_map is not None:
             l_int_addr = p_int_base_addr
             print("-----------+" + "-" * 64, file=l_file_map)
             print("  Addr     |  Definition ", file=l_file_map)
@@ -89,24 +88,23 @@ def compute_stu_file(p_str_input_file_name="",
                     print("{0:#010x} | {1}".format(l_int_addr, x.m_info), file=l_file_map)
                 if x.m_data != b'':
                     print("{0:#010x} | 0x{1}".format(l_int_addr, x.m_data.hex()), file=l_file_map)
-                    print("-----------+"+"-"*64, file=l_file_map)
+                    print("-----------+" + "-" * 64, file=l_file_map)
                     l_int_addr += len(x.m_data)
 
     else:
-        raise StopException(p_msg="No \'main\' defined into file \'{}\'".format(p_str_input_file_name))
+        raise T_StopException(p_str_msg="No \'main\' defined into file \'{}\'".format(p_str_input_file_name))
 
 
 def main():
-
     l_int_base_addr = 0
     l_str_input_file_name = ""
     l_str_output_file_name = ""
-    l_str_map_file_name= ""
+    l_str_map_file_name = ""
 
     try:
         opts, args = getopt.getopt(sys.argv[1:],
                                    "vhi:o:x:m:",
-                                   ["version", "help", "inputf=", "ouputf=", "baseaddr=","mapf="])
+                                   ["version", "help", "inputf=", "ouputf=", "baseaddr=", "mapf="])
 
     except getopt.GetoptError as err:
         # print help information and exit:
@@ -137,11 +135,11 @@ def main():
             try:
                 l_int_base_addr = int(eval(l_arg))
             except:
-                raise StopException(p_msg="baseaddr arg : \'{}\', is not an integer".format(l_arg))
+                raise T_StopException(p_str_msg="baseaddr arg : \'{}\', is not an integer".format(l_arg))
 
             if l_int_base_addr < 0:
-                raise StopException(p_msg="baseaddr arg : \'{}\', is not a positive integer".format(l_int_base_addr))
-
+                raise T_StopException(
+                    p_str_msg="baseaddr arg : \'{}\', is not a positive integer".format(l_int_base_addr))
 
     compute_stu_file(p_str_input_file_name=l_str_input_file_name,
                      p_str_output_file_name=l_str_output_file_name,
@@ -153,11 +151,11 @@ if __name__ == '__main__':
 
     try:
         main()
-        #compute_stu_file(p_inputfilename="tutorial.stu", p_outputfilename=sys.stdout)
+        # compute_stu_file(p_inputfilename="tutorial.stu", p_outputfilename=sys.stdout)
         # print("Test gc_odo.stu")
         # compute_stu_file(InputFileName="gc_odo.stu", OutputFileName=sys.stdout)
         # print("Test mtor_ferriby.stu")
         # compute_stu_file(InputFileName="mtor_ferriby.stu", OutputFileName=sys.stdout)
-    except StopException as err:
+    except T_StopException as err:
         print(err)
         sys.exit(2)

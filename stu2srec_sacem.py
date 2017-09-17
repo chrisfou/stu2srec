@@ -1,12 +1,12 @@
 import struct
 
 
-class SacemException(Exception):
-    def __init__(self, p_msg):
-        self.m_msg = p_msg
+class T_SacemException(Exception):
+    def __init__(self, p_str_msg):
+        self.m_str_msg = p_str_msg
 
     def __str__(self):
-        return repr(self.m_msg)
+        return repr(self.m_str_msg)
 
 
 C_TAB_CLE = (12970357, 12239417)
@@ -91,32 +91,33 @@ C_TAB_RK_TETA = (
 )
 
 
-def sacem(p_msg=b'', p_svl=b''):
-    l_long_result = 2 * [0]
+def sacem(p_bytes_msg=b'',
+          p_bytes_svl=b''):
+    l_int_result = 2 * [0]
 
-    if len(p_msg) % 4 != 0:
-        raise SacemException(p_msg="size of p_msg : {}, not modulo 32bits".format(len(p_msg)))
+    if len(p_bytes_msg) % 4 != 0:
+        raise T_SacemException(p_str_msg="size of p_bytes_msg : {}, not modulo 32bits".format(len(p_bytes_msg)))
 
-    if len(p_msg) > 4 * 256:
-        raise SacemException(p_msg="size of m_msg : {} > 1024 bytes".format(len(p_msg)))
+    if len(p_bytes_msg) > 4 * 256:
+        raise T_SacemException(p_str_msg="size of m_str_msg : {} > 1024 bytes".format(len(p_bytes_msg)))
 
-    if len(p_msg) == 0:
-        raise SacemException(p_msg="m_msg is length null")
+    if len(p_bytes_msg) == 0:
+        raise T_SacemException(p_str_msg="m_str_msg is length null")
 
-    if len(p_svl) != 8:
-        raise SacemException(p_msg="p_svl cannot be converted into a 2x32bits array")
+    if len(p_bytes_svl) != 8:
+        raise T_SacemException(p_str_msg="p_bytes_svl cannot be converted into a 2x32bits array")
 
-    l_svl = struct.unpack(">II", p_svl)
+    l_tuple_svl = struct.unpack(">II", p_bytes_svl)
 
     for i in range(0, 2):
-        for j in range(0, len(p_msg) >> 2):
-            ldata = struct.unpack(">I", p_msg[4 * j: 4 * j + 4])[0]
-            l_long_result[i] += C_TAB_RK_TETA[i][j] * ldata
-        l_long_result[i] = (l_long_result[i] + l_svl[i]) % C_TAB_CLE[i]
+        for j in range(0, len(p_bytes_msg) >> 2):
+            l_tuple_data = struct.unpack(">I", p_bytes_msg[4 * j: 4 * j + 4])[0]
+            l_int_result[i] += C_TAB_RK_TETA[i][j] * l_tuple_data
+        l_int_result[i] = (l_int_result[i] + l_tuple_svl[i]) % C_TAB_CLE[i]
 
-    return struct.pack(">II", l_long_result[0], l_long_result[1])
+    return struct.pack(">II", l_int_result[0], l_int_result[1])
 
 
 if __name__ == "__main__":
-    print(sacem(p_msg=struct.pack("bbbb", 1, 2, 3, 4),
-                p_svl=struct.pack(">II", 1, 2)))
+    print(sacem(p_bytes_msg=struct.pack("bbbb", 1, 2, 3, 4),
+                p_bytes_svl=struct.pack(">II", 1, 2)))
