@@ -169,9 +169,9 @@ def subkeys_create(p_key=b''):
     l_k = []
     for i in range(1, 16 + 1):
         l_k.append(bits_permutate
-                    (p_input=int(l_cd[i][0] + l_cd[i][1], 2).to_bytes(length=7,
-                                                                      byteorder="big"),
-                     p_table=C_PC_2_TABLE))
+                   (p_input=int(l_cd[i][0] + l_cd[i][1], 2).to_bytes(length=7,
+                                                                     byteorder="big"),
+                    p_table=C_PC_2_TABLE))
 
     return l_k
 
@@ -400,9 +400,9 @@ if __name__ == "__main__":
 
     # bits_permutate test with _IP_POS_Table
     l_bytes_input_value_ref = int('0000000100100011010001010110011110001001101010111100110111101111', 2).to_bytes(8,
-                                                                                                                "big")
+                                                                                                                  "big")
     l_bytes_output_value_ref = int('1100110000000000110011001111111111110000101010101111000010101010', 2).to_bytes(8,
-                                                                                                                 "big")
+                                                                                                                   "big")
 
     l_bytes_output_value = bits_permutate(p_input=l_bytes_input_value_ref,
                                           p_table=C_IP_POS_TABLE)
@@ -417,7 +417,7 @@ if __name__ == "__main__":
 
     # bits_permutate test with _PC_1_Table
     l_bytes_input_value_ref = int('0001001100110100010101110111100110011011101111001101111111110001', 2).to_bytes(8,
-                                                                                                                "big")
+                                                                                                                  "big")
     l_bytes_output_value_ref = int('11110000110011001010101011110101010101100110011110001111', 2).to_bytes(7, "big")
 
     l_bytes_output_value = bits_permutate(p_input=l_bytes_input_value_ref,
@@ -498,8 +498,8 @@ if __name__ == "__main__":
     l_bytes_r_input_ref = int('11110000101010101111000010101010', 2).to_bytes(4, "big")
     l_bytes_f_output_ref = int('00100011010010101010100110111011', 2).to_bytes(4, "big")
 
-    l_bytes_f_output = f_calculate(k=l_bytes_k_input_ref,
-                                   r=l_bytes_r_input_ref)
+    l_bytes_f_output = f_calculate(p_k=l_bytes_k_input_ref,
+                                   p_r=l_bytes_r_input_ref)
 
     if l_bytes_f_output_ref != l_bytes_f_output:
         print("TEST 6 KO !!")

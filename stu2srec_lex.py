@@ -85,7 +85,7 @@ def t_ID(t):
         if t.value in list(names.keys()):
             if type(names[t.value]) == int:
                 t.type = 'ID_NUMBER'
-            elif type(names[t.value]) == bytes:
+            elif type(names[t.value]) == list:
                 t.type = 'ID_LIST'
             elif type(names[t.value]) == float:
                 t.type = 'ID_FLOAT'

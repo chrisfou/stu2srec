@@ -95,13 +95,13 @@ def sacem(p_msg=b'', p_svl=b''):
     l_long_result = 2 * [0]
 
     if len(p_msg) % 4 != 0:
-        raise SacemException(p_msg="size of data : {}, not modulo 32bits".format(len(data)))
+        raise SacemException(p_msg="size of p_msg : {}, not modulo 32bits".format(len(p_msg)))
 
     if len(p_msg) > 4 * 256:
-        raise SacemException(p_msg="size of data : {} > 1024 bytes".format(len(data)))
+        raise SacemException(p_msg="size of m_msg : {} > 1024 bytes".format(len(p_msg)))
 
     if len(p_msg) == 0:
-        raise SacemException(p_msg="data is length null")
+        raise SacemException(p_msg="m_msg is length null")
 
     if len(p_svl) != 8:
         raise SacemException(p_msg="p_svl cannot be converted into a 2x32bits array")
