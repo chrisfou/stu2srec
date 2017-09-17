@@ -11,4 +11,7 @@
     - Add the CBC_MAC functionality.
     - The SACEM, HEX, TEXT, CRC32 functionalities must be declared with explicits arguments.
 
-	
+02_10
+-----
+    - Code source Refactoring.
+    - map generation.
