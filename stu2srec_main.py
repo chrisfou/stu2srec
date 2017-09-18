@@ -27,10 +27,6 @@ def print_version():
 
 def parse_stu_file(p_str_input_file_name=""):
 
-    #Sanity parameter check
-    if type(p_str_input_file_name) != str:
-        raise StopException(p_str_msg="input file are : \'{}'\ type error")
-
     # An error is raised if the input file is not an existing file.
     if not os.path.isfile(p_str_input_file_name):
         raise StopException(p_str_msg="input file arg : \'{}\' , is not a file".format(p_str_input_file_name))
