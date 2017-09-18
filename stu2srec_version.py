@@ -1,1 +1,1 @@
-c_str_version = "02.10"
+c_str_version = "02.11"

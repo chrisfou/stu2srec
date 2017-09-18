@@ -15,3 +15,7 @@
 -----
     - Code source Refactoring.
     - map generation.
+
+02_11
+-----
+    - Add the ECB and the CBC Encryption functionalities.

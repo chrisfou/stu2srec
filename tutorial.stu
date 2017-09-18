@@ -71,6 +71,12 @@ my_sacem_array = SACEM[msg => 10 * UL[0x12345678], svl => UL[0x1, 0x02]];
 // CRC32 computation : "CRC32[msg => <N bytes>]"
 my_crc32_array = CRC32[ msg => TEXT["C'est bientot la fin de ce tuto !!"]];
 
+// ECB encryption : "ECB_ENCRYPT[msg => <N bytes>, key => <8 bytes>]"
+my_ebc_array = ECB_ENCRYPT[ msg => TEXT["Je n'ai rien a cacher ..!"], key => HEX["0000000000000001"]];
+
+// CBC encryption : "CBC_ENCRYPT[msg => <N bytes>, key => <8 bytes>, iv => <8 bytes>]"
+my_cbc_array = CBC_ENCRYPT[ msg => TEXT["Je n'ai rien a cacher ..!"], key => HEX["0000000000000001"], iv => 8*UB[0]];
+
 // CBC_MAC computation : "CBCMAC[msg => <N bytes>, keys_123 => <3 * 8 bytes>]
 my_cbcmac_array = CBCMAC[msg      => TEXT["DES c'est la galère en python"],
                          keys_123 => HEX["0000000000000001"]   // key 1
@@ -85,7 +91,7 @@ my_cbcmac_array = CBCMAC[msg      => TEXT["DES c'est la galère en python"],
 // data      : N bytes
 // checksum  : byte summation of the header and the data together mapped on 32 bits.
 
-data_array = my_all_arrays + my_sacem_array + my_crc32_array + my_cbcmac_array;
+data_array = my_all_arrays + my_sacem_array + my_crc32_array + my_ebc_array + my_cbc_array + my_cbcmac_array;
 header_array = UL[SIZE(data_array)];
 checksum_array = UL[BYTSUM(header_array + data_array)];
 

@@ -1,7 +1,7 @@
 import struct
 
 
-class T_SacemException(Exception):
+class SacemException(Exception):
     def __init__(self, p_str_msg):
         self.m_str_msg = p_str_msg
 
@@ -96,16 +96,16 @@ def sacem(p_bytes_msg=b'',
     l_int_result = 2 * [0]
 
     if len(p_bytes_msg) % 4 != 0:
-        raise T_SacemException(p_str_msg="size of p_bytes_msg : {}, not modulo 32bits".format(len(p_bytes_msg)))
+        raise SacemException(p_str_msg="size of p_bytes_msg : {}, not modulo 32bits".format(len(p_bytes_msg)))
 
     if len(p_bytes_msg) > 4 * 256:
-        raise T_SacemException(p_str_msg="size of m_str_msg : {} > 1024 bytes".format(len(p_bytes_msg)))
+        raise SacemException(p_str_msg="size of m_str_msg : {} > 1024 bytes".format(len(p_bytes_msg)))
 
     if len(p_bytes_msg) == 0:
-        raise T_SacemException(p_str_msg="m_str_msg is length null")
+        raise SacemException(p_str_msg="m_str_msg is length null")
 
     if len(p_bytes_svl) != 8:
-        raise T_SacemException(p_str_msg="p_bytes_svl cannot be converted into a 2x32bits array")
+        raise SacemException(p_str_msg="p_bytes_svl cannot be converted into a 2x32bits array")
 
     l_tuple_svl = struct.unpack(">II", p_bytes_svl)
 
