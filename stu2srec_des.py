@@ -1,13 +1,13 @@
 #!/usr/bin/env python
-#title           :stu2srec_des.py
-#description     :Encryption/Decryption funtionalites base on the DES.
-#author          :christian FOURNIER
-#date            :19/09/2017
-#version         :
-#usage           :python stu2srec_des.py
-#notes           :
-#python_version  :3.6.2
-#=============================================================================
+# title           :stu2srec_des.py
+# description     :Encryption/Decryption funtionalites base on the DES.
+# author          :christian FOURNIER
+# date            :19/09/2017
+# version         :
+# usage           :python stu2srec_des.py
+# notes           :
+# python_version  :3.6.2
+# =============================================================================
 
 import struct
 
@@ -175,14 +175,16 @@ def subkeys_create(p_bytes_key=b''):
 
     for i in range(1, 16 + 1):
         l_lf = C_SUBKEYS_LEFT_SHIFTS[i]
-        l_str_cd.append([l_str_cd[i - 1][0][l_lf:28] + l_str_cd[i - 1][0][0:l_lf],
-                         l_str_cd[i - 1][1][l_lf:28] + l_str_cd[i - 1][1][0:l_lf]])
+        l_str_cd.append(
+            [l_str_cd[i - 1][0][l_lf:28] + l_str_cd[i - 1][0][0:l_lf],
+             l_str_cd[i - 1][1][l_lf:28] + l_str_cd[i - 1][1][0:l_lf]])
 
     l_list_k = []
     for i in range(1, 16 + 1):
         l_list_k.append(bits_permutate
-                        (p_bytes_input=int(l_str_cd[i][0] + l_str_cd[i][1], 2).to_bytes(length=7,
-                                                                                        byteorder="big"),
+                        (p_bytes_input=int(l_str_cd[i][0] + l_str_cd[i][1],
+                                           2).to_bytes(length=7,
+                                                       byteorder="big"),
                          p_list_permut=C_PC_2_TABLE))
 
     return l_list_k
@@ -289,7 +291,8 @@ class DES:
             l_int_ri \
                 = int.from_bytes(l_bytes_lr[i - 1][0], "big") \
                   ^ int.from_bytes(calculate(p_bytes_k=self.subkeys[i - 1],
-                                             p_bytes_r=l_bytes_lr[i - 1][1]), "big")
+                                             p_bytes_r=l_bytes_lr[i - 1][1]),
+                                   "big")
             l_bytes_lr.append([l_bytes_lr[i - 1][1],
                                l_int_ri.to_bytes(4, "big")])
 
@@ -308,9 +311,11 @@ class CypherOp(DES):
                  p_int_encrypt=C_INT_DES_ENCRYPT):
         # Sanity parameter check
         if type(p_bytes_key) != bytes:
-            raise DESException(p_str_msg="CypherOp.__init__ p_bytes_key parameter type error !")
+            raise DESException(
+                p_str_msg="CypherOp.__init__ p_bytes_key parameter type error !")
         if len(p_bytes_key) != 8:
-            raise DESException(p_str_msg="CypherOP.__init__ p_bytes_key parameter size error !")
+            raise DESException(
+                p_str_msg="CypherOP.__init__ p_bytes_key parameter size error !")
 
         # DES Configuration
         DES.__init__(self,
@@ -324,20 +329,24 @@ class CypherOp(DES):
                     p_bytes_msg=b''):
         # Sanity parameter check
         if type(p_bytes_msg) != bytes:
-            raise DESException(p_str_msg="CypherOp.ecb p_bytes_msg parameter type error ! ")
+            raise DESException(
+                p_str_msg="CypherOp.ecb p_bytes_msg parameter type error ! ")
 
         # The message is 0 filled to be lenght modulo 8 bytes
         l_tuple_divmod = divmod(len(p_bytes_msg), 8)
         l_bytes_msg = p_bytes_msg
         l_int_nb_block = l_tuple_divmod[0]
         if l_tuple_divmod[1] != 0:
-            l_bytes_msg = l_bytes_msg + (8 - l_tuple_divmod[1]) * struct.pack(">b", 0)
+            l_bytes_msg = l_bytes_msg + (8 - l_tuple_divmod[1]) * struct.pack(
+                ">b", 0)
             l_int_nb_block = l_int_nb_block + 1
 
         # for ecb every 8 bytes blocks are DES encrypted/decripted in row.
         l_bytes_result = b''
         for id_block in range(0, l_int_nb_block):
-            l_bytes_result += DES.compute(self, p_bytes_data=l_bytes_msg[id_block * 8: (id_block + 1) * 8])
+            l_bytes_result += DES.compute(self, p_bytes_data=l_bytes_msg[
+                                                             id_block * 8: (
+                                                                           id_block + 1) * 8])
 
         return l_bytes_result
 
@@ -346,18 +355,22 @@ class CypherOp(DES):
                     p_bytes_iv=b''):
         # Sanity parameter check
         if type(p_bytes_msg) != bytes:
-            raise DESException(p_str_msg="CypherOp.cbc p_bytes_msg parameter type error !")
+            raise DESException(
+                p_str_msg="CypherOp.cbc p_bytes_msg parameter type error !")
         if type(p_bytes_iv) != bytes:
-            raise DESException(p_str_msg="CypherOp.cbc p_bytes_iv parameter type error !")
+            raise DESException(
+                p_str_msg="CypherOp.cbc p_bytes_iv parameter type error !")
         if len(p_bytes_iv) != 8:
-            raise DESException(p_str_msg="CypherOp.cbc p_bytes_iv parameter size error !")
+            raise DESException(
+                p_str_msg="CypherOp.cbc p_bytes_iv parameter size error !")
 
         # The message is 0 filled to be to modulo 8 bytes lenght.
         l_tuple_divmod = divmod(len(p_bytes_msg), 8)
         l_bytes_msg = p_bytes_msg
         l_int_nb_block = l_tuple_divmod[0]
         if l_tuple_divmod[1] != 0:
-            l_bytes_msg = l_bytes_msg + (8 - l_tuple_divmod[1]) * struct.pack(">b", 0)
+            l_bytes_msg = l_bytes_msg + (8 - l_tuple_divmod[1]) * struct.pack(
+                ">b", 0)
             l_int_nb_block = l_int_nb_block + 1
 
         # CBC computation.
@@ -370,9 +383,13 @@ class CypherOp(DES):
             # At start, the first block is xored with the p_bytes_iv vector.
             l_bytes_des_out = p_bytes_iv
             for id_block in range(0, l_int_nb_block):
-                l_int_des_in = int(l_bytes_msg[id_block * 8: (id_block + 1) * 8].hex(), 16) ^ int(l_bytes_des_out.hex(),
-                                                                                                  16)
-                l_bytes_des_out = DES.compute(self, p_bytes_data=l_int_des_in.to_bytes(8, "big"))
+                l_int_des_in = int(
+                    l_bytes_msg[id_block * 8: (id_block + 1) * 8].hex(),
+                    16) ^ int(l_bytes_des_out.hex(),
+                              16)
+                l_bytes_des_out = DES.compute(self,
+                                              p_bytes_data=l_int_des_in.to_bytes(
+                                                  8, "big"))
                 l_bytes_result += l_bytes_des_out
         else:
             # For CBC decryption every 8 bytes blocks are DES decrypted first. The result is xored then with the
@@ -384,7 +401,8 @@ class CypherOp(DES):
                 l_int_des_in = l_bytes_msg[id_block * 8: (id_block + 1) * 8]
                 l_bytes_des_out = DES.compute(self, p_bytes_data=l_int_des_in)
                 l_int_des_out_xor_pre \
-                    = int(l_bytes_des_out.hex(), 16) ^ int(l_bytes_des_pre.hex(), 16)
+                    = int(l_bytes_des_out.hex(), 16) ^ int(
+                    l_bytes_des_pre.hex(), 16)
                 l_bytes_result += l_int_des_out_xor_pre.to_bytes(8, 'big')
                 l_bytes_des_pre = l_int_des_in
 
@@ -397,19 +415,26 @@ def cbc_mac_compute(p_bytes_msg='b',
                     p_bytes_key_3=b''):
     # Sanity parameter check
     if type(p_bytes_msg) != bytes:
-        raise DESException(p_str_msg="cbc_mac_computer p_bytes_msg parameter type error !")
+        raise DESException(
+            p_str_msg="cbc_mac_computer p_bytes_msg parameter type error !")
     if type(p_bytes_key_1) != bytes:
-        raise DESException(p_str_msg="cbc_mac_compute p_bytes_key_1 parameter type error !")
+        raise DESException(
+            p_str_msg="cbc_mac_compute p_bytes_key_1 parameter type error !")
     if type(p_bytes_key_2) != bytes:
-        raise DESException(p_str_msg="cbc_mac_compute p_bytes_key_2 parameter type error !")
+        raise DESException(
+            p_str_msg="cbc_mac_compute p_bytes_key_2 parameter type error !")
     if type(p_bytes_key_3) != bytes:
-        raise DESException(p_str_msg="cbc_mac_compute p_bytes_key_3 parameter type error !")
+        raise DESException(
+            p_str_msg="cbc_mac_compute p_bytes_key_3 parameter type error !")
     if len(p_bytes_key_1) != 8:
-        raise DESException(p_str_msg="cbc_mac_compute p_bytes_key_1 size error !")
+        raise DESException(
+            p_str_msg="cbc_mac_compute p_bytes_key_1 size error !")
     if len(p_bytes_key_2) != 8:
-        raise DESException(p_str_msg="cbc_mac_compute p_bytes_key_2 size error !")
+        raise DESException(
+            p_str_msg="cbc_mac_compute p_bytes_key_2 size error !")
     if len(p_bytes_key_3) != 8:
-        raise DESException(p_str_msg="cbc_mac_compute p_bytes_key_3 size error !")
+        raise DESException(
+            p_str_msg="cbc_mac_compute p_bytes_key_3 size error !")
 
     l_cypherop_k1 = CypherOp(p_bytes_key=p_bytes_key_1,
                              p_int_encrypt=C_INT_DES_ENCRYPT)
@@ -446,13 +471,18 @@ if __name__ == "__main__":
     # TEST 1
 
     # bits_permutate test with _IP_POS_Table
-    l_bytes_input_value_ref = int('0000000100100011010001010110011110001001101010111100110111101111', 2).to_bytes(8,
-                                                                                                                  "big")
-    l_bytes_output_value_ref = int('1100110000000000110011001111111111110000101010101111000010101010', 2).to_bytes(8,
-                                                                                                                   "big")
+    l_bytes_input_value_ref = int(
+        '0000000100100011010001010110011110001001101010111100110111101111',
+        2).to_bytes(8,
+                    "big")
+    l_bytes_output_value_ref = int(
+        '1100110000000000110011001111111111110000101010101111000010101010',
+        2).to_bytes(8,
+                    "big")
 
-    l_bytes_output_value = bits_permutate(p_bytes_input=l_bytes_input_value_ref,
-                                          p_list_permut=C_IP_POS_TABLE)
+    l_bytes_output_value = bits_permutate(
+        p_bytes_input=l_bytes_input_value_ref,
+        p_list_permut=C_IP_POS_TABLE)
 
     if l_bytes_output_value != l_bytes_output_value_ref:
         print("TEST 1 KO !!")
@@ -463,12 +493,17 @@ if __name__ == "__main__":
     # TEST 2
 
     # bits_permutate test with _PC_1_Table
-    l_bytes_input_value_ref = int('0001001100110100010101110111100110011011101111001101111111110001', 2).to_bytes(8,
-                                                                                                                  "big")
-    l_bytes_output_value_ref = int('11110000110011001010101011110101010101100110011110001111', 2).to_bytes(7, "big")
+    l_bytes_input_value_ref = int(
+        '0001001100110100010101110111100110011011101111001101111111110001',
+        2).to_bytes(8,
+                    "big")
+    l_bytes_output_value_ref = int(
+        '11110000110011001010101011110101010101100110011110001111',
+        2).to_bytes(7, "big")
 
-    l_bytes_output_value = bits_permutate(p_bytes_input=l_bytes_input_value_ref,
-                                          p_list_permut=C_PC_1_TABLE)
+    l_bytes_output_value = bits_permutate(
+        p_bytes_input=l_bytes_input_value_ref,
+        p_list_permut=C_PC_1_TABLE)
 
     if l_bytes_output_value != l_bytes_output_value_ref:
         print("TEST 2 KO !!")
@@ -479,11 +514,16 @@ if __name__ == "__main__":
     # TEST 3
 
     # bits_permutate test with _PC_2_Table
-    l_bytes_input_value_ref = int('11100001100110010101010111111010101011001100111100011110', 2).to_bytes(7, "big")
-    l_bytes_output_value_ref = int('000110110000001011101111111111000111000001110010', 2).to_bytes(6, "big")
+    l_bytes_input_value_ref = int(
+        '11100001100110010101010111111010101011001100111100011110',
+        2).to_bytes(7, "big")
+    l_bytes_output_value_ref = int(
+        '000110110000001011101111111111000111000001110010', 2).to_bytes(6,
+                                                                        "big")
 
-    l_bytes_output_value = bits_permutate(p_bytes_input=l_bytes_input_value_ref,
-                                          p_list_permut=C_PC_2_TABLE)
+    l_bytes_output_value = bits_permutate(
+        p_bytes_input=l_bytes_input_value_ref,
+        p_list_permut=C_PC_2_TABLE)
 
     if l_bytes_output_value != l_bytes_output_value_ref:
         print("TEST 3 KO !!")
@@ -495,24 +535,43 @@ if __name__ == "__main__":
 
     # subkeys_create
 
-    l_key_input_ref = int('0001001100110100010101110111100110011011101111001101111111110001', 2).to_bytes(8, "big")
+    l_key_input_ref = int(
+        '0001001100110100010101110111100110011011101111001101111111110001',
+        2).to_bytes(8, "big")
 
-    l_subkeys_output_ref = [int('000110110000001011101111111111000111000001110010', 2).to_bytes(6, "big"),
-                            int('011110011010111011011001110110111100100111100101', 2).to_bytes(6, "big"),
-                            int('010101011111110010001010010000101100111110011001', 2).to_bytes(6, "big"),
-                            int('011100101010110111010110110110110011010100011101', 2).to_bytes(6, "big"),
-                            int('011111001110110000000111111010110101001110101000', 2).to_bytes(6, "big"),
-                            int('011000111010010100111110010100000111101100101111', 2).to_bytes(6, "big"),
-                            int('111011001000010010110111111101100001100010111100', 2).to_bytes(6, "big"),
-                            int('111101111000101000111010110000010011101111111011', 2).to_bytes(6, "big"),
-                            int('111000001101101111101011111011011110011110000001', 2).to_bytes(6, "big"),
-                            int('101100011111001101000111101110100100011001001111', 2).to_bytes(6, "big"),
-                            int('001000010101111111010011110111101101001110000110', 2).to_bytes(6, "big"),
-                            int('011101010111000111110101100101000110011111101001', 2).to_bytes(6, "big"),
-                            int('100101111100010111010001111110101011101001000001', 2).to_bytes(6, "big"),
-                            int('010111110100001110110111111100101110011100111010', 2).to_bytes(6, "big"),
-                            int('101111111001000110001101001111010011111100001010', 2).to_bytes(6, "big"),
-                            int('110010110011110110001011000011100001011111110101', 2).to_bytes(6, "big")]
+    l_subkeys_output_ref = [
+        int('000110110000001011101111111111000111000001110010', 2).to_bytes(6,
+                                                                            "big"),
+        int('011110011010111011011001110110111100100111100101', 2).to_bytes(6,
+                                                                            "big"),
+        int('010101011111110010001010010000101100111110011001', 2).to_bytes(6,
+                                                                            "big"),
+        int('011100101010110111010110110110110011010100011101', 2).to_bytes(6,
+                                                                            "big"),
+        int('011111001110110000000111111010110101001110101000', 2).to_bytes(6,
+                                                                            "big"),
+        int('011000111010010100111110010100000111101100101111', 2).to_bytes(6,
+                                                                            "big"),
+        int('111011001000010010110111111101100001100010111100', 2).to_bytes(6,
+                                                                            "big"),
+        int('111101111000101000111010110000010011101111111011', 2).to_bytes(6,
+                                                                            "big"),
+        int('111000001101101111101011111011011110011110000001', 2).to_bytes(6,
+                                                                            "big"),
+        int('101100011111001101000111101110100100011001001111', 2).to_bytes(6,
+                                                                            "big"),
+        int('001000010101111111010011110111101101001110000110', 2).to_bytes(6,
+                                                                            "big"),
+        int('011101010111000111110101100101000110011111101001', 2).to_bytes(6,
+                                                                            "big"),
+        int('100101111100010111010001111110101011101001000001', 2).to_bytes(6,
+                                                                            "big"),
+        int('010111110100001110110111111100101110011100111010', 2).to_bytes(6,
+                                                                            "big"),
+        int('101111111001000110001101001111010011111100001010', 2).to_bytes(6,
+                                                                            "big"),
+        int('110010110011110110001011000011100001011111110101', 2).to_bytes(6,
+                                                                            "big")]
 
     l_subkeys_output = subkeys_create(p_bytes_key=l_key_input_ref)
 
@@ -525,11 +584,15 @@ if __name__ == "__main__":
     # TEST 5
 
     # bits_permutate test with C_E_BIT_SELECTION_TABLE
-    l_bytes_input_value_ref = int('11110000101010101111000010101010', 2).to_bytes(4, "big")
-    l_bytes_output_value_ref = int('011110100001010101010101011110100001010101010101', 2).to_bytes(6, "big")
+    l_bytes_input_value_ref = int('11110000101010101111000010101010',
+                                  2).to_bytes(4, "big")
+    l_bytes_output_value_ref = int(
+        '011110100001010101010101011110100001010101010101', 2).to_bytes(6,
+                                                                        "big")
 
-    l_bytes_output_value = bits_permutate(p_bytes_input=l_bytes_input_value_ref,
-                                          p_list_permut=C_E_BIT_SELECTION_TABLE)
+    l_bytes_output_value = bits_permutate(
+        p_bytes_input=l_bytes_input_value_ref,
+        p_list_permut=C_E_BIT_SELECTION_TABLE)
 
     if l_bytes_output_value != l_bytes_output_value_ref:
         print("TEST 5 KO !!")
@@ -541,9 +604,13 @@ if __name__ == "__main__":
 
     # calculate test
 
-    l_bytes_k_input_ref = int('000110110000001011101111111111000111000001110010', 2).to_bytes(6, "big")
-    l_bytes_r_input_ref = int('11110000101010101111000010101010', 2).to_bytes(4, "big")
-    l_bytes_f_output_ref = int('00100011010010101010100110111011', 2).to_bytes(4, "big")
+    l_bytes_k_input_ref = int(
+        '000110110000001011101111111111000111000001110010', 2).to_bytes(6,
+                                                                        "big")
+    l_bytes_r_input_ref = int('11110000101010101111000010101010', 2).to_bytes(
+        4, "big")
+    l_bytes_f_output_ref = int('00100011010010101010100110111011', 2).to_bytes(
+        4, "big")
 
     l_bytes_f_output = calculate(p_bytes_k=l_bytes_k_input_ref,
                                  p_bytes_r=l_bytes_r_input_ref)
@@ -560,22 +627,27 @@ if __name__ == "__main__":
 
     l_msg_test = "Your lips are smoother than vaseline\r\n" + 2 * chr(0)
 
-    l_cypher_op_encrypt = CypherOp(p_bytes_key=int("0x0E329232EA6D0D73", 16).to_bytes(8, "big"),
-                                   p_int_encrypt=C_INT_DES_ENCRYPT)
+    l_cypher_op_encrypt = CypherOp(
+        p_bytes_key=int("0x0E329232EA6D0D73", 16).to_bytes(8, "big"),
+        p_int_encrypt=C_INT_DES_ENCRYPT)
 
-    l_cypher_op_decrypt = CypherOp(p_bytes_key=int("0x0E329232EA6D0D73", 16).to_bytes(8, "big"),
-                                   p_int_encrypt=C_INT_DES_DECRYPT)
+    l_cypher_op_decrypt = CypherOp(
+        p_bytes_key=int("0x0E329232EA6D0D73", 16).to_bytes(8, "big"),
+        p_int_encrypt=C_INT_DES_DECRYPT)
 
     l_encrypted_msg_ref = "C0999FDDE378D7ED727DA00BCA5A84EE47F269A4D6438190D9D52F78F5358499828AC9B453E0E653"
 
-    l_encrypted_msg = l_cypher_op_encrypt.ecb_compute(p_bytes_msg=l_msg_test.encode('utf-8'))
+    l_encrypted_msg = l_cypher_op_encrypt.ecb_compute(
+        p_bytes_msg=l_msg_test.encode('utf-8'))
 
     # print("uncrypted l_msg_test : ", l_msg_test)
     # print("encrypted l_msg_test : ", l_encrypted_msg.hex())
 
-    l_decrypted_msg = l_cypher_op_decrypt.ecb_compute(p_bytes_msg=l_encrypted_msg)
+    l_decrypted_msg = l_cypher_op_decrypt.ecb_compute(
+        p_bytes_msg=l_encrypted_msg)
 
-    if (l_decrypted_msg.decode('utf-8') != l_msg_test) and (l_encrypted_msg.hex().upper() != l_encrypted_msg_ref):
+    if (l_decrypted_msg.decode('utf-8') != l_msg_test) and (
+        l_encrypted_msg.hex().upper() != l_encrypted_msg_ref):
         print("TEST 7 KO !!")
     else:
         print("TEST 7 OK ..")
@@ -589,22 +661,27 @@ if __name__ == "__main__":
 
     l_msg_test = "je suis ne a Digne les Bains le 26121971"  # .ljust(80, '.')
 
-    l_cypher_op_encrypt = CypherOp(p_bytes_key=int("0x0E329232EA6D0D73", 16).to_bytes(8, "big"),
-                                   p_int_encrypt=C_INT_DES_ENCRYPT)
+    l_cypher_op_encrypt = CypherOp(
+        p_bytes_key=int("0x0E329232EA6D0D73", 16).to_bytes(8, "big"),
+        p_int_encrypt=C_INT_DES_ENCRYPT)
 
-    l_cypher_op_decrypt = CypherOp(p_bytes_key=int("0x0E329232EA6D0D73", 16).to_bytes(8, "big"),
-                                   p_int_encrypt=C_INT_DES_DECRYPT)
+    l_cypher_op_decrypt = CypherOp(
+        p_bytes_key=int("0x0E329232EA6D0D73", 16).to_bytes(8, "big"),
+        p_int_encrypt=C_INT_DES_DECRYPT)
 
     l_encrypted_msg_ref = "C0999FDDE378D7ED727DA00BCA5A84EE47F269A4D6438190D9D52F78F5358499828AC9B453E0E653"
 
-    l_encrypted_msg = l_cypher_op_encrypt.ecb_compute(p_bytes_msg=l_msg_test.encode('utf-8'))
+    l_encrypted_msg = l_cypher_op_encrypt.ecb_compute(
+        p_bytes_msg=l_msg_test.encode('utf-8'))
 
     # print("uncrypted l_msg_test : ", l_msg_test)
     # print("encrypted l_msg_test : ", l_encrypted_msg.hex())
 
-    l_decrypted_msg = l_cypher_op_decrypt.ecb_compute(p_bytes_msg=l_encrypted_msg)
+    l_decrypted_msg = l_cypher_op_decrypt.ecb_compute(
+        p_bytes_msg=l_encrypted_msg)
 
-    if (l_decrypted_msg.decode('utf-8') != l_msg_test) and (l_encrypted_msg.hex().upper() != l_encrypted_msg_ref):
+    if (l_decrypted_msg.decode('utf-8') != l_msg_test) and (
+        l_encrypted_msg.hex().upper() != l_encrypted_msg_ref):
         print("TEST 8 KO !!")
     else:
         print("TEST 8 OK ..")
@@ -618,27 +695,32 @@ if __name__ == "__main__":
 
     l_msg_test = "je suis ne a Digne les Bains le 26121971A".ljust(80, '.')
 
-    l_cypher_op_encrypt = CypherOp(p_bytes_key=int("0x0E329232EA6D0D73", 16).to_bytes(8, "big"),
-                                   p_int_encrypt=C_INT_DES_ENCRYPT)
+    l_cypher_op_encrypt = CypherOp(
+        p_bytes_key=int("0x0E329232EA6D0D73", 16).to_bytes(8, "big"),
+        p_int_encrypt=C_INT_DES_ENCRYPT)
 
-    l_cypher_op_decrypt = CypherOp(p_bytes_key=int("0x0E329232EA6D0D73", 16).to_bytes(8, "big"),
-                                   p_int_encrypt=C_INT_DES_DECRYPT)
+    l_cypher_op_decrypt = CypherOp(
+        p_bytes_key=int("0x0E329232EA6D0D73", 16).to_bytes(8, "big"),
+        p_int_encrypt=C_INT_DES_DECRYPT)
 
     l_encrypted_msg_ref = "C0999FDDE378D7ED727DA00BCA5A84EE47F269A4D6438190D9D52F78F5358499828AC9B453E0E653"
 
     l_bytes_iv = int(0).to_bytes(8, 'big')
     # print(l_msg_test.encode('utf-8').hex())
-    l_encrypted_msg = l_cypher_op_encrypt.cbc_compute(p_bytes_msg=l_msg_test.encode('utf-8'),
-                                                      p_bytes_iv=l_bytes_iv)
+    l_encrypted_msg = l_cypher_op_encrypt.cbc_compute(
+        p_bytes_msg=l_msg_test.encode('utf-8'),
+        p_bytes_iv=l_bytes_iv)
 
     # print("uncrypted l_msg_test : ", l_msg_test)
     # print("encrypted l_msg_test : ", l_encrypted_msg.hex())
 
-    l_decrypted_msg = l_cypher_op_decrypt.cbc_compute(p_bytes_msg=l_encrypted_msg,
-                                                      p_bytes_iv=l_bytes_iv)
+    l_decrypted_msg = l_cypher_op_decrypt.cbc_compute(
+        p_bytes_msg=l_encrypted_msg,
+        p_bytes_iv=l_bytes_iv)
     # print(l_decrypted_msg.hex())
 
-    if (l_decrypted_msg.decode('utf-8') != l_msg_test) and (l_encrypted_msg.hex().upper() != l_encrypted_msg_ref):
+    if (l_decrypted_msg.decode('utf-8') != l_msg_test) and (
+        l_encrypted_msg.hex().upper() != l_encrypted_msg_ref):
         print("TEST 9 KO !!")
     else:
         print("TEST 9 OK ..")
