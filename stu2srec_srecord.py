@@ -1,3 +1,14 @@
+#!/usr/bin/env python
+# title           :stu2srec_srecord.py
+# description     :
+# author          :christian FOURNIER
+# date            :19/09/2017
+# version         :
+# usage           :
+# notes           :
+# python_version  :3.6.2
+# =============================================================================
+
 import sys
 import struct
 
@@ -37,7 +48,8 @@ def srecord_gen(p_bytes_msg=b'',
 
         l_bytes_data = l_bytes_data + struct.pack(">B", ~sum(l_bytes_data) & 0xFF)
 
-        print("S3" + "".join(["%02X" % v for v in l_bytes_data]), file=p_file_output)
+        p_file_output.write("S3" + "".join(["%02X" % v for v in l_bytes_data]) + "\n")
+        # print("S3" + "".join(["%02X" % v for v in l_bytes_data]), file=p_file_output)
 
         if len(p_bytes_msg) == l_int_pos:
             print("S70500000000FA", file=p_file_output)

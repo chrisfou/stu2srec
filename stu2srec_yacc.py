@@ -1,3 +1,14 @@
+#!/usr/bin/env python
+# title           :stu2srec_yacc.py
+# description     :
+# author          :christian FOURNIER
+# date            :19/09/2017
+# version         :
+# usage           :
+# notes           :
+# python_version  :3.6.2
+# =============================================================================
+
 from stu2srec_lex import *
 
 from stu2srec_srecord import srecord_gen

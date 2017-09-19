@@ -1,3 +1,14 @@
+#!/usr/bin/env python
+# title           :stu2srec_lex.py
+# description     :
+# author          :christian FOURNIER
+# date            :19/09/2017
+# version         :
+# usage           :
+# notes           :
+# python_version  :3.6.2
+# =============================================================================
+
 from stu2srec_error import StopException
 
 import ply.lex as lex

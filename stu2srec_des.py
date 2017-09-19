@@ -1,3 +1,14 @@
+#!/usr/bin/env python
+#title           :stu2srec_des.py
+#description     :Encryption/Decryption funtionalites base on the DES.
+#author          :christian FOURNIER
+#date            :19/09/2017
+#version         :
+#usage           :python stu2srec_des.py
+#notes           :
+#python_version  :3.6.2
+#=============================================================================
+
 import struct
 
 
@@ -201,7 +212,8 @@ def calculate(p_bytes_k=b'',
                                p_list_permut=C_E_BIT_SELECTION_TABLE)
 
     # k xor E(r)
-    l_bytes_result = int.from_bytes(p_bytes_k, "big") ^ int.from_bytes(l_bytes_e, "big")
+    l_bytes_result = int.from_bytes(p_bytes_k, "big") \
+                     ^ int.from_bytes(l_bytes_e, "big")
 
     # Sboxes translation
     l_str_bin_result = bin(l_bytes_result)[2:]
@@ -209,7 +221,9 @@ def calculate(p_bytes_k=b'',
     l_str_bin_boxed_result = ''
 
     for i in range(0, 8):
-        l_int_s_box_i = int(l_str_bin_result[6 * i] + l_str_bin_result[6 * i + 5], 2)
+        l_int_s_box_i = int(l_str_bin_result[6 * i]
+                            + l_str_bin_result[6 * i + 5], 2)
+
         l_int_s_box_j = int(l_str_bin_result[6 * i + 1: 6 * (i + 1) - 1], 2)
         l_str_s_box_out = bin(C_S_TABLES[i][l_int_s_box_i][l_int_s_box_j])[2:]
         l_str_bin_boxed_result += l_str_s_box_out.rjust(4, '0')
@@ -240,7 +254,8 @@ class DES:
             raise DESException \
                 (p_str_msg="DES init p_int_encrypt parameter type error !")
 
-        if (p_int_encrypt != C_INT_DES_ENCRYPT) and (p_int_encrypt != C_INT_DES_DECRYPT):
+        if (p_int_encrypt != C_INT_DES_ENCRYPT) \
+                and (p_int_encrypt != C_INT_DES_DECRYPT):
             raise DESException \
                 (p_str_msg="DES init p_int_encrypt parameter value error !")
 
@@ -271,11 +286,12 @@ class DES:
         l_bytes_lr = [[l_bytes_ip[0:4], l_bytes_ip[4:8]]]
 
         for i in range(1, 16 + 1):
-            l_int_ri = int.from_bytes(l_bytes_lr[i - 1][0], "big") \
-                       ^ int.from_bytes(calculate(p_bytes_k=self.subkeys[i - 1],
-                                                  p_bytes_r=l_bytes_lr[i - 1][1]),
-                                        "big")
-            l_bytes_lr.append([l_bytes_lr[i - 1][1], l_int_ri.to_bytes(4, "big")])
+            l_int_ri \
+                = int.from_bytes(l_bytes_lr[i - 1][0], "big") \
+                  ^ int.from_bytes(calculate(p_bytes_k=self.subkeys[i - 1],
+                                             p_bytes_r=l_bytes_lr[i - 1][1]), "big")
+            l_bytes_lr.append([l_bytes_lr[i - 1][1],
+                               l_int_ri.to_bytes(4, "big")])
 
         l_bytes_rl_16 = l_bytes_lr[16][1] + l_bytes_lr[16][0]
 
@@ -367,7 +383,8 @@ class CypherOp(DES):
             for id_block in range(0, l_int_nb_block):
                 l_int_des_in = l_bytes_msg[id_block * 8: (id_block + 1) * 8]
                 l_bytes_des_out = DES.compute(self, p_bytes_data=l_int_des_in)
-                l_int_des_out_xor_pre = int(l_bytes_des_out.hex(), 16) ^ int(l_bytes_des_pre.hex(), 16)
+                l_int_des_out_xor_pre \
+                    = int(l_bytes_des_out.hex(), 16) ^ int(l_bytes_des_pre.hex(), 16)
                 l_bytes_result += l_int_des_out_xor_pre.to_bytes(8, 'big')
                 l_bytes_des_pre = l_int_des_in
 
@@ -408,14 +425,17 @@ def cbc_mac_compute(p_bytes_msg='b',
 
     # Cbc computation on p_bytes_msg with key 1.
     # Only the last 8 bytes of the encrypted message are usefull.
-    l_bytes_cbc_k1_encryption_result = l_cypherop_k1.cbc_compute(p_bytes_msg=p_bytes_msg,
-                                                                 p_bytes_iv=l_bytes_iv)[-8::]
+    l_bytes_cbc_k1_encryption_result \
+        = l_cypherop_k1.cbc_compute(p_bytes_msg=p_bytes_msg,
+                                    p_bytes_iv=l_bytes_iv)[-8::]
 
     # The previous result is DES decrypted with the key 2.
-    l_bytes_des_k2_decryption_result = l_des_k2.compute(p_bytes_data=l_bytes_cbc_k1_encryption_result)
+    l_bytes_des_k2_decryption_result \
+        = l_des_k2.compute(p_bytes_data=l_bytes_cbc_k1_encryption_result)
 
     # The previous result is DES encrypted with the key 3.
-    l_bytes_des_k3_encryption_result = l_des_k3.compute(p_bytes_data=l_bytes_des_k2_decryption_result)
+    l_bytes_des_k3_encryption_result \
+        = l_des_k3.compute(p_bytes_data=l_bytes_des_k2_decryption_result)
 
     return l_bytes_des_k3_encryption_result
 

@@ -1,3 +1,14 @@
+#!/usr/bin/env python
+# title           :stu2srec_error.py
+# description     :
+# author          :christian FOURNIER
+# date            :19/09/2017
+# version         :
+# usage           :python stu2srec_des.py
+# notes           :
+# python_version  :3.6.2
+# =============================================================================
+
 class StopException(Exception):
 
     def __init__(self, p_str_msg):
