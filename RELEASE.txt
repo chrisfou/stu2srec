@@ -19,3 +19,7 @@
 02_11
 -----
     - Add the ECB and the CBC Encryption functionalities.
+
+02_20
+-----
+    - Add the LEFT_FILL and RIGHT_FILL functionalities.
