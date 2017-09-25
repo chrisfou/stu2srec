@@ -119,45 +119,45 @@ def compute_map_file(p_str_map_file_name="",
                     l_int_addr_offset=0
                     while l_int_bytes_len>0:
                         if l_int_bytes_len > 4*4:
-                            l_file_map.write("{0:#010x} | {1:#010x} {2:#010x} {3:#010x} {4:#010x} \n".format
+                            l_file_map.write("{0:#010x} | 0x{1} 0x{2} 0x{3} 0x{4} \n".format
                                              (l_int_addr+l_int_addr_offset,
-                                              int.from_bytes(i_node.m_bytes[l_int_addr_offset+ 0*4:l_int_addr_offset + 1*4], byteorder='big'),
-                                              int.from_bytes(i_node.m_bytes[l_int_addr_offset+ 1*4:l_int_addr_offset + 2*4], byteorder='big'),
-                                              int.from_bytes(i_node.m_bytes[l_int_addr_offset+ 2*4:l_int_addr_offset + 3*4], byteorder='big'),
-                                              int.from_bytes(i_node.m_bytes[l_int_addr_offset+ 3*4:l_int_addr_offset + 4*4], byteorder='big')))
+                                              i_node.m_bytes[l_int_addr_offset+ 0*4:l_int_addr_offset + 1*4].hex(),
+                                              i_node.m_bytes[l_int_addr_offset+ 1*4:l_int_addr_offset + 2*4].hex(),
+                                              i_node.m_bytes[l_int_addr_offset+ 2*4:l_int_addr_offset + 3*4].hex(),
+                                              i_node.m_bytes[l_int_addr_offset+ 3*4:l_int_addr_offset + 4*4].hex()))
                             l_int_addr_offset+=4*4
                             l_int_bytes_len-=4*4
 
                         elif l_int_bytes_len > 3 * 4:
-                            l_file_map.write("{0:#010x} | {1:#010x} {2:#010x} {3:#010x} {4:#x} \n".format
+                            l_file_map.write("{0:#010x} | 0x{1} 0x{2} 0x{3} 0x{4} \n".format
                                              (l_int_addr + l_int_addr_offset,
-                                              int.from_bytes(i_node.m_bytes[l_int_addr_offset + 0 * 4:l_int_addr_offset + 1 * 4], byteorder='big'),
-                                              int.from_bytes(i_node.m_bytes[l_int_addr_offset + 1 * 4:l_int_addr_offset + 2 * 4], byteorder='big'),
-                                              int.from_bytes(i_node.m_bytes[l_int_addr_offset + 2 * 4:l_int_addr_offset + 3 * 4], byteorder='big'),
-                                              int.from_bytes(i_node.m_bytes[l_int_addr_offset + 3 * 4:], byteorder='big')))
+                                              i_node.m_bytes[l_int_addr_offset + 0 * 4:l_int_addr_offset + 1 * 4].hex(),
+                                              i_node.m_bytes[l_int_addr_offset + 1 * 4:l_int_addr_offset + 2 * 4].hex(),
+                                              i_node.m_bytes[l_int_addr_offset + 2 * 4:l_int_addr_offset + 3 * 4].hex(),
+                                              i_node.m_bytes[l_int_addr_offset + 3 * 4:].hex()))
                             l_int_addr_offset += l_int_bytes_len
                             l_int_bytes_len -= l_int_bytes_len
 
                         elif l_int_bytes_len > 2 * 4:
-                            l_file_map.write("{0:#010x} | {1:#010x} {2:#010x} {3:#x}  \n".format
+                            l_file_map.write("{0:#010x} | 0x{1} 0x{2} 0x{3}  \n".format
                                              (l_int_addr + l_int_addr_offset,
-                                              int.from_bytes(i_node.m_bytes[l_int_addr_offset + 0 * 4:l_int_addr_offset + 1 * 4], byteorder='big'),
-                                              int.from_bytes(i_node.m_bytes[l_int_addr_offset + 1 * 4:l_int_addr_offset + 2 * 4], byteorder='big'),
-                                              int.from_bytes(i_node.m_bytes[l_int_addr_offset + 2 * 4:], byteorder='big')))
+                                              i_node.m_bytes[l_int_addr_offset + 0 * 4:l_int_addr_offset + 1 * 4].hex(),
+                                              i_node.m_bytes[l_int_addr_offset + 1 * 4:l_int_addr_offset + 2 * 4].hex(),
+                                              i_node.m_bytes[l_int_addr_offset + 2 * 4:].hex()))
                             l_int_addr_offset += l_int_bytes_len
                             l_int_bytes_len -= l_int_bytes_len
 
                         elif l_int_bytes_len > 1 * 4:
-                            l_file_map.write("{0:#010x} | {1:#010x} {2:#x}   \n".format
+                            l_file_map.write("{0:#010x} | 0x{1} 0x{2}   \n".format
                                              (l_int_addr + l_int_addr_offset,
-                                              int.from_bytes(i_node.m_bytes[l_int_addr_offset + 0 * 4:l_int_addr_offset + 1 * 4], byteorder='big'),
-                                              int.from_bytes(i_node.m_bytes[l_int_addr_offset + 1 * 4:], byteorder='big')))
+                                              i_node.m_bytes[l_int_addr_offset + 0 * 4:l_int_addr_offset + 1 * 4].hex(),
+                                              i_node.m_bytes[l_int_addr_offset + 1 * 4:].hex()))
                             l_int_addr_offset += l_int_bytes_len
                             l_int_bytes_len -= l_int_bytes_len
                         else:
-                            l_file_map.write("{0:#010x} | {1:#x}   \n".format
+                            l_file_map.write("{0:#010x} | 0x{1}   \n".format
                                              (l_int_addr + l_int_addr_offset,
-                                              int.from_bytes(i_node.m_bytes[l_int_addr_offset + 0 * 4:], byteorder='big')))
+                                              i_node.m_bytes[l_int_addr_offset + 0 * 4:].hex()))
                             l_int_addr_offset += l_int_bytes_len
                             l_int_bytes_len -= l_int_bytes_len
 
