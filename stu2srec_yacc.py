@@ -55,7 +55,7 @@ def p_statement_name_equal_array(p):
     # | ID_NUMBER '=' array
     # | ID_FLOAT '=' array 
     # | ID_LIST '=' array '''
-    l_nodes=p[3]
+    l_nodes = p[3]
     l_nodes.insert(p_int_index=0,
                    p_node=NodeBytes(p_str_info=p[1]))
     g_map_nodes[p[1]] = l_nodes
@@ -145,7 +145,7 @@ def p_array_multiply(p):
     ''' array : expression '*' array '''
     try:
         # p[0] = p[1] * p[3]
-        p[0]=p[3]
+        p[0] = p[3]
         p[0].multiply(p_int_val=p[1])
 
     except TypeError as err:
@@ -163,11 +163,10 @@ def p_array_idlist(p):
 def p_array_string(p):
     ''' array : TEXT '['  STRING ']' '''
     p.set_lineno(0, p.lineno(1))
-    p[0]=NodesBytes()
+    p[0] = NodesBytes()
     p[0].append(p_node=NodeBytes(p_bytes=bytes(p[3], 'utf-8'),
                                  p_str_info="TEXT[{}]".format(p[3])))
     pass
-
 
 
 def p_array_sacem(p):
@@ -195,7 +194,8 @@ def p_array_sacem(p):
 
     p[0] = NodesBytes()
     p[0].append(p_node=NodeBytes(p_bytes=l_bytes_result,
-                                 p_str_info="SACEM(p_msg=0x{}, p_svl=0x{})".format(l_bytes_msg.hex(), l_bytes_svl.hex())))
+                                 p_str_info="SACEM(p_msg=0x{}, p_svl=0x{})".format(
+                                     l_bytes_msg.hex(), l_bytes_svl.hex())))
     pass
 
 
@@ -227,9 +227,11 @@ def p_array_cbc_mac(p):
                                      p_bytes_key_3=l_bytes_keys123[
                                                    2 * 8:3 * 8])
 
-    p[0] =NodesBytes()
+    p[0] = NodesBytes()
     p[0].append(p_node=NodeBytes(p_bytes=l_bytes_result,
-                                 p_str_info="CBCMAC(p_msg=0x{}, p_keys=0x{})".format(l_bytes_msg.hex(), l_bytes_keys123.hex())))
+                                 p_str_info="CBCMAC(p_msg=0x{}, p_keys=0x{})".format(
+                                     l_bytes_msg.hex(),
+                                     l_bytes_keys123.hex())))
     pass
 
 
@@ -261,7 +263,8 @@ def p_array_ecb_encrypt(p):
 
     p[0] = NodesBytes()
     p[0].append(p_node=NodeBytes(p_bytes=l_bytes_result,
-                                 p_str_info="ECB_ENCRYPT(p_msg=0x{}, p_key=0x{})".format(l_bytes_msg.hex(), l_bytes_key.hex())))
+                                 p_str_info="ECB_ENCRYPT(p_msg=0x{}, p_key=0x{})".format(
+                                     l_bytes_msg.hex(), l_bytes_key.hex())))
     pass
 
 
@@ -304,12 +307,12 @@ def p_array_cbc_encrypt(p):
     l_bytes_result = l_cypherop.cbc_compute(p_bytes_msg=l_bytes_msg,
                                             p_bytes_iv=l_bytes_iv)
 
-    p[0] =NodesBytes()
+    p[0] = NodesBytes()
     p[0].append(p_node=NodeBytes(p_bytes=l_bytes_result,
                                  p_str_info="CBC_ENCRYPT(p_msg=0x{}, p_key=0x{}, p_iv=0x{})".format(
-                       l_bytes_msg.hex(),
-                       l_bytes_key.hex(),
-                       l_bytes_iv.hex())))
+                                     l_bytes_msg.hex(),
+                                     l_bytes_key.hex(),
+                                     l_bytes_iv.hex())))
 
     pass
 
@@ -326,9 +329,10 @@ def p_array_crc32(p):
     l_bytes_result = struct.pack(">I",
                                  zlib.crc32(bytes(l_bytes_msg)) & 0xFFFFFFFF)
 
-    p[0]=NodesBytes()
+    p[0] = NodesBytes()
     p[0].append(p_node=NodeBytes(p_bytes=l_bytes_result,
-                                 p_str_info="CRC32(p_msg=0x{})".format(l_bytes_msg.hex())))
+                                 p_str_info="CRC32(p_msg=0x{})".format(
+                                     l_bytes_msg.hex())))
     pass
 
 
@@ -339,7 +343,7 @@ def p_array_hex(p):
         l_str_text = "0" + l_str_text
     try:
         l_bytes_result = bytes.fromhex(l_str_text)
-        p[0] =NodesBytes()
+        p[0] = NodesBytes()
         p[0].append(p_node=NodeBytes(p_bytes=l_bytes_result,
                                      p_str_info="HEX[{}]".format(p[3])))
     except:
@@ -367,7 +371,7 @@ def p_array_left_fill(p):
             p_str_msg="line {} : \'{}\': parameter not valid ! ".format(
                 p.lineno(11), p[11]))
 
-    l_int_new_msg_size=int(p[13].concat_all_bytes().hex(),16)
+    l_int_new_msg_size = int(p[13].concat_all_bytes().hex(), 16)
     l_int_pattern_size = p[9].nb_bytes()
 
     if l_int_pattern_size != 1:
@@ -375,8 +379,8 @@ def p_array_left_fill(p):
             p_str_msg="line {} : \'{}\': parameter size error {} bytes instead of 1 ! ".format(
                 p.lineno(9), p[7], l_int_pattern_size))
 
-    l_bytes_pattern_value=p[9].concat_all_bytes()
-    l_int_msg_size=int(p[5].nb_bytes())
+    l_bytes_pattern_value = p[9].concat_all_bytes()
+    l_int_msg_size = int(p[5].nb_bytes())
 
     l_int_nb_bytes_to_fill = l_int_new_msg_size - l_int_msg_size
 
@@ -385,12 +389,13 @@ def p_array_left_fill(p):
             p_str_msg="line {} : LEFT_FILL not possible. The message size is over the requested size! ".format(
                 p.lineno(1)))
 
-    l_node_fill = NodeBytes(p_str_info="left fill of {0:#x} bytes with pattern {1:#x}".format(
-        l_int_nb_bytes_to_fill,
-        int(l_bytes_pattern_value.hex(),16)),
+    l_node_fill = NodeBytes(
+        p_str_info="left fill of {0:#x} bytes with pattern {1:#x}".format(
+            l_int_nb_bytes_to_fill,
+            int(l_bytes_pattern_value.hex(), 16)),
         p_bytes=l_bytes_pattern_value * l_int_nb_bytes_to_fill)
 
-    p[0]=p[5]
+    p[0] = p[5]
     p[0].insert(p_int_index=0, p_node=l_node_fill)
 
     pass
@@ -413,7 +418,7 @@ def p_array_right_fill(p):
             p_str_msg="line {} : \'{}\': parameter not valid ! ".format(
                 p.lineno(11), p[11]))
 
-    l_int_new_msg_size=int(p[13].concat_all_bytes().hex(),16)
+    l_int_new_msg_size = int(p[13].concat_all_bytes().hex(), 16)
     l_int_pattern_size = p[9].nb_bytes()
 
     if l_int_pattern_size != 1:
@@ -421,8 +426,8 @@ def p_array_right_fill(p):
             p_str_msg="line {} : \'{}\': parameter size error {} bytes instead of 1 ! ".format(
                 p.lineno(9), p[7], l_int_pattern_size))
 
-    l_bytes_pattern_value=p[9].concat_all_bytes()
-    l_int_msg_size=int(p[5].nb_bytes())
+    l_bytes_pattern_value = p[9].concat_all_bytes()
+    l_int_msg_size = int(p[5].nb_bytes())
 
     l_int_nb_bytes_to_fill = l_int_new_msg_size - l_int_msg_size
 
@@ -431,15 +436,17 @@ def p_array_right_fill(p):
             p_str_msg="line {} : RIGTH_FILL not possible. The message size is over the requested size! ".format(
                 p.lineno(1)))
 
-    l_node_fill = NodeBytes(p_str_info="right fill of {0:#x} bytes with pattern {1:#x}".format(
-        l_int_nb_bytes_to_fill,
-        int(l_bytes_pattern_value.hex(),16)),
+    l_node_fill = NodeBytes(
+        p_str_info="right fill of {0:#x} bytes with pattern {1:#x}".format(
+            l_int_nb_bytes_to_fill,
+            int(l_bytes_pattern_value.hex(), 16)),
         p_bytes=l_bytes_pattern_value * l_int_nb_bytes_to_fill)
 
-    p[0]=p[5]
+    p[0] = p[5]
     p[0].append(p_node=l_node_fill)
 
     pass
+
 
 def p_list(p):
     ''' list : list ',' list '''

@@ -29,7 +29,8 @@ def print_usage():
     print("-m,--mapf     : map file name")
     print("-x,--baseaddr : data location memory address")
     print("")
-    print(" NOTA : The tutorial.stu file located into the installation path gives more details about STU format")
+    print(
+        " NOTA : The tutorial.stu file located into the installation path gives more details about STU format")
 
 
 def print_version():
@@ -37,7 +38,6 @@ def print_version():
 
 
 def parse_stu_file(p_str_input_file_name=""):
-
     # The contains of the input file is read.
     l_str_input = open(p_str_input_file_name).read()
 
@@ -58,10 +58,9 @@ def parse_stu_file(p_str_input_file_name=""):
 
 def compute_abs_file(p_str_output_file_name="",
                      p_int_base_addr=0):
-
     # If the output file name is void then the srecord data
     # is sent to the stdout.
-    l_boot_is_not_stdout_file=False
+    l_boot_is_not_stdout_file = False
 
     if p_str_output_file_name == "":
         l_file_output = sys.stdout
@@ -110,54 +109,73 @@ def compute_map_file(p_str_map_file_name="",
             l_file_map.write("  Addr     |  Definition   \n")
             l_file_map.write("-----------+" + "-" * 64 + "\n")
 
-            #print(g_map_nodes['main'])
+            # print(g_map_nodes['main'])
             for i_node in g_map_nodes['main']:
                 if i_node.m_str_info != "":
-                    l_file_map.write("{0:#010x} | {1} \n".format(l_int_addr, i_node.m_str_info))
+                    l_file_map.write("{0:#010x} | {1} \n".format(l_int_addr,
+                                                                 i_node.m_str_info))
                 if i_node.m_bytes != b'':
-                    l_int_bytes_len=len(i_node.m_bytes)
-                    l_int_addr_offset=0
-                    while l_int_bytes_len>0:
-                        if l_int_bytes_len > 4*4:
-                            l_file_map.write("{0:#010x} | 0x{1} 0x{2} 0x{3} 0x{4} \n".format
-                                             (l_int_addr+l_int_addr_offset,
-                                              i_node.m_bytes[l_int_addr_offset+ 0*4:l_int_addr_offset + 1*4].hex(),
-                                              i_node.m_bytes[l_int_addr_offset+ 1*4:l_int_addr_offset + 2*4].hex(),
-                                              i_node.m_bytes[l_int_addr_offset+ 2*4:l_int_addr_offset + 3*4].hex(),
-                                              i_node.m_bytes[l_int_addr_offset+ 3*4:l_int_addr_offset + 4*4].hex()))
-                            l_int_addr_offset+=4*4
-                            l_int_bytes_len-=4*4
+                    l_int_bytes_len = len(i_node.m_bytes)
+                    l_int_addr_offset = 0
+                    while l_int_bytes_len > 0:
+                        if l_int_bytes_len > 4 * 4:
+                            l_file_map.write(
+                                "{0:#010x} | 0x{1} 0x{2} 0x{3} 0x{4} \n".format
+                                (l_int_addr + l_int_addr_offset,
+                                 i_node.m_bytes[
+                                 l_int_addr_offset + 0 * 4:l_int_addr_offset + 1 * 4].hex(),
+                                 i_node.m_bytes[
+                                 l_int_addr_offset + 1 * 4:l_int_addr_offset + 2 * 4].hex(),
+                                 i_node.m_bytes[
+                                 l_int_addr_offset + 2 * 4:l_int_addr_offset + 3 * 4].hex(),
+                                 i_node.m_bytes[
+                                 l_int_addr_offset + 3 * 4:l_int_addr_offset + 4 * 4].hex()))
+                            l_int_addr_offset += 4 * 4
+                            l_int_bytes_len -= 4 * 4
 
                         elif l_int_bytes_len > 3 * 4:
-                            l_file_map.write("{0:#010x} | 0x{1} 0x{2} 0x{3} 0x{4} \n".format
-                                             (l_int_addr + l_int_addr_offset,
-                                              i_node.m_bytes[l_int_addr_offset + 0 * 4:l_int_addr_offset + 1 * 4].hex(),
-                                              i_node.m_bytes[l_int_addr_offset + 1 * 4:l_int_addr_offset + 2 * 4].hex(),
-                                              i_node.m_bytes[l_int_addr_offset + 2 * 4:l_int_addr_offset + 3 * 4].hex(),
-                                              i_node.m_bytes[l_int_addr_offset + 3 * 4:].hex()))
+                            l_file_map.write(
+                                "{0:#010x} | 0x{1} 0x{2} 0x{3} 0x{4} \n".format
+                                (l_int_addr + l_int_addr_offset,
+                                 i_node.m_bytes[
+                                 l_int_addr_offset + 0 * 4:l_int_addr_offset + 1 * 4].hex(),
+                                 i_node.m_bytes[
+                                 l_int_addr_offset + 1 * 4:l_int_addr_offset + 2 * 4].hex(),
+                                 i_node.m_bytes[
+                                 l_int_addr_offset + 2 * 4:l_int_addr_offset + 3 * 4].hex(),
+                                 i_node.m_bytes[
+                                 l_int_addr_offset + 3 * 4:].hex()))
                             l_int_addr_offset += l_int_bytes_len
                             l_int_bytes_len -= l_int_bytes_len
 
                         elif l_int_bytes_len > 2 * 4:
-                            l_file_map.write("{0:#010x} | 0x{1} 0x{2} 0x{3}  \n".format
-                                             (l_int_addr + l_int_addr_offset,
-                                              i_node.m_bytes[l_int_addr_offset + 0 * 4:l_int_addr_offset + 1 * 4].hex(),
-                                              i_node.m_bytes[l_int_addr_offset + 1 * 4:l_int_addr_offset + 2 * 4].hex(),
-                                              i_node.m_bytes[l_int_addr_offset + 2 * 4:].hex()))
+                            l_file_map.write(
+                                "{0:#010x} | 0x{1} 0x{2} 0x{3}  \n".format
+                                (l_int_addr + l_int_addr_offset,
+                                 i_node.m_bytes[
+                                 l_int_addr_offset + 0 * 4:l_int_addr_offset + 1 * 4].hex(),
+                                 i_node.m_bytes[
+                                 l_int_addr_offset + 1 * 4:l_int_addr_offset + 2 * 4].hex(),
+                                 i_node.m_bytes[
+                                 l_int_addr_offset + 2 * 4:].hex()))
                             l_int_addr_offset += l_int_bytes_len
                             l_int_bytes_len -= l_int_bytes_len
 
                         elif l_int_bytes_len > 1 * 4:
-                            l_file_map.write("{0:#010x} | 0x{1} 0x{2}   \n".format
-                                             (l_int_addr + l_int_addr_offset,
-                                              i_node.m_bytes[l_int_addr_offset + 0 * 4:l_int_addr_offset + 1 * 4].hex(),
-                                              i_node.m_bytes[l_int_addr_offset + 1 * 4:].hex()))
+                            l_file_map.write(
+                                "{0:#010x} | 0x{1} 0x{2}   \n".format
+                                (l_int_addr + l_int_addr_offset,
+                                 i_node.m_bytes[
+                                 l_int_addr_offset + 0 * 4:l_int_addr_offset + 1 * 4].hex(),
+                                 i_node.m_bytes[
+                                 l_int_addr_offset + 1 * 4:].hex()))
                             l_int_addr_offset += l_int_bytes_len
                             l_int_bytes_len -= l_int_bytes_len
                         else:
                             l_file_map.write("{0:#010x} | 0x{1}   \n".format
                                              (l_int_addr + l_int_addr_offset,
-                                              i_node.m_bytes[l_int_addr_offset + 0 * 4:].hex()))
+                                              i_node.m_bytes[
+                                              l_int_addr_offset + 0 * 4:].hex()))
                             l_int_addr_offset += l_int_bytes_len
                             l_int_bytes_len -= l_int_bytes_len
 
@@ -178,7 +196,8 @@ def main():
     try:
         opts, args = getopt.getopt(sys.argv[1:],
                                    "vhi:o:x:m:",
-                                   ["version", "help", "inputf=", "ouputf=", "baseaddr=", "mapf="])
+                                   ["version", "help", "inputf=", "ouputf=",
+                                    "baseaddr=", "mapf="])
 
     except getopt.GetoptError as err:
         # print help information and exit:
@@ -199,12 +218,6 @@ def main():
         elif l_opt in ("-i", "--inputf"):
             l_str_input_file_name = l_arg
 
-            # An error is raised if the input file is not an existing file.
-            if not os.path.isfile(l_str_input_file_name):
-                raise StopException(
-                    p_str_msg="input file arg \'{}\' is not a file !".format(
-                        l_str_input_file_name))
-
         elif l_opt in ("-o", "--ouputf"):
             l_str_output_file_name = l_arg
 
@@ -215,11 +228,20 @@ def main():
             try:
                 l_int_base_addr = int(eval(l_arg))
             except:
-                raise StopException(p_str_msg="baseaddr arg \'{}\' is not an integer !".format(l_arg))
+                raise StopException(
+                    p_str_msg="baseaddr arg \'{}\' is not an integer !".format(
+                        l_arg))
 
             if l_int_base_addr < 0:
                 raise StopException(
-                    p_str_msg="baseaddr arg \'{}\' is not a positive value !".format(l_int_base_addr))
+                    p_str_msg="baseaddr arg \'{}\' is not a positive value !".format(
+                        l_int_base_addr))
+
+    # Check the parameters
+    # An error is raised if the input file is not an existing file.
+    if not os.path.isfile(l_str_input_file_name):
+        print_usage()
+        sys.exit(2)
 
     # The STU file is parsed.
     # The result is stored into the global LEX "g_map_nodes" map.
