@@ -25,7 +25,7 @@ def print_usage():
     print("-v            : version ")
     print("-h,--help     : help ")
     print("-i,--inputf   : input file name (STU format)")
-    print("-i,--outputf  : output file name (S19 format)")
+    print("-o,--outputf  : output file name (S19 format)")
     print("-m,--mapf     : map file name")
     print("-x,--baseaddr : data location memory address")
     print("")
