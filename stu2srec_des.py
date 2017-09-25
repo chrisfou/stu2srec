@@ -346,7 +346,7 @@ class CypherOp(DES):
         for id_block in range(0, l_int_nb_block):
             l_bytes_result += DES.compute(self, p_bytes_data=l_bytes_msg[
                                                              id_block * 8: (
-                                                                           id_block + 1) * 8])
+                                                                               id_block + 1) * 8])
 
         return l_bytes_result
 
@@ -647,7 +647,7 @@ if __name__ == "__main__":
         p_bytes_msg=l_encrypted_msg)
 
     if (l_decrypted_msg.decode('utf-8') != l_msg_test) and (
-        l_encrypted_msg.hex().upper() != l_encrypted_msg_ref):
+                l_encrypted_msg.hex().upper() != l_encrypted_msg_ref):
         print("TEST 7 KO !!")
     else:
         print("TEST 7 OK ..")
@@ -681,7 +681,7 @@ if __name__ == "__main__":
         p_bytes_msg=l_encrypted_msg)
 
     if (l_decrypted_msg.decode('utf-8') != l_msg_test) and (
-        l_encrypted_msg.hex().upper() != l_encrypted_msg_ref):
+                l_encrypted_msg.hex().upper() != l_encrypted_msg_ref):
         print("TEST 8 KO !!")
     else:
         print("TEST 8 OK ..")
@@ -720,7 +720,7 @@ if __name__ == "__main__":
     # print(l_decrypted_msg.hex())
 
     if (l_decrypted_msg.decode('utf-8') != l_msg_test) and (
-        l_encrypted_msg.hex().upper() != l_encrypted_msg_ref):
+                l_encrypted_msg.hex().upper() != l_encrypted_msg_ref):
         print("TEST 9 KO !!")
     else:
         print("TEST 9 OK ..")

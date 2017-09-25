@@ -20,13 +20,7 @@ import zlib  # crc32
 import ply.yacc as yacc
 
 from stu2srec_error import StopException
-
-
-class T_Node:
-    def __init__(self, p_bytes_data=b'', p_str_info=""):
-        self.m_bytes_data = p_bytes_data
-        self.m_str_info = p_str_info
-
+from stu2srec_nodes import *
 
 #
 type_id = None
@@ -52,8 +46,7 @@ def p_statement_name_equal_expression(p):
     # | ID_NUMBER '=' expression
     # | ID_FLOAT '=' expression 
     # | ID_LIST '=' expression '''
-    # print("p_statement_name_equal_expression")
-    names[p[1]] = p[3]
+    g_map_nodes[p[1]] = p[3]
     pass
 
 
@@ -62,84 +55,83 @@ def p_statement_name_equal_array(p):
     # | ID_NUMBER '=' array
     # | ID_FLOAT '=' array 
     # | ID_LIST '=' array '''
-    # print("p_statement_name_equal_array")
-    names[p[1]] = p[3]
+    l_nodes=p[3]
+    l_nodes.append(p_node=NodeBytes(p_str_info=p[1]))
+    g_map_nodes[p[1]] = l_nodes
     pass
 
 
 def p_statement_expression(p):
     ''' statement : expression '''
-    # print("p_statement_expression")
     print(p[1])
     pass
 
 
 def p_statement_array(p):
     ''' statement : array '''
-    # print("p_statement_array")
     print(p[1])
     pass
 
 
 def p_array_float32_list(p):
     ''' array : FLOAT32 set_type_float32 '[' list ']' '''
-    # print("p_array_float32_list")
-    # p[0] = p[4]
-    p[0] = [T_Node(p_bytes_data=p[4], p_str_info=""), ]
+    p[0] = NodesBytes()
+    p[0].append(p_node=NodeBytes(p_bytes=p[4],
+                                 p_str_info=""))
+
     pass
 
 
 def p_array_ub_list(p):
     ''' array : UBYTE set_type_ubyte '[' list ']' '''
-    # print("p_array_ub_list")
-    # p[0] = p[4]
-    p[0] = [T_Node(p_bytes_data=p[4], p_str_info=""), ]
+    p[0] = NodesBytes()
+    p[0].append(p_node=NodeBytes(p_bytes=p[4],
+                                 p_str_info=""))
     pass
 
 
 def p_array_uw_list(p):
     ''' array : UWORD set_type_uword '[' list ']' '''
-    # print("p_array_uw_list")
-    # p[0] = p[4]
-    p[0] = [T_Node(p_bytes_data=p[4], p_str_info=""), ]
+    p[0] = NodesBytes()
+    p[0].append(p_node=NodeBytes(p_bytes=p[4],
+                                 p_str_info=""))
     pass
 
 
 def p_array_ul_list(p):
     ''' array : ULONG set_type_ulong '[' list ']' '''
-    # print("p_array_ul_list")
-    # p[0] = p[4]
-    p[0] = [T_Node(p_bytes_data=p[4], p_str_info=""), ]
+    p[0] = NodesBytes()
+    p[0].append(p_node=NodeBytes(p_bytes=p[4],
+                                 p_str_info=""))
     pass
 
 
 def p_array_sb_list(p):
     ''' array : SBYTE set_type_sbyte '[' list ']' '''
-    # print("p_array_sb_list")
-    # p[0] = p[4]
-    p[0] = [T_Node(p_bytes_data=p[4], p_str_info=""), ]
+    p[0] = NodesBytes()
+    p[0].append(p_node=NodeBytes(p_bytes=p[4],
+                                 p_str_info=""))
     pass
 
 
 def p_array_sw_list(p):
     ''' array : SWORD set_type_sword '[' list ']' '''
-    # print("p_array_sw_list")
-    # p[0] = p[4]
-    p[0] = [T_Node(p_bytes_data=p[4], p_str_info=""), ]
+    p[0] = NodesBytes()
+    p[0].append(p_node=NodeBytes(p_bytes=p[4],
+                                 p_str_info=""))
     pass
 
 
 def p_array_sl_list(p):
     ''' array : SLONG set_type_slong '[' list ']' '''
-    # print("p_array_sl_list")
-    # p[0] = p[4]
-    p[0] = [T_Node(p_bytes_data=p[4], p_str_info=""), ]
+    p[0] = NodesBytes()
+    p[0].append(p_node=NodeBytes(p_bytes=p[4],
+                                 p_str_info=""))
     pass
 
 
 def p_array_plus(p):
     ''' array : array '+' array '''
-    # print("p_array_plus")
     try:
         p[0] = p[1] + p[3]
     except TypeError as err:
@@ -150,43 +142,35 @@ def p_array_plus(p):
 
 def p_array_multiply(p):
     ''' array : expression '*' array '''
-    # print("p_array_multiply")
     try:
         # p[0] = p[1] * p[3]
-        p[0] = []
-        for l_int_i in range(0, p[1]):
-            p[0].append(T_Node(p_bytes_data=b'', p_str_info="[{}]".format(l_int_i)))
-            p[0] += p[3]
+        p[0]=p[3]
+        p[0].multiply(p_int_val=p[1])
 
     except TypeError as err:
         raise StopException(
             p_str_msg="line {} : {}".format(p.lineno(2), str(err)))
-
     pass
 
 
 def p_array_idlist(p):
     ''' array : ID_LIST '''
-    # print("p_array_idlist")
-    # p[0] = names[p[1]
-    p[0] = [T_Node(p_bytes_data=b'', p_str_info=p[1]), ]
-    p[0] += names[p[1]]
+    p[0] = g_map_nodes[p[1]]
     pass
 
 
 def p_array_string(p):
     ''' array : TEXT '['  STRING ']' '''
-    # print("p_array_string")
-    # p[0]=b''
     p.set_lineno(0, p.lineno(1))
-    # p[0] = bytes(p[3], 'utf-8')
-    p[0] = [
-        T_Node(p_bytes_data=bytes(p[3], 'utf-8'), p_str_info="TEXT[{}]".format(p[3])), ]
+    p[0]=NodesBytes()
+    p[0].append(p_node=NodeBytes(p_bytes=bytes(p[3], 'utf-8'),
+                                 p_str_info="TEXT[{}]".format(p[3])))
+    pass
+
 
 
 def p_array_sacem(p):
     ''' array : SACEM '[' ID PARAM array ',' ID PARAM array ']' '''
-    # print("p_array_sacem")
     if p[3] != "msg":
         raise StopException(
             p_str_msg="line {} : \'{}\': parameter not valid ! ".format(
@@ -196,24 +180,21 @@ def p_array_sacem(p):
             p_str_msg="line {} : \'{}\': parameter not valid ! ".format(
                 p.lineno(7), p[7]))
 
-    l_bytes_svl = b''
-    for x in p[9]:
-        l_bytes_svl += x.m_bytes_data
-
-    l_bytes_msg = b''
-    for x in p[5]:
-        l_bytes_msg += x.m_bytes_data
+    l_bytes_svl = p[9].concat_all_bytes()
+    l_bytes_msg = p[5].concat_all_bytes()
 
     if len(l_bytes_svl) != 8:
         raise StopException(
             p_str_msg="line {} : \'{}\': parameter size error ! ( {} bytes instead of 8 )".format(
                 p.lineno(7), p[7],
                 len(l_bytes_svl)))
-    l_bytes_result = sacem(p_bytes_msg=l_bytes_msg, p_bytes_svl=l_bytes_svl)
 
-    p[0] = [T_Node(p_bytes_data=l_bytes_result,
-                   p_str_info="SACEM(p_msg=0x{}, p_svl=0x{})".format(
-                       l_bytes_msg.hex(), l_bytes_svl.hex())), ]
+    l_bytes_result = sacem(p_bytes_msg=l_bytes_msg,
+                           p_bytes_svl=l_bytes_svl)
+
+    p[0] = NodesBytes()
+    p[0].append(p_node=NodeBytes(p_bytes=l_bytes_result,
+                                 p_str_info="SACEM(p_msg=0x{}, p_svl=0x{})".format(l_bytes_msg.hex(), l_bytes_svl.hex())))
     pass
 
 
@@ -228,19 +209,15 @@ def p_array_cbc_mac(p):
             p_str_msg="line {} : \'{}\': parameter not valid ! ".format(
                 p.lineno(7), p[7]))
 
-    l_bytes_msg = b''
-    for x in p[5]:
-        l_bytes_msg += x.m_bytes_data
-
-    l_bytes_keys123 = b''
-    for x in p[9]:
-        l_bytes_keys123 += x.m_bytes_data
+    l_bytes_msg = p[5].concat_all_bytes()
+    l_bytes_keys123 = p[9].concat_all_bytes()
 
     if len(l_bytes_keys123) != 3 * 8:
         raise StopException(
             p_str_msg="line {} : \'{}\': parameter size error ! ( {} bytes instead of 24 ) ".format(
                 p.lineno(7), p[7],
                 len(l_bytes_keys123)))
+
     l_bytes_result = cbc_mac_compute(p_bytes_msg=l_bytes_msg,
                                      p_bytes_key_1=l_bytes_keys123[
                                                    0 * 8:1 * 8],
@@ -249,10 +226,9 @@ def p_array_cbc_mac(p):
                                      p_bytes_key_3=l_bytes_keys123[
                                                    2 * 8:3 * 8])
 
-    p[0] = [T_Node(p_bytes_data=l_bytes_result,
-                   p_str_info="CBCMAC(p_msg=0x{}, p_keys=0x{})".format(
-                       l_bytes_msg.hex(), l_bytes_keys123.hex())), ]
-
+    p[0] =NodesBytes()
+    p[0].append(p_node=NodeBytes(p_bytes=l_bytes_result,
+                                 p_str_info="CBCMAC(p_msg=0x{}, p_keys=0x{})".format(l_bytes_msg.hex(), l_bytes_keys123.hex())))
     pass
 
 
@@ -267,13 +243,8 @@ def p_array_ecb_encrypt(p):
             p_str_msg="line {} : \'{}\': parameter not valid ! ".format(
                 p.lineno(7), p[7]))
 
-    l_bytes_msg = b''
-    for x in p[5]:
-        l_bytes_msg += x.m_bytes_data
-
-    l_bytes_key = b''
-    for x in p[9]:
-        l_bytes_key += x.m_bytes_data
+    l_bytes_msg = p[5].concat_all_bytes()
+    l_bytes_key = p[9].concat_all_bytes()
 
     if len(l_bytes_key) != 8:
         raise StopException(
@@ -287,11 +258,9 @@ def p_array_ecb_encrypt(p):
 
     l_bytes_result = l_cyphero.ecb_compute(p_bytes_msg=l_bytes_msg)
 
-    p[0] = [T_Node(p_bytes_data=l_bytes_result,
-                   p_str_info="ECB_ENCRYPT(p_msg=0x{}, p_key=0x{})".format(
-                       l_bytes_msg.hex(),
-                       l_bytes_key.hex())),]
-
+    p[0] = NodesBytes()
+    p[0].append(p_node=NodeBytes(p_bytes=l_bytes_result,
+                                 p_str_info="ECB_ENCRYPT(p_msg=0x{}, p_key=0x{})".format(l_bytes_msg.hex(), l_bytes_key.hex())))
     pass
 
 
@@ -310,17 +279,9 @@ def p_array_cbc_encrypt(p):
             p_str_msg="line {} : \'{}\': parameter not valid ! ".format(
                 p.lineno(11), p[11]))
 
-    l_bytes_msg = b''
-    for x in p[5]:
-        l_bytes_msg += x.m_bytes_data
-
-    l_bytes_key = b''
-    for x in p[9]:
-        l_bytes_key += x.m_bytes_data
-
-    l_bytes_iv = b''
-    for x in p[13]:
-        l_bytes_iv += x.m_bytes_data
+    l_bytes_msg = p[5].concat_all_bytes()
+    l_bytes_key = p[9].concat_all_bytes()
+    l_bytes_iv = p[13].concat_all_bytes()
 
     if len(l_bytes_key) != 8:
         raise StopException(
@@ -342,47 +303,44 @@ def p_array_cbc_encrypt(p):
     l_bytes_result = l_cypherop.cbc_compute(p_bytes_msg=l_bytes_msg,
                                             p_bytes_iv=l_bytes_iv)
 
-    p[0] = [T_Node(p_bytes_data=l_bytes_result,
-                   p_str_info="CBC_ENCRYPT(p_msg=0x{}, p_key=0x{}, p_iv=0x{})".format(
+    p[0] =NodesBytes()
+    p[0].append(p_node=NodeBytes(p_bytes=l_bytes_result,
+                                 p_str_info="CBC_ENCRYPT(p_msg=0x{}, p_key=0x{}, p_iv=0x{})".format(
                        l_bytes_msg.hex(),
                        l_bytes_key.hex(),
-                       l_bytes_iv.hex())),]
+                       l_bytes_iv.hex())))
 
     pass
 
 
 def p_array_crc32(p):
     ''' array : CRC32 '[' ID PARAM array ']' '''
-    # print("p_array_crc32")
-
     if p[3] != "msg":
         raise StopException(
             p_str_msg="line {} : \'{}\': parameter not valid ! ".format(
                 p.lineno(3), p[3]))
 
-    l_bytes_msg = b''
-    for x in p[5]:
-        l_bytes_msg += x.m_bytes_data
+    l_bytes_msg = p[5].concat_all_bytes()
 
     l_bytes_result = struct.pack(">I",
                                  zlib.crc32(bytes(l_bytes_msg)) & 0xFFFFFFFF)
 
-    p[0] = [T_Node(p_bytes_data=l_bytes_result,
-                   p_str_info="CRC32(p_msg=0x{})".format(l_bytes_msg.hex())), ]
+    p[0]=NodesBytes()
+    p[0].append(p_node=NodeBytes(p_bytes=l_bytes_result,
+                                 p_str_info="CRC32(p_msg=0x{})".format(l_bytes_msg.hex())))
     pass
 
 
 def p_array_hex(p):
     ''' array : HEX '[' STRING ']' '''
-    # print("p_array_hex")
-
     l_str_text = p[3]
     if len(p[3]) % 2 != 0:
         l_str_text = "0" + l_str_text
     try:
         l_bytes_result = bytes.fromhex(l_str_text)
-        p[0] = [T_Node(p_bytes_data=l_bytes_result,
-                       p_str_info="HEX[{}]".format(p[3])), ]
+        p[0] =NodesBytes()
+        p[0].append(p_node=NodeBytes(p_bytes=l_bytes_result,
+                                     p_str_info="HEX[{}]".format(p[3])))
     except:
         raise StopException(
             p_str_msg="line {} : string \'{}\', not hexadecimal".format(
@@ -391,17 +349,105 @@ def p_array_hex(p):
     pass
 
 
+def p_array_left_fill(p):
+    ''' array : LEFT_FILL '[' ID PARAM array ',' ID PARAM array ',' ID PARAM array ']' '''
+    if p[3] != "msg":
+        raise StopException(
+            p_str_msg="line {} : \'{}\': parameter not valid ! ".format(
+                p.lineno(3), p[3]))
+
+    if p[7] != "pattern":
+        raise StopException(
+            p_str_msg="line {} : \'{}\': parameter not valid ! ".format(
+                p.lineno(7), p[7]))
+
+    if p[11] != "size":
+        raise StopException(
+            p_str_msg="line {} : \'{}\': parameter not valid ! ".format(
+                p.lineno(11), p[11]))
+
+    l_int_new_msg_size=int(p[13].concat_all_bytes().hex(),16)
+    l_int_pattern_size = p[9].nb_bytes()
+
+    if l_int_pattern_size != 1:
+        raise StopException(
+            p_str_msg="line {} : \'{}\': parameter size error {} bytes instead of 1 ! ".format(
+                p.lineno(9), p[7], l_int_pattern_size))
+
+    l_bytes_pattern_value=p[9].concat_all_bytes()
+    l_int_msg_size=int(p[5].nb_bytes())
+
+    l_int_nb_bytes_to_fill = l_int_new_msg_size - l_int_msg_size
+
+    if l_int_nb_bytes_to_fill < 0:
+        raise StopException(
+            p_str_msg="line {} : LEFT_FILL not possible. The message size is over the requested size! ".format(
+                p.lineno(1)))
+
+    l_node_fill = NodeBytes(p_str_info="left fill of {0:#x} bytes with pattern {1:#x}".format(
+        l_int_nb_bytes_to_fill,
+        int(l_bytes_pattern_value.hex(),16)),
+        p_bytes=l_bytes_pattern_value * l_int_nb_bytes_to_fill)
+
+    p[0]=p[5]
+    p[0].insert(p_int_index=0, p_node=l_node_fill)
+
+    pass
+
+
+def p_array_right_fill(p):
+    ''' array : RIGHT_FILL '[' ID PARAM array ',' ID PARAM array ',' ID PARAM array ']' '''
+    if p[3] != "msg":
+        raise StopException(
+            p_str_msg="line {} : \'{}\': parameter not valid ! ".format(
+                p.lineno(3), p[3]))
+
+    if p[7] != "pattern":
+        raise StopException(
+            p_str_msg="line {} : \'{}\': parameter not valid ! ".format(
+                p.lineno(7), p[7]))
+
+    if p[11] != "size":
+        raise StopException(
+            p_str_msg="line {} : \'{}\': parameter not valid ! ".format(
+                p.lineno(11), p[11]))
+
+    l_int_new_msg_size=int(p[13].concat_all_bytes().hex(),16)
+    l_int_pattern_size = p[9].nb_bytes()
+
+    if l_int_pattern_size != 1:
+        raise StopException(
+            p_str_msg="line {} : \'{}\': parameter size error {} bytes instead of 1 ! ".format(
+                p.lineno(9), p[7], l_int_pattern_size))
+
+    l_bytes_pattern_value=p[9].concat_all_bytes()
+    l_int_msg_size=int(p[5].nb_bytes())
+
+    l_int_nb_bytes_to_fill = l_int_new_msg_size - l_int_msg_size
+
+    if l_int_nb_bytes_to_fill < 0:
+        raise StopException(
+            p_str_msg="line {} : RIGTH_FILL not possible. The message size is over the requested size! ".format(
+                p.lineno(1)))
+
+    l_node_fill = NodeBytes(p_str_info="right fill of {0:#x} bytes with pattern {1:#x}".format(
+        l_int_nb_bytes_to_fill,
+        int(l_bytes_pattern_value.hex(),16)),
+        p_bytes=l_bytes_pattern_value * l_int_nb_bytes_to_fill)
+
+    p[0]=p[5]
+    p[0].append(p_node=l_node_fill)
+
+    pass
+
 def p_list(p):
     ''' list : list ',' list '''
-    # print("p_list")
     p[0] = p[1] + p[3]
     pass
 
 
 def p_list_expression(p):
     ''' list : expression '''
-    # print("p_list_expression")
-
     try:
         if type_id == "UB":
             p[0] = struct.pack(">B", p[1])
@@ -433,28 +479,24 @@ def p_list_expression(p):
 
 def p_expression_plus(p):
     ''' expression : expression '+' expression '''
-    # print("p_expression_plus")
     p[0] = p[1] + p[3]
     pass
 
 
 def p_expression_minus(p):
     ''' expression : expression '-' expression '''
-    # print("p_expression_minus")
     p[0] = p[1] - p[3]
     pass
 
 
 def p_expression_multiply(p):
     ''' expression : expression '*' expression '''
-    # print("p_expression_multiply")
     p[0] = p[1] * p[3]
     pass
 
 
 def p_expression_uminus(p):
     ''' expression : '-' expression %prec UMINUS '''
-    # print("p_expression_uminus")
     p[0] = -p[2]
     p.set_lineno(0, p.lineno(2))
     pass
@@ -462,7 +504,6 @@ def p_expression_uminus(p):
 
 def p_expression_lsh(p):
     ''' expression : expression LSH expression '''
-    # print("p_expression_lsh")
     try:
         p[0] = p[1] << p[3]
     except TypeError as err:
@@ -473,7 +514,6 @@ def p_expression_lsh(p):
 
 def p_expression_rsh(p):
     ''' expression : expression RSH expression '''
-    # print("p_expression_rsh")
     try:
         p[0] = p[1] >> p[3]
     except TypeError as err:
@@ -484,7 +524,6 @@ def p_expression_rsh(p):
 
 def p_expression_and(p):
     ''' expression : expression AND expression '''
-    # print("p_expression_and")
     try:
         p[0] = p[1] & p[3]
     except TypeError as err:
@@ -495,7 +534,6 @@ def p_expression_and(p):
 
 def p_expression_or(p):
     ''' expression : expression OR expression '''
-    # print("p_expression_or")
     try:
         p[0] = p[1] | p[3]
     except TypeError as err:
@@ -506,7 +544,6 @@ def p_expression_or(p):
 
 def p_expression_xor(p):
     ''' expression : expression XOR expression '''
-    # print("p_expression_xor")
     try:
         p[0] = p[1] ^ p[3]
     except TypeError as err:
@@ -517,7 +554,6 @@ def p_expression_xor(p):
 
 def p_expression_paren(p):
     ''' expression : '(' expression ')' '''
-    # print("p_expression_paren")
     p[0] = p[2]
     p.set_lineno(0, p.lineno(2))
     pass
@@ -525,7 +561,6 @@ def p_expression_paren(p):
 
 def p_expression_number(p):
     ''' expression : NUMBER '''
-    # print("p_expression_number")
     p[0] = p[1]
     p.set_lineno(0, p.lineno(1))
     pass
@@ -533,15 +568,13 @@ def p_expression_number(p):
 
 def p_expression_idnumber(p):
     ''' expression : ID_NUMBER '''
-    # print("p_expression_idnumber")
-    p[0] = names[p[1]]
+    p[0] = g_map_nodes[p[1]]
     p.set_lineno(0, p.lineno(1))
     pass
 
 
 def p_expression_float(p):
     ''' expression : FLOAT'''
-    # print("p_expression_float")
     p[0] = p[1]
     p.set_lineno(0, p.lineno(1))
     pass
@@ -549,28 +582,21 @@ def p_expression_float(p):
 
 def p_expression_idfloat(p):
     ''' expression : ID_FLOAT'''
-    # print("p_expression_idfloat")
-    p[0] = names[p[1]]
+    p[0] = g_map_nodes[p[1]]
     p.set_lineno(0, p.lineno(1))
     pass
 
 
 def p_expression_size(p):
     ''' expression : SIZE '(' array ')' '''
-    # print("p_expression_size")
-
-    p[0] = len(p[3])
+    p[0] = p[3].nb_bytes()
     p.set_lineno(0, p.lineno(1))
     pass
 
 
 def p_expression_bytsum(p):
     ''' expression : BYTSUM '(' array ')' '''
-    # print("p_expression_bytsum")
-
-    l_int_sum = 0
-    for x in p[3]:
-        l_int_sum += sum(x.m_bytes_data)
+    l_int_sum = sum(p[3].concat_all_bytes())
     p[0] = l_int_sum
     p.set_lineno(0, p.lineno(1))
     pass
@@ -581,57 +607,49 @@ def p_error(p):
         raise StopException(
             p_str_msg="line {} : Syntax error at \'{}\'".format(p.lineno,
                                                                 p.value))
-        # print("Syntax error at '%s'" % p.value)
     else:
         raise StopException(p_str_msg="Syntax error at EOF")
-        # print("Syntax error at EOF")
 
 
 def p_set_type_ubyte(p):
     ''' set_type_ubyte :'''
-    # print("p_set_type_ubyte")
     global type_id
     type_id = "UB"
 
 
 def p_set_type_uword(p):
     ''' set_type_uword :'''
-    # print("p_set_type_uword")
     global type_id
     type_id = "UW"
 
 
 def p_set_type_ulong(p):
     ''' set_type_ulong :'''
-    # print("p_set_type_ulong")
     global type_id
     type_id = "UL"
 
 
 def p_set_type_sbyte(p):
     ''' set_type_sbyte :'''
-    # print("p_set_type_sbyte")
     global type_id
     type_id = "SB"
 
 
 def p_set_type_sword(p):
     ''' set_type_sword :'''
-    # print("p_set_type_sword")
     global type_id
     type_id = "SW"
 
 
 def p_set_type_slong(p):
     ''' set_type_slong :'''
-    # print("p_set_type_slong")
+
     global type_id
     type_id = "SL"
 
 
 def p_set_type_float32(p):
     ''' set_type_float32 :'''
-    # print("p_set_type_float32")
     global type_id
     type_id = "F32"
 

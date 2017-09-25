@@ -10,12 +10,13 @@
 # =============================================================================
 
 from stu2srec_error import StopException
+from stu2srec_nodes import NodesBytes
 
 import ply.lex as lex
 import re
 
-# dictionary of names
-names = {}
+# map of nodes
+g_map_nodes = {}
 
 reserved = {'SIZE': 'SIZE',
             'BYTSUM': 'BYTSUM',
@@ -26,6 +27,8 @@ reserved = {'SIZE': 'SIZE',
             'CBCMAC': 'CBCMAC',
             'ECB_ENCRYPT': 'ECB_ENCRYPT',
             'CBC_ENCRYPT': 'CBC_ENCRYPT',
+            'LEFT_FILL':'LEFT_FILL',
+            'RIGHT_FILL': 'RIGHT_FILL',
             'F32': 'FLOAT32',
             'UB': 'UBYTE',
             'UW': 'UWORD',
@@ -95,12 +98,12 @@ def t_ID(t):
     r'[a-zA-Z_][a-zA-Z0-9_]*'
     t.type = reserved.get(t.value, 'ID')
     if t.type == 'ID':
-        if t.value in list(names.keys()):
-            if type(names[t.value]) == int:
+        if t.value in list(g_map_nodes.keys()):
+            if type(g_map_nodes[t.value]) == int:
                 t.type = 'ID_NUMBER'
-            elif type(names[t.value]) == list:
+            elif type(g_map_nodes[t.value]) == NodesBytes:
                 t.type = 'ID_LIST'
-            elif type(names[t.value]) == float:
+            elif type(g_map_nodes[t.value]) == float:
                 t.type = 'ID_FLOAT'
                 # else:
                 #     pass
