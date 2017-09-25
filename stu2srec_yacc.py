@@ -56,7 +56,8 @@ def p_statement_name_equal_array(p):
     # | ID_FLOAT '=' array 
     # | ID_LIST '=' array '''
     l_nodes=p[3]
-    l_nodes.append(p_node=NodeBytes(p_str_info=p[1]))
+    l_nodes.insert(p_int_index=0,
+                   p_node=NodeBytes(p_str_info=p[1]))
     g_map_nodes[p[1]] = l_nodes
     pass
 
