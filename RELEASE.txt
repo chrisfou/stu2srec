@@ -23,3 +23,7 @@
 02_20
 -----
     - Add the LEFT_FILL and RIGHT_FILL functionalities.
+
+02_21
+-----
+    - Add the '-d' option for debugging needs and cpu improvments.
