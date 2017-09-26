@@ -126,22 +126,20 @@ def bits_permutate(p_bytes_input=b'',
                    p_list_permut=[]):
     # Sanity parameter check
     if type(p_list_permut) != list:
-        raise DESException \
-            (p_str_msg="Permutation p_list_permut parameter type error !")
+        raise DESException(
+            p_str_msg="Permutation p_list_permut parameter type error !")
 
     l_int_nb_bits = len(p_list_permut)
 
     if type(p_bytes_input) != bytes:
-        raise DESException \
-            (p_str_msg="Permutation p_bytes_input parameter type error !")
+        raise DESException(
+            p_str_msg="Permutation p_bytes_input parameter type error !")
 
     if len(p_bytes_input) * 8 < max(p_list_permut):
-        raise DESException \
-            (p_str_msg="Permutation not possible !")
+        raise DESException(p_str_msg="Permutation not possible !")
 
     if min(p_list_permut) <= 0:
-        raise DESException \
-            (p_str_msg="Permutation not possible !")
+        raise DESException(p_str_msg="Permutation not possible !")
 
     l_str_input_bits = (bin(int.from_bytes(bytes=p_bytes_input,
                                            byteorder="big"))[2:])
@@ -157,12 +155,11 @@ def bits_permutate(p_bytes_input=b'',
 def subkeys_create(p_bytes_key=b''):
     # Sanity parameter check
     if type(p_bytes_key) != bytes:
-        raise DESException \
-            (p_str_msg="Subkey_Create p_bytes_key parameter type error !")
+        raise DESException(
+            p_str_msg="Subkey_Create p_bytes_key parameter type error !")
 
     if len(p_bytes_key) != 8:
-        raise DESException \
-            (p_str_msg="Subkey_Create p_bytes_key size error !")
+        raise DESException(p_str_msg="Subkey_Create p_bytes_key size error !")
 
     l_bytes_key_p = bits_permutate(p_bytes_input=p_bytes_key,
                                    p_list_permut=C_PC_1_TABLE)
@@ -194,28 +191,28 @@ def calculate(p_bytes_k=b'',
               p_bytes_r=b''):
     # sanity parameter check
     if type(p_bytes_k) != bytes:
-        raise DESException \
-            (p_str_msg="calculate p_bytes_k parameter type error !")
+        raise DESException(
+            p_str_msg="calculate p_bytes_k parameter type error !")
 
     if type(p_bytes_r) != bytes:
-        raise DESException \
-            (p_str_msg="calculate p_bytes_r parameter type error !")
+        raise DESException(
+            p_str_msg="calculate p_bytes_r parameter type error !")
 
     if len(p_bytes_k) != 6:
-        raise DESException \
-            (p_str_msg="calculate p_bytes_k parameter size error !")
+        raise DESException(
+            p_str_msg="calculate p_bytes_k parameter size error !")
 
     if len(p_bytes_r) != 4:
-        raise DESException \
-            (p_str_msg="calculate p_bytes_r parameter size error !")
+        raise DESException(
+            p_str_msg="calculate p_bytes_r parameter size error !")
 
     # E Permutation
     l_bytes_e = bits_permutate(p_bytes_input=p_bytes_r,
                                p_list_permut=C_E_BIT_SELECTION_TABLE)
 
     # k xor E(r)
-    l_bytes_result = int.from_bytes(p_bytes_k, "big") \
-                     ^ int.from_bytes(l_bytes_e, "big")
+    l_bytes_result = int.from_bytes(p_bytes_k, "big") ^ int.from_bytes(
+        l_bytes_e, "big")
 
     # Sboxes translation
     l_str_bin_result = bin(l_bytes_result)[2:]
@@ -231,9 +228,9 @@ def calculate(p_bytes_k=b'',
         l_str_bin_boxed_result += l_str_s_box_out.rjust(4, '0')
 
         # P Permuation
-        l_bytes_result = bits_permutate \
-            (p_bytes_input=int(l_str_bin_boxed_result, 2).to_bytes(4, "big"),
-             p_list_permut=C_P)
+        l_bytes_result = bits_permutate(
+            p_bytes_input=int(l_str_bin_boxed_result, 2).to_bytes(4, "big"),
+            p_list_permut=C_P)
 
     return l_bytes_result
 
@@ -245,21 +242,21 @@ class DES:
 
         # Sanity parameter check
         if type(p_bytes_key) != bytes:
-            raise DESException \
-                (p_str_msg="DES init p_bytes_key parameter type error !")
+            raise DESException(
+                p_str_msg="DES init p_bytes_key parameter type error !")
 
         if len(p_bytes_key) != 8:
-            raise DESException \
-                (p_str_msg="DES init p_bytes_key parameter size error !")
+            raise DESException(
+                p_str_msg="DES init p_bytes_key parameter size error !")
 
         if type(p_int_encrypt) != int:
-            raise DESException \
-                (p_str_msg="DES init p_int_encrypt parameter type error !")
+            raise DESException(
+                p_str_msg="DES init p_int_encrypt parameter type error !")
 
         if (p_int_encrypt != C_INT_DES_ENCRYPT) \
                 and (p_int_encrypt != C_INT_DES_DECRYPT):
-            raise DESException \
-                (p_str_msg="DES init p_int_encrypt parameter value error !")
+            raise DESException(
+                p_str_msg="DES init p_int_encrypt parameter value error !")
 
         if p_int_encrypt == C_INT_DES_ENCRYPT:
             self.subkeys = subkeys_create(p_bytes_key=p_bytes_key)
@@ -272,12 +269,12 @@ class DES:
 
         # Sanity parameter check
         if type(p_bytes_data) != bytes:
-            raise DESException \
-                (p_str_msg="DES compute p_bytes_data parameter type error !")
+            raise DESException(
+                p_str_msg="DES compute p_bytes_data parameter type error !")
 
         if len(p_bytes_data) != 8:
-            raise DESException \
-                (p_str_msg="DES compute p_bytes_data parameter size error !")
+            raise DESException(
+                p_str_msg="DES compute p_bytes_data parameter size error !")
 
         l_bytes_result = b''
 
@@ -289,10 +286,9 @@ class DES:
 
         for i in range(1, 16 + 1):
             l_int_ri \
-                = int.from_bytes(l_bytes_lr[i - 1][0], "big") \
-                  ^ int.from_bytes(calculate(p_bytes_k=self.subkeys[i - 1],
-                                             p_bytes_r=l_bytes_lr[i - 1][1]),
-                                   "big")
+                = int.from_bytes(l_bytes_lr[i - 1][0], "big") ^ int.from_bytes(calculate(p_bytes_k=self.subkeys[i - 1],
+                                                                                         p_bytes_r=l_bytes_lr[i - 1][1]),
+                                                                               "big")
             l_bytes_lr.append([l_bytes_lr[i - 1][1],
                                l_int_ri.to_bytes(4, "big")])
 
@@ -378,8 +374,8 @@ class CypherOp(DES):
         l_int_des_in = 0
         l_bytes_des_out = b''
         if self.m_int_encrypt == C_INT_DES_ENCRYPT:
-            # For CBC encryption every 8 bytes blocks are xored with the previous DES encrypted/decrypted block before
-            # to be DES encrypted.
+            # For CBC encryption every 8 bytes blocks are xored with the previous
+            # DES encrypted/decrypted block before to be DES encrypted.
             # At start, the first block is xored with the p_bytes_iv vector.
             l_bytes_des_out = p_bytes_iv
             for id_block in range(0, l_int_nb_block):
@@ -392,24 +388,24 @@ class CypherOp(DES):
                                                   8, "big"))
                 l_bytes_result += l_bytes_des_out
         else:
-            # For CBC decryption every 8 bytes blocks are DES decrypted first. The result is xored then with the
-            # previous encrypted 8 bytes blocks.
-            # for every DES decryption, the result must be xored with the previous encrypted 8 bytes blocks.
+            # For CBC decryption every 8 bytes blocks are DES decrypted first.
+            # The result is xored then with the previous encrypted 8 bytes blocks.
+            # for every DES decryption, the result must be xored with the previous
+            # encrypted 8 bytes blocks.
             # At start, the first DES decrypted output must be xored with p_bytes_iv vector.
             l_bytes_des_pre = p_bytes_iv
             for id_block in range(0, l_int_nb_block):
                 l_int_des_in = l_bytes_msg[id_block * 8: (id_block + 1) * 8]
                 l_bytes_des_out = DES.compute(self, p_bytes_data=l_int_des_in)
                 l_int_des_out_xor_pre \
-                    = int(l_bytes_des_out.hex(), 16) ^ int(
-                    l_bytes_des_pre.hex(), 16)
+                    = int(l_bytes_des_out.hex(), 16) ^ int(l_bytes_des_pre.hex(), 16)
                 l_bytes_result += l_int_des_out_xor_pre.to_bytes(8, 'big')
                 l_bytes_des_pre = l_int_des_in
 
         return l_bytes_result
 
 
-def cbc_mac_compute(p_bytes_msg='b',
+def cbc_mac_compute(p_bytes_msg=b'',
                     p_bytes_key_1=b'',
                     p_bytes_key_2=b'',
                     p_bytes_key_3=b''):

@@ -12,7 +12,7 @@
 my_ub_array = UB[0x01, 0x02, 0x03, 0x04, 0xFF];
 
 // Signed Byte array 'SB[x,y,z,..]' is used to declare an array of signed bytes.
-my_sb_array = SB[-0x01,-0x02,-0x03,-0x04,-0x7F];
+my_sb_array = SB[-0x01, -0x02, -0x03, -0x04, -0x7F];
 
 // Unsigned Word array 'UW[x,y,z..]' used to declare an array of unsigned words.
 my_uw_array = UW[-0x0000, 0x0001, 0x0002, 0x0003, 0xFFFF];
@@ -33,10 +33,10 @@ my_float_array = F32[0.12, 0.134, -1234.45787, 3.1418];
 my_hex_array=HEX["0123456789ABCDEF"];
 
 // A string can be converted
-my_string_array=TEXT["C'est pas facile d'écrire un tuto dans un anglais compréhensif !!"];
+my_string_array=TEXT["C'est pas facile d'ecrire un tuto dans un anglais comprehensif !!"];
 
 // The "*" can multiply the arrays.
-my_multiplied_array = 2 * TEXT["J'en profite pour écrire en Français !!"];
+my_multiplied_array = 2 * TEXT["J'en profite pour ecrire en Francais !!"];
 
 // The "+" operator can be used for array concatenation.
 my_all_arrays = my_ub_array
@@ -47,19 +47,20 @@ my_all_arrays = my_ub_array
     + my_sl_array
     + my_float_array
     + my_hex_array
-    + my_string_array
-    + my_multiplied_array;
+    + 4 * my_string_array
+    + 5 * my_multiplied_array;
 
 // *****************************************************************************
 // The SIZE() service returns the lenght of an array in bytes.
-// The result is not array but a single integer. Then an array encapsulation is needed according the user needs.
+// The result is not array but a single integer. Then an array encapsulation 
+// is needed to be formated according to the user needs.
 // The ">>" operator can be used to convert the size in words or longs.
-my_all_array_bsize = UB[SIZE(my_all_arrays)];
-my_all_array_wsize = UB[SIZE(my_all_arrays)>>1];
-my_all_array_lsize = UB[SIZE(my_all_arrays)>>2];
+my_all_array_bsize = UL[SIZE(my_all_arrays)];
+my_all_array_wsize = UL[SIZE(my_all_arrays)>>1];
+my_all_array_lsize = UL[SIZE(my_all_arrays)>>2];
 
 // The BYTSUM() service returns the sum of the bytes of an array.
-// The result is a single integet to encapsulate according to the needs.
+// The result is a single integer to format according to the user need.
 my_bytesum_array = UL[BYTSUM(my_all_arrays)];
 
 // *****************************************************************************
@@ -78,28 +79,53 @@ my_ebc_array = ECB_ENCRYPT[ msg => TEXT["Je n'ai rien a cacher ..!"], key => HEX
 my_cbc_array = CBC_ENCRYPT[ msg => TEXT["Je n'ai rien a cacher ..!"], key => HEX["0000000000000001"], iv => 8*UB[0]];
 
 // CBC_MAC computation : "CBCMAC[msg => <N bytes>, keys_123 => <3 * 8 bytes>]
-my_cbcmac_array = CBCMAC[msg      => TEXT["DES c'est la galère en python"],
+my_cbcmac_array = CBCMAC[msg      => TEXT["DES c'est la galere en python"],
                          keys_123 => HEX["0000000000000001"]   // key 1
                                    + HEX["0000000000000002"]   // key 2
                                    + HEX["0000000000000003"]]; // key 3
 
+// Left pattern fill : "LEFT_FILL[msg => <N bytes>, pattern => <1 bytes>, size => <N Bytes>]"
+my_left_filled_array = LEFT_FILL[msg     => TEXT[" y a en jamais assez !"],
+				 pattern => HEX["AA"],
+				 size    => HEX["20"]];
+
+// Rigth pattern fill : "LEFT_FILL[msg => <N bytes>, pattern => <1 bytes>, size => <N Bytes>]"
+my_right_filled_array = RIGHT_FILL[msg     => TEXT[" y a en jamais assez !"],
+				   pattern => HEX["55"],
+				   size    => HEX["20"]];
+					     
 // *****************************************************************************
 // The stu script must be ended with a "main" array.
 // by considering the following structure.
 
 // header    : size of the usefull following data mapped on 32 bits.
-// data      : N bytes
+// data      : N bytes. In the example below the concatenation of the whole arrays declared above.
 // checksum  : byte summation of the header and the data together mapped on 32 bits.
 
-data_array = my_all_arrays + my_sacem_array + my_crc32_array + my_ebc_array + my_cbc_array + my_cbcmac_array;
+data_array = my_all_arrays 
+  + my_sacem_array 
+  + my_crc32_array 
+  + my_ebc_array 
+  + my_cbc_array 
+  + my_cbcmac_array
+  + 2 * my_left_filled_array
+  + 3 * my_right_filled_array;
+
 header_array = UL[SIZE(data_array)];
+
 checksum_array = UL[BYTSUM(header_array + data_array)];
 
 main = header_array + data_array + checksum_array;
 
 // *****************************************************************************
-// The S19 file is computed by means of the command : "stu2srec -i tutorial.stu -o tutorial.abs
-// the stu2srec "-x" option can be used to declare an memory offset.
+// The S19 file is computed by means of the command : "stu2srec -i tutorial.stu -o tutorial.abs -x 0x0
+// where :
+//      The option "-i" is used to indidate the stu file ( mandatory option ).
+//      The option "-o" is used to indicate the abs file to generate ( optional, by default the file output is the standart output).
+//      The option "-x" is used to precise the memory offset ( optional, by default null ).
+
+// It's also possible to generate a map file with the "-m" option as follow:
+// stu2srec -i tutorial.stu -o tutorial.abs -m tutorial.map
 
 
 

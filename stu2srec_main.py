@@ -82,7 +82,7 @@ def compute_abs_file(p_str_output_file_name="",
                     p_int_base_addr=p_int_base_addr,
                     p_file_output=l_file_output)
 
-        if l_boot_is_not_stdout_file == True:
+        if l_boot_is_not_stdout_file is True:
             l_file_output.close()
 
     else:
@@ -122,14 +122,10 @@ def compute_map_file(p_str_map_file_name="",
                             l_file_map.write(
                                 "{0:#010x} | 0x{1} 0x{2} 0x{3} 0x{4} \n".format
                                 (l_int_addr + l_int_addr_offset,
-                                 i_node.m_bytes[
-                                 l_int_addr_offset + 0 * 4:l_int_addr_offset + 1 * 4].hex(),
-                                 i_node.m_bytes[
-                                 l_int_addr_offset + 1 * 4:l_int_addr_offset + 2 * 4].hex(),
-                                 i_node.m_bytes[
-                                 l_int_addr_offset + 2 * 4:l_int_addr_offset + 3 * 4].hex(),
-                                 i_node.m_bytes[
-                                 l_int_addr_offset + 3 * 4:l_int_addr_offset + 4 * 4].hex()))
+                                 i_node.m_bytes[l_int_addr_offset + 0 * 4:l_int_addr_offset + 1 * 4].hex(),
+                                 i_node.m_bytes[l_int_addr_offset + 1 * 4:l_int_addr_offset + 2 * 4].hex(),
+                                 i_node.m_bytes[l_int_addr_offset + 2 * 4:l_int_addr_offset + 3 * 4].hex(),
+                                 i_node.m_bytes[l_int_addr_offset + 3 * 4:l_int_addr_offset + 4 * 4].hex()))
                             l_int_addr_offset += 4 * 4
                             l_int_bytes_len -= 4 * 4
 
@@ -137,14 +133,10 @@ def compute_map_file(p_str_map_file_name="",
                             l_file_map.write(
                                 "{0:#010x} | 0x{1} 0x{2} 0x{3} 0x{4} \n".format
                                 (l_int_addr + l_int_addr_offset,
-                                 i_node.m_bytes[
-                                 l_int_addr_offset + 0 * 4:l_int_addr_offset + 1 * 4].hex(),
-                                 i_node.m_bytes[
-                                 l_int_addr_offset + 1 * 4:l_int_addr_offset + 2 * 4].hex(),
-                                 i_node.m_bytes[
-                                 l_int_addr_offset + 2 * 4:l_int_addr_offset + 3 * 4].hex(),
-                                 i_node.m_bytes[
-                                 l_int_addr_offset + 3 * 4:].hex()))
+                                 i_node.m_bytes[l_int_addr_offset + 0 * 4:l_int_addr_offset + 1 * 4].hex(),
+                                 i_node.m_bytes[l_int_addr_offset + 1 * 4:l_int_addr_offset + 2 * 4].hex(),
+                                 i_node.m_bytes[l_int_addr_offset + 2 * 4:l_int_addr_offset + 3 * 4].hex(),
+                                 i_node.m_bytes[l_int_addr_offset + 3 * 4:].hex()))
                             l_int_addr_offset += l_int_bytes_len
                             l_int_bytes_len -= l_int_bytes_len
 
@@ -152,12 +144,9 @@ def compute_map_file(p_str_map_file_name="",
                             l_file_map.write(
                                 "{0:#010x} | 0x{1} 0x{2} 0x{3}  \n".format
                                 (l_int_addr + l_int_addr_offset,
-                                 i_node.m_bytes[
-                                 l_int_addr_offset + 0 * 4:l_int_addr_offset + 1 * 4].hex(),
-                                 i_node.m_bytes[
-                                 l_int_addr_offset + 1 * 4:l_int_addr_offset + 2 * 4].hex(),
-                                 i_node.m_bytes[
-                                 l_int_addr_offset + 2 * 4:].hex()))
+                                 i_node.m_bytes[l_int_addr_offset + 0 * 4:l_int_addr_offset + 1 * 4].hex(),
+                                 i_node.m_bytes[l_int_addr_offset + 1 * 4:l_int_addr_offset + 2 * 4].hex(),
+                                 i_node.m_bytes[l_int_addr_offset + 2 * 4:].hex()))
                             l_int_addr_offset += l_int_bytes_len
                             l_int_bytes_len -= l_int_bytes_len
 
@@ -165,17 +154,14 @@ def compute_map_file(p_str_map_file_name="",
                             l_file_map.write(
                                 "{0:#010x} | 0x{1} 0x{2}   \n".format
                                 (l_int_addr + l_int_addr_offset,
-                                 i_node.m_bytes[
-                                 l_int_addr_offset + 0 * 4:l_int_addr_offset + 1 * 4].hex(),
-                                 i_node.m_bytes[
-                                 l_int_addr_offset + 1 * 4:].hex()))
+                                 i_node.m_bytes[l_int_addr_offset + 0 * 4:l_int_addr_offset + 1 * 4].hex(),
+                                 i_node.m_bytes[l_int_addr_offset + 1 * 4:].hex()))
                             l_int_addr_offset += l_int_bytes_len
                             l_int_bytes_len -= l_int_bytes_len
                         else:
                             l_file_map.write("{0:#010x} | 0x{1}   \n".format
                                              (l_int_addr + l_int_addr_offset,
-                                              i_node.m_bytes[
-                                              l_int_addr_offset + 0 * 4:].hex()))
+                                              i_node.m_bytes[l_int_addr_offset + 0 * 4:].hex()))
                             l_int_addr_offset += l_int_bytes_len
                             l_int_bytes_len -= l_int_bytes_len
 

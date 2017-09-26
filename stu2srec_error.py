@@ -9,6 +9,7 @@
 # python_version  :3.6.2
 # =============================================================================
 
+
 class StopException(Exception):
     def __init__(self, p_str_msg):
         self.m_str_msg = p_str_msg

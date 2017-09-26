@@ -73,6 +73,7 @@ if __name__ == "__main__":
     l_nodes_1 = NodesBytes()
     l_node_1 = NodeBytes(p_bytes=struct.pack("<bb", 2, 3),
                          p_str_info="node_1")
+
     l_nodes_1.append(p_node=l_node_1)
     l_nodes_1.append(p_node=l_node_1)
 
@@ -80,22 +81,22 @@ if __name__ == "__main__":
     l_node_2 = NodeBytes(p_bytes=struct.pack("<bbbb", 2, 3, 4, 5),
                          p_str_info="node_2")
     l_nodes_2.append(p_node=l_node_2)
-    l_node_2 = NodeBytes(p_bytes="rerer",
+    l_node_2 = NodeBytes(p_bytes=struct.pack("<bbbb", 2, 3, 4, 5),
                          p_str_info="node_2")
     l_nodes_2.append(p_node=l_node_2)
-    l_node_2 = NodeBytes(p_bytes=788,
+    l_node_2 = NodeBytes(p_bytes=struct.pack("<bbbb", 2, 3, 4, 5),
                          p_str_info="node_2")
     l_nodes_2.append(p_node=l_node_2)
 
     l_nodes_3 = l_nodes_1 + l_nodes_2
 
     for i, j in enumerate(l_nodes_3):
-        print(i, j, type(j.m_void_data))
+        print(i, j, type(j.m_bytes))
 
     l_nodes_3.multiply(p_int_val=10)
 
     for i, j in enumerate(l_nodes_3):
-        print(i, j, type(j.m_void_data))
+        print(i, j, type(j.m_bytes))
 
     for i, j in enumerate(l_nodes_3):
-        print(i, j, type(j.m_void_data))
+        print(i, j, type(j.m_bytes))

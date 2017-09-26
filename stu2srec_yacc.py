@@ -144,7 +144,6 @@ def p_array_plus(p):
 def p_array_multiply(p):
     ''' array : expression '*' array '''
     try:
-        # p[0] = p[1] * p[3]
         p[0] = p[3]
         p[0].multiply(p_int_val=p[1])
 
@@ -194,8 +193,11 @@ def p_array_sacem(p):
 
     p[0] = NodesBytes()
     p[0].append(p_node=NodeBytes(p_bytes=l_bytes_result,
-                                 p_str_info="SACEM(p_msg=0x{}, p_svl=0x{})".format(
-                                     l_bytes_msg.hex(), l_bytes_svl.hex())))
+                                 p_str_info="SACEM(p_msg=0x{}, p_svl.c1=0x{}, p_svl.c2=0x{})".format(
+                                     l_bytes_msg.hex(),
+                                     l_bytes_svl[0:4].hex(),
+                                     l_bytes_svl[4:8].hex())))
+
     pass
 
 
@@ -220,18 +222,18 @@ def p_array_cbc_mac(p):
                 len(l_bytes_keys123)))
 
     l_bytes_result = cbc_mac_compute(p_bytes_msg=l_bytes_msg,
-                                     p_bytes_key_1=l_bytes_keys123[
-                                                   0 * 8:1 * 8],
-                                     p_bytes_key_2=l_bytes_keys123[
-                                                   1 * 8:2 * 8],
-                                     p_bytes_key_3=l_bytes_keys123[
-                                                   2 * 8:3 * 8])
+                                     p_bytes_key_1=l_bytes_keys123[0 * 8:1 * 8],
+                                     p_bytes_key_2=l_bytes_keys123[1 * 8:2 * 8],
+                                     p_bytes_key_3=l_bytes_keys123[2 * 8:3 * 8])
 
     p[0] = NodesBytes()
     p[0].append(p_node=NodeBytes(p_bytes=l_bytes_result,
-                                 p_str_info="CBCMAC(p_msg=0x{}, p_keys=0x{})".format(
+                                 p_str_info="CBCMAC(p_msg=0x{}, p_key_1=0x{}, p_key_2=0x{}, p_key_3=0x{} )".format(
                                      l_bytes_msg.hex(),
-                                     l_bytes_keys123.hex())))
+                                     l_bytes_keys123[0:8].hex(),
+                                     l_bytes_keys123[8:16].hex(),
+                                     l_bytes_keys123[16:24].hex())))
+
     pass
 
 
