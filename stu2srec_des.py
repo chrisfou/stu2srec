@@ -124,6 +124,7 @@ C_INT_DES_ENCRYPT = 1
 
 def bits_permutate(p_bytes_input=b'',
                    p_list_permut=[]):
+
     # Sanity parameter check
     if type(p_list_permut) != list:
         raise DESException(p_str_msg="Permutation p_list_permut parameter type error !")
@@ -351,8 +352,7 @@ class CypherOp(DES):
                     16) ^ int(l_bytes_des_out.hex(),
                               16)
                 l_bytes_des_out = DES.compute(self,
-                                              p_bytes_data=l_int_des_in.to_bytes(
-                                                  8, "big"))
+                                              p_bytes_data=l_int_des_in.to_bytes(8, "big"))
                 l_bytes_result += l_bytes_des_out
         else:
             # For CBC decryption every 8 bytes blocks are DES decrypted first.
