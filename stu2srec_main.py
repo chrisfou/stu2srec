@@ -28,6 +28,8 @@ def print_usage():
     print("-o,--outputf  : output file name (S19 format)")
     print("-m,--mapf     : map file name")
     print("-x,--baseaddr : data location memory address")
+    print("-d,--debug    : generate debugging informations")
+
     print("")
     print(
         " NOTA : The tutorial.stu file located into the installation path gives more details about STU format")
@@ -37,23 +39,27 @@ def print_version():
     print("Version : " + c_str_version)
 
 
-def parse_stu_file(p_str_input_file_name=""):
+def parse_stu_file(p_str_input_file_name="",
+                   p_bool_debug_info_flag=False):
     # The contains of the input file is read.
     l_str_input = open(p_str_input_file_name).read()
 
-    logging.basicConfig(level=logging.DEBUG,
-                        filename="stu2srec.log",
-                        filemode="w",
-                        format="%(filename)10s:%(lineno)4d:%(message)s")
-
-    log = logging.getLogger()
+    # Debug infos generated only if asked.
+    if p_bool_debug_info_flag is True:
+        logging.basicConfig(level=logging.DEBUG,
+                            filename="stu2srec.log",
+                            filemode="w",
+                            format="%(filename)10s:%(lineno)4d:%(message)s")
+        l_debug_log = logging.getLogger()
+    else:
+        l_debug_log = None
 
     lex.lex()  # ,debug=True,debuglog=log)
 
-    # The 'outputdir' is defined for cx_freeze compatibility need.
-    yacc.yacc(outputdir=".")  # ,debug=True,debuglog=log)
+    # The 'outputdir' option is defined for cx_freeze compatibility compatibility.
+    yacc.yacc(outputdir=".")  # ,debug=True, debuglog=log)
 
-    yacc.parse(l_str_input, debug=log)
+    yacc.parse(l_str_input, debug=l_debug_log)
 
 
 def compute_abs_file(p_str_output_file_name="",
@@ -178,10 +184,11 @@ def main():
     l_str_input_file_name = ""
     l_str_output_file_name = ""
     l_str_map_file_name = ""
+    l_bool_debug_info_flag = None
 
     try:
         opts, args = getopt.getopt(sys.argv[1:],
-                                   "vhi:o:x:m:",
+                                   "vhi:o:x:m:d",
                                    ["version", "help", "inputf=", "ouputf=",
                                     "baseaddr=", "mapf="])
 
@@ -210,6 +217,9 @@ def main():
         elif l_opt in ("-m", "--mapf"):
             l_str_map_file_name = l_arg
 
+        elif l_opt in ("-d", "--debug"):
+            l_bool_debug_info_flag = True
+
         elif l_opt in ("-x", "--baseaddr"):
             try:
                 l_int_base_addr = int(eval(l_arg))
@@ -231,7 +241,8 @@ def main():
 
     # The STU file is parsed.
     # The result is stored into the global LEX "g_map_nodes" map.
-    parse_stu_file(p_str_input_file_name=l_str_input_file_name)
+    parse_stu_file(p_str_input_file_name=l_str_input_file_name,
+                   p_bool_debug_info_flag=l_bool_debug_info_flag)
 
     # The item designed as "main" in the global LEX "g_map_nodes" map
     # variable is used to generated the SRECORD file.
